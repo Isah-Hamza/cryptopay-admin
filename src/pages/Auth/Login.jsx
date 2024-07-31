@@ -14,36 +14,24 @@ const Login = () => {
 const navigate = useNavigate();
   return (
     <AuthLayout>
-      <div className="p-10 overflow-y-auto">
-        <div className="bg-white rounded-2xl max-w-[500px]">
-              <div className='' >
+      <div className="p-10 py-6">
+        <div className="bg-white rounded-2xl max-w-[400px] py-6">
+              <div className='px-7 border-red-600 border-l-8' >
                   <h4 className='font-semibold text-xl' >Welcome back, Admin</h4>
-                  <p className='text- text-text_color'>Manage referrers, earnings, bookings, and patient referrals efficiently today.</p>
+                  <p className='text-sm text-text_color'>Manage referrers, earnings, bookings, and patient referrals efficiently today.</p>
               </div>
-              <div className="mt-10">
-                  <Input label={'Email Address'} placeholder={'support@lifebridge.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
+              <div className="px-7">
+                <div className="mt-10">
+                    <Input label={'Email Address'} placeholder={'support@lifebridge.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
+                </div>
+                <div className="mt-5">
+                    <Input label={'Create Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
+                    <Link to={'/forgot-password'} className='text-sm text-primary font-semibold' >forgot password</Link>
+                </div>
+                  <Button className={'opacity-90 mt-10'} onClick={() => navigate('/dashboard')} title='Log In' />
+
               </div>
-              <div className="mt-5">
-                  <Input label={'Create Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
-                  <Link to={'/forgot-password'} className='text-sm text-primary font-semibold' >forgot password</Link>
-              </div>
-              {/* <div className='mt-10' >
-                  <Button className={'opacity-90'} onClick={() => navigate('/dashboard')} title='Sign In (Referral)' />
-                  <Button className={'mt-5 opacity-90'} onClick={() => navigate('/patient')} title='Sign In (Patient)' />
-                  <div className="flex items-center gap-2 my-7">
-                      <hr className='flex-1' />
-                      <span className='font-semibold text-sm' >OR</span>
-                      <hr className='flex-1' />
-                  </div>
-                  <button className='w-full font-medium justify-center flex items-center gap-2 py-3 border bg-white rounded-[30px]' > 
-                  <span><FcGoogle size={26} /></span>
-                  SignIn With Google </button>
-              </div> */}
-              {/* <div className="mt-5">
-                  <p className='text-center text-sm' >
-                      Don't have an account? <Link to={'/register'} className='text-primary font-semibold'>Sign up</Link>
-                  </p>
-              </div> */}
+
         </div>
       </div>
     </AuthLayout>

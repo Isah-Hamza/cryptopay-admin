@@ -1,37 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import AuthLayout from '../../layouts/AuthLayout'
 import { CiUser } from "react-icons/ci";
-import { MdOutlineMarkEmailUnread } from "react-icons/md";
+import { MdArrowBack, MdOutlineMarkEmailUnread } from "react-icons/md";
 import { FiPhoneCall } from "react-icons/fi";
 import { MdOutlineLockPerson } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import Button from '../../components/Button'; 
 import Input from '../../components/Inputs';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import { IoMdArrowBack } from "react-icons/io";
 
 const ForgotPassword = () => {
 
+  const navigate = useNavigate()
 
   return (
     <AuthLayout>
-      <div className="p-10 h-screen overflow-y-auto flex flex-col">
-        <Link to={'/login'} className='flex items-center gap-2 hover:text-primary hover:font-semibold' > <IoMdArrowBack /> Back to signin</Link>
-        <div className="max-w-[450px] m-auto flex flex-col justify-center  flex-1">
-              <div className='' >
-                  <h4 className='font-semibold text-xl'>Forgot Password</h4>
-                  <p className='text- text-text_color'>Oops, sorry to hear that. Enter your email address below, and we’ll help you reset your password!</p>
-              </div>
-              <div className="mt-10">
+    <div className="p-10 py-6">
+      <div className="flex flex-col bg-white rounded-2xl max-w-[400px] min-h-[400px] py-6">
+            <button className="flex items-center gap-1 mb-3 pl-7 text-sm" onClick={() => navigate('/')}>
+              <MdArrowBack />
+              <span>Back</span>
+            </button>
+            <div className='px-7 border-red-600 border-l-8 py-3' >
+                <h4 className='font-semibold text-xl' >Welcome back, Admin</h4>
+                <p className='text-sm text-text_color'>You need to set a new password to continue. Please enter your email below to proceed.</p>
+            </div>
+            <div className="px-7 flex flex-col flex-1 ">
+              <div className="mt-10 mb-10">
                   <Input label={'Email Address'} placeholder={'support@lifebridge.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
               </div>
-              
-              <Link to={'/otp-verification'} className='mt-5' >
-                  <Button onClick={null} title='Request New Password' />
-              </Link>
-        </div>
+              {/* <div className="mt-5">
+                  <Input label={'Create Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
+                  <Link to={'/forgot-password'} className='text-sm text-primary font-semibold' >forgot password</Link>
+              </div> */}
+                <Button className={'opacity-90 mt-auto'} onClick={() => navigate('/verify-otp')} title='Request OTP' />
+
+            </div>
+
       </div>
-    </AuthLayout>
+    </div>
+  </AuthLayout>
   )
 }
 
