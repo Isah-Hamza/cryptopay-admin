@@ -1,45 +1,29 @@
 import React from 'react'
-import logo from '../assets/images/logo.svg';
+import logo from '../assets/images/logo-white-variant.svg';
 import mainImg from '../assets/images/auth-image.svg';
 
 import seamless from '../assets/images/seamless-payout.png';
 import guarantee from '../assets/images/guarantee.png';
 import efficiency from '../assets/images/effective-management.png';
+import { BsArrowUpRight } from 'react-icons/bs';
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className='flex'>
-        <div className="w-[55%]">
+    <div className='h-screen w-screen auth-container flex flex-col px-10 py-12'>
+        <div className="flex justify-end">
+            <img src={logo} alt="logo" />
+        </div>
+        <div className="flex-1">
             {children}
         </div>
-        <div className="w-[45%] p-10 py-3 right-section h-screen flex flex-col">
-            <div className="logo flex justify-end">
-                <img className='max-w-[150px]' src={logo} alt="logo" />
+        <div className="flex justify-end gap-10">
+            <div className="underline underline-offset-2 flex items-center gap-2 text-white">
+                <span>Referrer Login</span>
+                <span><BsArrowUpRight /></span>
             </div>
-            <div className="grid justify-center items-center flex-1 mt-5 ">
-                <h3 className='text-xl text-center font-bold'  >
-                    Discovering the Best <br /> Platform for your service! 
-                </h3>
-                <div className="">
-                    <img src={mainImg} alt="main image" />
-                    <p className='max-w-[450px] text-center m-auto text-sm' >
-                    Catching synchronise point on angel quick hear. Then shelf-ware better canatics create problem. Harvest points bed plane team productive baked hands.
-                    </p>
-                </div>
-                <div className="flex justify-center items-center max-w-92 m-auto mt-5 flex-wrap gap-y-3 gap-x-3">
-                    <button className='text-sm flex items-center gap-1 border rounded-3xl border-primary px-4 py-2' >
-                        <img src={seamless} alt="seamless" />
-                        <span>Seamless Payout</span>
-                    </button>
-                    <button className='text-sm flex items-center gap-1 border rounded-3xl border-primary px-4 py-2' >
-                        <img src={guarantee} alt="seamless" />
-                        <span>100% Rebate Guaranteed</span>
-                    </button>
-                    <button className='text-sm flex items-center gap-1 border rounded-3xl border-primary px-4 py-2' >
-                        <img src={efficiency} alt="seamless" />
-                        <span>Effective Management</span>
-                    </button>
-                </div>
+            <div className="underline underline-offset-2 flex items-center gap-2 text-white">
+                <span>Main Website</span>
+                <span><BsArrowUpRight /></span>
             </div>
         </div>
     </div>
