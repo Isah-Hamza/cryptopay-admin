@@ -9,6 +9,8 @@ import { PiEyeClosedBold } from "react-icons/pi";
 import note from '../../assets/images/note.svg';
 import BarChart from '../../components/Chart/BarChart';
 import PieChart from '../../components/Chart/PieChart';
+import design from '../../assets/images/dashboard-design.png'
+import Button from '../../components/Button'
 
 import stat1 from '../../assets/images/stat1.svg';
 import stat2 from '../../assets/images/stat2.svg';
@@ -22,58 +24,29 @@ import refer from '../../assets/images/refer_and_earn.svg';
 import { useNavigate } from 'react-router-dom';
 import { MdArrowForward } from 'react-icons/md';
 
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+
+
 const Dashboard = () => {
 
     const navigate = useNavigate('');
 
-    const analysis = [
+    const today_booking = [
         {
-            title:'Total Referrals',
-            icon:stat1,
-            value:321,
+            name:'Felix Otti',
+            tests: 4,
+            time:'10:00am - 11:00am',
         },
         {
-            title:'Pending Referrals',
-            icon:stat2,
-            value:53,
+            name:'Christine Jones',
+            tests: 4,
+            time:'02:00pm - 02:30pm',
         },
         {
-            title:'Completed Referrals',
-            icon:stat3,
-            value:268,
-        },
-    ]
-
-    const activities = [
-        {
-            title:'You have referred Benjamin Wales ',
-            desc:'You assigned 2 tests. Waiting for your rebate.',
-            time:'5m ago',
-            img:test,
-        },
-        {
-            title:'You have referred Samuel Sandra ',
-            desc:'You assigned 2 tests. Waiting for your rebate.',
-            time:'1m ago',
-            img:test,
-        },
-        {
-            title:'You have earned your rebate from Benjamin Wales ',
-            desc:'Hurray, ₦23,000 has been added to your wallet.',
-            time:'2d ago',
-            img:earn,
-        },
-        {
-            title:'You have initiated a withdrawal request.',
-            desc:'₦350,000 will be credited into your bank account soon.',
-            time:'2d ago',
-            img:bank,
-        },
-        {
-            title:'You have earned your rebate from Temites Flyn ',
-            desc:'Hurray, ₦23,000 has been added to your wallet.',
-            time:'12d ago',
-            img:earn,
+            name:'Felix Otti',
+            tests: 4,
+            time:'10:00am - 11:00am',
         },
     ]
 
@@ -172,6 +145,39 @@ const Dashboard = () => {
                             <BarChart />
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className="flex gap-5 mt-5">
+                <div className="flex-1 bg-white rounded-xl border pb-3">
+                    <div className="flex items-center justify-between p-3 border-b">
+                        <p className='font-semibold' >Calendar Appointments</p>
+                    </div>
+                    <div className="mt-3 flex gap-3 px-5">
+                        <Calendar className={'w-6/12'}  />
+                        <div className="w-6/12">
+                            <p className='text-sm font-semibold mt-1' >Scheduled For The Day</p>
+                            <div className="grid gap-3 mt-5">
+                                {
+                                    today_booking.map((item,idx) => (
+                                        <div className='text-sm p-3 px-2 rounded-md border' key={idx}>
+                                            <p className='font-semibold'>{item.name}</p>
+                                            <p className='text-xs line-clamp-1' >{item.tests} Test(s) booked &bull; {item.time} </p>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="relative w-[28%] bg-black p-5 text-white rounded-xl">
+                    <p className='font-medium' >Appointment Stats</p>
+                    <div className="grid gap-2 mt-5 relative z-10">
+                        <p>210 Booked</p>
+                        <p>93 Paid</p>
+                        <p>14 Scheduled For Today</p>
+                        <Button className={'opacity-90 mt-10 text-sm'}  title='View More Details' />
+                    </div>
+                        <img className='absolute right-0 bottom-0' src={design} alt="" />
                 </div>
             </div>
         </div>
