@@ -11,6 +11,12 @@ import { BsBellFill, BsCurrencyDollar } from 'react-icons/bs';
 import { PiPlusBold } from 'react-icons/pi';
 import { FcStatistics } from 'react-icons/fc';
 
+
+import bank from '../assets/images/Bank.svg';
+import test from '../assets/images/Test.svg';
+import earn from '../assets/images/Earn.svg';
+import { CgClose } from 'react-icons/cg';
+
 const MainLayout = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState(0);
@@ -79,6 +85,56 @@ const MainLayout = () => {
     ]
 
     
+    const activities = [
+        {
+            title:'You have referred Benjamin Wales ',
+            desc:'Benjamin Whales Have initiated a payout of ₦23,000.',
+            time:'5m ago',
+            img:avatar,
+        },
+        {
+            title:'You have referred Benjamin Wales ',
+            desc:'You assigned 2 tests. Waiting for your rebate.',
+            time:'5m ago',
+            img:test,
+        },
+        {
+            title:'You have earned your rebate from Benjamin Wales ',
+            desc:'Hurray, ₦23,000 has been added to your wallet.',
+            time:'2d ago',
+            img:earn,
+        },
+        {
+            title:'You have referred Samuel Sandra ',
+            desc:'You assigned 2 tests. Waiting for your rebate.',
+            time:'1m ago',
+            img:test,
+        },
+        {
+            title:'You have earned your rebate from Benjamin Wales ',
+            desc:'Hurray, ₦23,000 has been added to your wallet.',
+            time:'2d ago',
+            img:earn,
+        },
+        {
+            title:'You have initiated a withdrawal request.',
+            desc:'₦350,000 will be credited into your bank account soon.',
+            time:'2d ago',
+            img:bank,
+        },
+        {
+            title:'You have referred Benjamin Wales ',
+            desc:'Benjamin Whales Have initiated a payout of ₦23,000.',
+            time:'5m ago',
+            img:admin,
+        },
+        {
+            title:'You have earned your rebate from Temites Flyn ',
+            desc:'Hurray, ₦23,000 has been added to your wallet.',
+            time:'12d ago',
+            img:earn,
+        },
+    ]
         
   useEffect(() => {
 
@@ -152,12 +208,38 @@ const MainLayout = () => {
                 <p className='text-base font-semibold' >{headerInfo.header}</p>
                 <p className='text-sm' >{headerInfo.sub}</p>
             </div>
-            <button className="text-sm flex items-center gap-2 px-4 p-2 rounded-3xl bg-custom_gray">
+            <button onClick={toggleActivities} className="text-sm flex items-center gap-2 px-4 p-2 rounded-3xl bg-custom_gray">
                 <BsBellFill />
                 <span>Activities</span>
             </button>
         </div>
         <Outlet />
+        {
+            showActivities ? <div className='inset-0 fixed bg-black/50' >
+                <div className="right w-3/5 flex-1 border border-custom_gray rounded-lg bg-white h-screen ml-auto max-w-[400px]">
+                <div className="flex items-center justify-between p-3 border-b">
+                    <p className='font-semibold' >Your Activities</p>
+                    <button onClick={toggleActivities} > <CgClose /> </button>
+                </div>
+                <div className="p-5">
+                    <div className="grid gap-4">
+                    {
+                        activities.map((item,idx) => (
+                            <div key={idx} className='flex gap-3' >
+                                <img className='rounded-full size-12' src={item.img} alt="image" />
+                                <div className="text-sm">
+                                    {/* <p className='font-medium' >{item.title}</p> */}
+                                    <p className='my-1 text-[13px]' >{item.desc}</p>
+                                    <p className='text-text_color text-xs' >{item.time}</p>
+                                </div>
+                            </div>
+                        ))
+                    }
+                    </div>
+                </div>
+            </div>
+            </div> : null
+        }
       </main>
     </div>
   )

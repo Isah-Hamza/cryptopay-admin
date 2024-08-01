@@ -4,10 +4,12 @@ import { AiOutlineHome } from "react-icons/ai";
 import avatar from '../../assets/images/avatar.svg';
 import { IoLogOut } from "react-icons/io5";
 import { FaEye } from 'react-icons/fa6';
-import { BsArrowRight } from 'react-icons/bs';
+import { BsArrowRight, BsArrowUpRight, BsArrowUpRightSquare } from 'react-icons/bs';
 import { PiEyeClosedBold } from "react-icons/pi";
 import note from '../../assets/images/note.svg';
 import BarChart from '../../components/Chart/BarChart';
+import PieChart from '../../components/Chart/PieChart';
+
 import stat1 from '../../assets/images/stat1.svg';
 import stat2 from '../../assets/images/stat2.svg';
 import stat3 from '../../assets/images/stat3.svg';
@@ -18,6 +20,7 @@ import earn from '../../assets/images/Earn.svg';
 
 import refer from '../../assets/images/refer_and_earn.svg';
 import { useNavigate } from 'react-router-dom';
+import { MdArrowForward } from 'react-icons/md';
 
 const Dashboard = () => {
 
@@ -76,36 +79,103 @@ const Dashboard = () => {
 
   return (
     <>
-        <div className="w-2/6 max-h-[calc(100vh-115px)] overflow-y-auto">
-            <div className="p-4 rounded-lg border border-custom_gray bg-white">
-                <p className='text-text_color'>Good Afternoon ☀️</p>
-                <p className='text-xl font-semibold mt-2' >Emmanuella</p>
-                <div className="mt-32">
-                    <div className="flex items-center gap-1">
-                        <span className='text-xs text-text_color' >Your wallet balance</span>
-                        <span className='text-primary' ><PiEyeClosedBold size={16} /></span>
+        <div className="mt-2">
+            <div className="grid grid-cols-4 gap-5">
+                <div className="bg-white rounded-lg p-5 border">
+                    <p>Total Referrals</p>
+                    <p className='font-semibold text-xl my-3'>232</p>
+                    <div className="flex items-center justify-between gap-5 mt-5">
+                        <p className='bg-[#C9E6FF] px-3 text-sm py-0.5 rounded-2xl' >+21</p>
+                        <button className="text-primary flex items-center gap-1 font-semibold pl-7 text-sm">
+                            <span>View All</span>
+                            <MdArrowForward />
+                        </button>
                     </div>
-                    <p className='my-1' > <span className='font-bold text-2xl ' >₦</span> <span>****</span> </p>
-                    <button className="font-semibold flex items-center gap-1 text-primary">
-                        <span className='text-sm' >Visit Wallet</span>
-                        <BsArrowRight />
-                    </button>
+                </div>
+                <div className="bg-white rounded-lg p-5 border">
+                    <p>Total Referrers</p>
+                    <p className='font-semibold text-xl my-3'>3,109</p>
+                    <div className="flex items-center justify-between gap-5 mt-5">
+                        <p className='bg-[#C9E6FF] px-3 text-sm py-0.5 rounded-2xl' >+61</p>
+                        <button className="text-primary flex items-center gap-1 font-semibold pl-7 text-sm">
+                            <span>View All</span>
+                            <MdArrowForward />
+                        </button>
+                    </div>
+                </div>
+                <div className="bg-white rounded-lg p-5 border">
+                    <p>Monthly Rebate Earned</p>
+                    <p className='font-semibold text-xl my-3'>₦3,009,100</p>
+                    <div className="flex text-sm items-center gap-1 mt-5">
+                        <div className="text-green-500 font-medium flex items-center gap-1">
+                            <BsArrowUpRight color='' />
+                            <span className='' >20%</span>
+                        </div>
+                        <span>vs last month</span>
+                    </div>
+                </div>
+                <div className="bg-white rounded-lg p-5 border">
+                    <p>Total Payouts Settled</p>
+                    <p className='font-semibold text-xl my-3'>₦1,440,900</p>
+                    <div className="flex text-sm items-center gap-1 mt-5">
+                        <span>Payment</span>
+                        <div className="text-green-500 font-medium flex items-center gap-1">
+                            <span className='' >Every Friday</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className="rounded-lg border border-custom_gray bg-white mt-5">
-                <div className="flex items-center justify-between p-3 border-b">
-                    <p className='font-semibold' >Rebate Earning</p>
-                   <img src={note} alt="note" />
+            <div className="flex gap-5 mt-5">
+                <div className="bg-white min-w-[35%] h-full p-5 rounded-lg border">
+                    <div className="flex items-center justify-between pb-3 border-b">
+                        <p className='font-semibold' >Referrals Stats</p>
+                    </div>
+                    <div className="mt-3">
+                        <p className='text-sm' >Analysis of pending & completed referrals</p>
+                        <div className="flex flex-col">
+                            <div className=" -ml-10 h-[250px]">
+                                <PieChart />
+                            </div>
+                            <div className="flex justify-center items-center text-center gap-10">
+                                <div className="">
+                                    <div className="text-sm flex items-center gap-1">
+                                        <div className="w-2 h-2 rounded-full bg-[#C9E6FF]"></div>
+                                        <span>Completed</span>
+                                    </div>
+                                    <p className='pl-'>201</p>
+                                </div>
+                                <div className="">
+                                    <div className="text-sm flex items-center gap-1">
+                                        <div className="w-2 h-2 rounded-full bg-light_blue"></div>
+                                        <span>Pending</span>
+                                    </div>
+                                    <p className='pl-'>694</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="p-5">
-                    <p className='' >Earning history displayed per week</p>
-                    <div className="mt-5 -ml-10 min-w-[400px] h-[300px]">
-                        <BarChart />
+                <div className="flex-1 rounded-lg border border-custom_gray bg-white">
+                    <div className="flex items-center justify-between p-3 border-b">
+                        <p className='font-semibold' >Rebate Earning</p>
+                        <div className="flex items-center bg-custom_gray p-1 px-1.5 rounded-3xl">
+                            {
+                                ['Monthly','Weekly','Daily'].map((item,idx) => (
+                                    <button className={`rounded-3xl text-sm px-4  py-1.5 ${idx ==0 && 'shadow bg-white'}`} >{item}</button>
+                                ))
+                            }
+                        </div>
+                    </div>
+                    <div className="p-5">
+                        <p className='text-sm' >Earning history displayed per month</p>
+                        <div className="mt-5 -ml-10 min-w-[400px] h-[250px]">
+                            <BarChart />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div className="w-4/6 max-h-[calc(100vh-115px)] overflow-y-auto">
+        {/* <div className="w-4/6 max-h-[calc(100vh-115px)] overflow-y-auto">
             <div className="top flex gap-3">
                 <div className="w-2/5 flex flex-col gap-3">
                     {
@@ -158,7 +228,7 @@ const Dashboard = () => {
                         you'll receive a rebate in your wallet within 24 hours. Start referring your patients today and watch your earnings grow.</p>
                 </div>
             </div>
-        </div>
+        </div> */}
     </>
   )
 }
