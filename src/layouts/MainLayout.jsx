@@ -142,12 +142,12 @@ const MainLayout = () => {
         
   useEffect(() => {
 
-    const active_item = window.location.pathname.split("/")[2];
+    const active_item = window.location.pathname.split("/")[1];
     
     if(active_item == 'dashboard') setActiveTab(0);
     if(active_item == 'referrals') setActiveTab(1);
-    if(active_item == 'payments') setActiveTab(2);
-    if(active_item == 'profile') setActiveTab(3);
+    if(active_item == 'appointments') setActiveTab(2);
+    if(active_item == 'results') setActiveTab(3);
 
     // setActiveLink(active_item);
     
