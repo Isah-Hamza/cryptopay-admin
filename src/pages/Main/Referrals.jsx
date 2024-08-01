@@ -13,6 +13,7 @@ import { useLocation } from 'react-router-dom'
 const Referrals = () => {
     
     const query = useLocation().search.split('=')[1];
+    const [acitveTab, setActiveTab] = useState(0);
     console.log(query);
 
     const [viewDetails, setViewDetails] = useState(false);
@@ -82,17 +83,19 @@ const Referrals = () => {
 
     const test_stats = [
         {
-            title:'Total Tests Assigned',
-            value:32,
+            title:'Total Tests Paid',
+            value:'₦2,800,000',
         },
         {
-            title:'Total Tests Completed',
-            value:21,
-        },
-        {
-            title:'Total Rebate Earned',
+            title:'Total Rebate Given',
             value:'₦280,000',
         },
+    ]
+
+    const details = [
+        {
+
+        }
     ]
 
 
@@ -100,16 +103,22 @@ const Referrals = () => {
   return (
   <>
    {!newReferral ? 
-   <div className='w-full border border-custom_gray rounded-xl bg-white mb-7'>
-        <div className="border-b p-3 flex justify-between items-center">
-            <p className='font-semibold' >My Referrals</p>
+   <div className='mt-3 w-full border border-custom_gray rounded-xl bg-white mb-7'>
+        <div className="relative border-b p-3 flex justify-between items-center">
+            <div className={`transition-all duration-300 absolute h-0.5 w-36 bg-primary left-5 bottom-0 ${acitveTab == 1 && '!left-[165px] w-48'}`}></div>
+            <div className="flex gap-14 text-sm pl-10">
+                {
+                    ['All Referrals', 'No Test Appointments'].map((item, idx) => (
+                        <button onClick={() => setActiveTab(idx)} className={`opacity-70  ${acitveTab==idx && 'font-semibold opacity-100'}`} key={idx}>{item}</button>
+                    ))
+                }
+            </div>
             <div className="flex items-center gap-4">
                 <Input className={'!rounded-3xl !py-2.5 !min-w-[300px]'} placeholder={'Type user name here...'} icon={<BiSearch size={20} className='text-custom_gray' />} />
-                <Select className={'!rounded-3xl !py-2.5 !min-w-[120px]'} options={[ { label:'All Status',value:null }]} />
-                <Button onClick={toggleNewReferral} title={'Refer'} className={'!px-10 !py-2.5 !text-sm  !bg-light_blue'} />
+                <Select className={'!rounded-3xl !py-2.5 !min-w-[120px]'} options={[ { label:'All Status',value:null }, {label:'Completed',value:''},{label:'Ongoing'}]} />
             </div>
         </div>
-        <div className="mt-5 text-sm">
+        <div className="mt-5 text-[13px]">
             <div className="header grid grid-cols-9 gap-3 px-5 font-medium">
                 <p className='col-span-2 line-clamp-1' >Full Name</p>
                 <p className='col-span-2 line-clamp-1' >Email Address</p>
@@ -146,35 +155,38 @@ const Referrals = () => {
                     </button>
                 </div>
                 <div className="flex flex-col gap-1 border-b p-5">
-                    <img className='w-16 mx-auto' src={stacey} alt="stacey" />
-                    <p className='text-center font-medium' >Stacey Jacobs</p>
-                    <div className="mt-5 grid grid-cols-3 gap-3 text-sm">
-                        <div className="flex flex-col justify-center text-center">
-                            <div className="mx-auto mb-2 text-center w-6 h-6 rounded-full grid place-content-center bg-custom_gray">
-                                <MdOutlineEmail />
-                             </div>
-                            <p className='font-semibold' >Email Address</p>
+                    {/* <img className='w-16 mx-auto' src={stacey} alt="stacey" /> */}
+                    <p className=' font-semibold text-lg' >Stacey Jacobs</p>
+                    <div className="mt-5 grid grid-cols-2 gap-3 gap-y-5 text-sm">
+                        <div className="flex flex-col ">
+                            <p className='font-medium' >Email Address</p>
                             <p className='line-clamp-1 underline text-light_blue' >earnestine_macejkovic89@yahoo.com</p>
                         </div>
-                        <div className="flex flex-col justify-center items-center text-center">
-                            <div className="mb-2 text-center w-6 h-6 rounded-full grid place-content-center bg-custom_gray">
-                                <BiPhoneIncoming />
-                             </div>
-                            <p className='font-semibold' >Phone Number</p>
+                        <div className="flex flex-col">
+                            <p className='font-medium' >Phone Number</p>
                             <p className='line-clamp-1' >299-470-4508</p>
                         </div>
-                        <div className="flex flex-col justify-center items-center text-center">
-                            <div className="mb-2 text-center w-6 h-6 rounded-full grid place-content-center bg-custom_gray">
-                                <BiUser />
-                             </div>
-                            <p className='font-semibold' >Gender</p>
+                        <div className="flex flex-col">
+                            <p className='font-medium' >Gender</p>
                             <p className='line-clamp-1' >Female</p>
+                        </div>
+                        <div className="flex flex-col">
+                            <p className='font-medium' >First Invited By</p>
+                            <p className='line-clamp-1' >Ogu Chidinma</p>
+                        </div>
+                        <div className="flex flex-col">
+                            <p className='font-medium' >Total Tests Assignmed</p>
+                            <p className='line-clamp-1' >33</p>
+                        </div>
+                        <div className="flex flex-col ">
+                            <p className='font-medium' >Total Tests Completed</p>
+                            <p className='line-clamp-1' >18</p>
                         </div>
                     </div>
                 </div>
                 <div className="p-5 text-sm">
-                    <p className='font-semibold' >Test statistics</p>
-                    <div className="mt-3 grid grid-cols-3 gap-2">
+                    <p className='font-semibold text-base' >Test Information</p>
+                    <div className="mt-3 grid grid-cols-2 gap-5">
                         {
                             test_stats.map((item,idx) => (
                                 <div key={idx} className='border rounded-lg p-3' >
@@ -184,57 +196,6 @@ const Referrals = () => {
                             ))
                         }
                     </div>
-                </div>
-                <div className="p-1 text-sm border rounded-3xl mx-5">
-                    <div className="flex justify-between items-center p-2 px-4 rounded-3xl bg-[#dfdfdf]">
-                        <p className='font-semibold' >4 tests assigned</p>
-                        <button className='font-medium text-primary' >Show Details</button>
-                    </div>
-                    <div className="mt-3 grid grid-cols-2 gap-5 pl-5 pb-3">
-                        <div className='' >
-                            <p className='font-medium text-base'>Rebate</p>
-                            <p className='text-sm text-text_color' >10% on each test</p>
-                        </div>
-                        <div className='' >
-                            <p className='font-medium text-base'>Date</p>
-                            <p className='text-sm text-text_color' >09 September, 2024</p>
-                        </div>
-                        <div className='' >
-                            <p className='font-medium text-base'>Total Test Payment</p>
-                            <p className='text-lg text-primary font-semibold' >₦28,000</p>
-                        </div>
-                        <div className='' >
-                            <p className='font-medium text-base'>Invite Code</p>
-                            <div className="flex gap-1 items-center font-semibold text-primary">
-                                <p className='text-base' >UYBFJK</p>
-                                <BiCopyAlt />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="mt-5 p-1 text-sm border rounded-3xl mx-5">
-                    <div className="flex justify-between items-center p-2 px-4 rounded-3xl bg-[#dfdfdf]">
-                        <p className='font-semibold' >2 tests assigned</p>
-                        <button className='font-medium text-primary' >Show Details</button>
-                    </div>
-                    <div className="mt-3 grid grid-cols-2 gap-5 pl-5 pb-3">
-                        <div className='' >
-                            <p className='font-medium text-base'>Rebate</p>
-                            <p className='text-sm text-text_color' >10% on each test</p>
-                        </div>
-                        <div className='' >
-                            <p className='font-medium text-base'>Date</p>
-                            <p className='text-sm text-text_color' >17 October, 2024</p>
-                        </div>
-                        <div className='' >
-                            <p className='font-medium text-base'>Total Test Payment</p>
-                            <p className='text-lg text-primary font-semibold' >₦12,000</p>
-                        </div>
-                        <img src={completed} alt="completed" />
-                    </div>
-                </div>
-                <div className="border-t my-5 p-5">
-                    <Button onClick={toggleNewReferral} title={'Refer'} className={'w-full !px-10 !py-2.5 !text-sm  !bg-light_blue'} />
                 </div>
             </div>
         </div> : null}

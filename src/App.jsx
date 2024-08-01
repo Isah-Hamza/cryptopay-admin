@@ -9,6 +9,7 @@ import VerifyOTP from './pages/Auth/VerifyOTP';
 import ChangePassword from './pages/Auth/ChangePassword';
 import Dashboard from './pages/Main/Dashboard';
 import MainLayout from './layouts/MainLayout';
+import Referrals from './pages/Main/Referrals';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,6 +18,10 @@ function App() {
     {
       path:'/dashboard',
       Component:Dashboard,
+    },
+    {
+      path:'/referrals',
+      Component:Referrals,
     },
   ]
 

@@ -191,8 +191,9 @@ const MainLayout = () => {
             {
                 tabs.map((item,idx) => (
                     <button onClick={() => {
-                        // navigate(item.link);
+                        navigate(item.link);
                         setActiveTab(idx);
+                        setHeaderInfo(item.info)
                     }} key={idx} className={`flex gap-3 px-5  py-3 items-center text-sm
                     ${activeTab == idx && 'text-white bg-primary rounded-md'}`} >
                         <item.icon />
