@@ -49,8 +49,12 @@ const MainLayout = () => {
         },
         {
             title:'Appointments',
-            link:'appointment',
-            icon:BiCalendarEvent
+            link:'appointments',
+            icon:BiCalendarEvent,
+            info:{
+                header:'Appointment Management',
+                sub:'Track and manage all patient appointments.',
+            }
         },
         {
             title:'Results',

@@ -10,7 +10,7 @@ import completed from '../../assets/images/completed.svg'
 import New from '../../components/Referral/New'
 import { useLocation } from 'react-router-dom'
 
-const Referrals = () => {
+const Appointments = () => {
     
     const query = useLocation().search.split('=')[1];
     const [acitveTab, setActiveTab] = useState(0);
@@ -139,14 +139,14 @@ const Referrals = () => {
             <div className={`transition-all duration-300 absolute h-0.5 w-36 bg-primary left-5 bottom-0 ${acitveTab == 1 && '!left-[165px] w-48'}`}></div>
             <div className="flex gap-14 text-sm pl-10">
                 {
-                    ['All Referrals', 'No Test Appointments'].map((item, idx) => (
+                    ['Completed Payment', 'Pending Payment', 'Calendar View'].map((item, idx) => (
                         <button onClick={() => setActiveTab(idx)} className={`opacity-70  ${acitveTab==idx && 'font-semibold opacity-100'}`} key={idx}>{item}</button>
                     ))
                 }
             </div>
             <div className="flex items-center gap-4">
                 <Input className={'!rounded-3xl !py-2.5 !min-w-[300px]'} placeholder={'Type user name here...'} icon={<BiSearch size={20} className='text-custom_gray' />} />
-                <Select className={'!rounded-3xl !py-2.5 !min-w-[120px]'} options={[ { label:'All Status',value:null }, {label:'Completed',value:''},{label:'Ongoing'}]} />
+                {/* <Select className={'!rounded-3xl !py-2.5 !min-w-[120px]'} options={[ { label:'All Status',value:null }, {label:'Completed',value:''},{label:'Ongoing'}]} /> */}
             </div>
         </div>
         <div className="mt-5 text-[13px]">
@@ -264,4 +264,4 @@ const Referrals = () => {
   )
 }
 
-export default Referrals
+export default Appointments

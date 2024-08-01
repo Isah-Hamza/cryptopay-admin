@@ -10,6 +10,7 @@ import ChangePassword from './pages/Auth/ChangePassword';
 import Dashboard from './pages/Main/Dashboard';
 import MainLayout from './layouts/MainLayout';
 import Referrals from './pages/Main/Referrals';
+import Appointments from './pages/Main/Appointments';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -22,6 +23,10 @@ function App() {
     {
       path:'/referrals',
       Component:Referrals,
+    },
+    {
+      path:'/appointments',
+      Component:Appointments,
     },
   ]
 
