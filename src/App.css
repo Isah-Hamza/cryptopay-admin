@@ -20,6 +20,11 @@
     @apply !bg-[#c9e6ff]
 }
 
+.react-calendar__navigation{
+    line-height: normal !important;
+}
+
+
 .react-calendar__tile:enabled:hover, .react-calendar__tile:enabled:focus{
     /* border-radiusn: ; */
 }

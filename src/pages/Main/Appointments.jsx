@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../../components/Inputs'
 import { BiCopy, BiCopyAlt, BiPhoneIncoming, BiSearch, BiUser } from 'react-icons/bi'
 import Select from '../../components/Inputs/Select'
@@ -11,11 +11,14 @@ import New from '../../components/Referral/New'
 import { useLocation } from 'react-router-dom'
 import { RiCalendarScheduleFill } from 'react-icons/ri'
 import { ImCheckmark } from 'react-icons/im'
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css';
 
 const Appointments = () => {
     
     const query = useLocation().search.split('=')[1];
     const [acitveTab, setActiveTab] = useState(0);
+    const [date,setDate] = useState();
     console.log(query);
 
     const [viewDetails, setViewDetails] = useState(false);
@@ -83,17 +86,33 @@ const Appointments = () => {
         },
     ]
 
-    const test_stats = [
+    const today_booking = [
         {
-            title:'Total Tests Paid',
-            value:'₦2,800,000',
+            name:'Felix Otti',
+            tests: 4,
+            time:'10:00am - 11:00am',
+            status:'paid',
         },
         {
-            title:'Total Rebate Given',
-            value:'₦280,000',
+            name:'Christine Jones',
+            tests: 4,
+            time:'02:00pm - 02:30pm',
+            status:'unpaid',
+        },
+        {
+            name:'Felix Otti',
+            tests: 4,
+            time:'10:00am - 11:00am',
+            status:'paid',
+        },
+        {
+            name:'Christine Jones',
+            tests: 4,
+            time:'02:00pm - 02:30pm',
+            status:'unpaid',
         },
     ]
-
+    
     const selectedTests = [
         {
           type:'C.T. Scan - Pelvimetry',
@@ -117,7 +136,10 @@ const Appointments = () => {
         },
     ]
 
+    useEffect(() => {
 
+    }, [date])
+    
 
   return (
   <>
@@ -137,20 +159,20 @@ const Appointments = () => {
                 {/* <Select className={'!rounded-3xl !py-2.5 !min-w-[120px]'} options={[ { label:'All Status',value:null }, {label:'Completed',value:''},{label:'Ongoing'}]} /> */}
             </div>
         </div>
-        <div className="mt-5 text-[13px]">
+        <div className={`mt-5 text-[13px] hidden ${(acitveTab == 0 || acitveTab == 1 ) && '!block'}`}>
             <div className="header grid grid-cols-11 gap-3 px-5 font-medium">
-                <p className='mt-1' > <input type="checkbox" name="" id="" /></p>
+                <p className='mt-1' > <input type="checkbox" className="accent-primary" id="" /></p>
                 <p className='col-span-2 line-clamp-1' >Full Name</p>
                 <p className='col-span-2 line-clamp-1' >Email Address</p>
                 <p className='col-span-2 line-clamp-1' >Appointment Schedule</p>
                 <p className='col-span-2 line-clamp-1' >Payment Date</p>
                 <p className='' >Action</p>
             </div>
-            <div className="data  text-text_color mt-3">
+            <div className="data text-text_color mt-3">
                 {
                     dummy.map((item,idx) => (
                     <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-11  gap-3 px-5 py-6 font-medium`}>
-                    <p className='' > <input type="checkbox" name="" id="" /></p>
+                    <p className='' > <input type="checkbox" className="accent-primary" id="" /></p>
                     <p className='col-span-2 line-clamp-1' >{item.name}</p>
                     <p className='col-span-2 line-clamp-1 pr-5' >{item.email}</p>
                     <p className='col-span-2 line-clamp-1' >{item.appointment}</p>
@@ -162,7 +184,9 @@ const Appointments = () => {
 
             </div>
         </div>
-      
+        <div className={`mt-5 text-[13px] hidden ${acitveTab == 2 && '!block' }`}>
+            <Calendar className={'min-w-[700px] !leading-[6] !text-lg'} onChange={setDate}  />
+        </div>
         {viewDetails ? <div className="fixed inset-0 bg-black/70 flex justify-end">
             <div className="bg-white w-[450px] max-h-screen overflow-y-auto">
                 <div className="flex items-center justify-between p-3 border-b">
@@ -207,7 +231,7 @@ const Appointments = () => {
                                 <div key={idx} className="bg-white rounded-md border p-3 text-sm">
                                     <div className="mb-2 font-semibold flex gap-2 justify-between items-center">
                                         <p className='' >{item.type}</p>
-                                        <p className='text-3xl' >0{idx + 1}</p>
+                                        <p className='text-3xl opacity-70' >0{idx + 1}</p>
                                     </div>
                                     <div className="flex text-sm items-center justify-between gap-2">
                                         <p className='' >{item.category}</p>
@@ -280,6 +304,31 @@ const Appointments = () => {
                 </div> */}
             </div>
         </div> : null}
+        {
+            date ? <div onClick={() => setDate()} className='bg-white/80 inset-0 fixed grid place-content-center'>
+                        <div className="bg-white shadow border p-5 rounded-lg w-[400px]">
+                            <div className="flex justify-between items-center gap-5">
+                                <p className='text-sm font-semibold mt-1' >Scheduled For The Day</p>
+                                <p className='text-sm  mt-1' >Tuesday | January 02 2025</p>
+
+                            </div>
+                            <div className="grid gap-3 mt-5">
+                                {
+                                    today_booking.map((item,idx) => (
+                                        <div className='text-sm p-3 px-2 rounded-md border' key={idx}>
+                                            <div className="flex items-center justify-between gap-5">
+                                                <p className='font-medium mb-1'>{item.name}</p>
+                                                <p className={`text-white p-1  rounded-xl text-xs w-[50px] text-center ${item.status == 'paid' ? 'bg-primary' : 'bg-yellow-400'}`} >{item.status}</p>
+                                            </div>
+                                            <p className='text-xs line-clamp-1' >{item.tests} Test(s) booked &bull; {item.time} </p>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
+
+            </div> : null
+        }
     </div> :
     <div className='w-full'>
         <New toggleNewReferral={toggleNewReferral} /> 
