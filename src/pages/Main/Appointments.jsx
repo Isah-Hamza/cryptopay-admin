@@ -13,19 +13,27 @@ import { RiCalendarScheduleFill } from 'react-icons/ri'
 import { ImCheckmark } from 'react-icons/im'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
+import followUpIcon from '../../assets/images/followup.svg';
+import paid from '../../assets/images/paid2.svg';
+import rescheduleImg from '../../assets/images/reschedule.svg';
 
 const Appointments = () => {
     
     const query = useLocation().search.split('=')[1];
     const [acitveTab, setActiveTab] = useState(0);
     const [date,setDate] = useState();
-    console.log(query);
 
     const [viewDetails, setViewDetails] = useState(false);
     const [newReferral, setNewReferral] = useState(() => query == 'true' ? true : false);
+    const [followUp, setFollowUp] = useState(false);
+    const [markPaid, setMarkPaid] = useState(false);
+    const [reschedule, setReschedule] = useState(false);
 
     const toggleViewDetails = () => setViewDetails(!viewDetails);
     const toggleNewReferral = () => setNewReferral(!newReferral);
+    const toggleReschedule = () => setReschedule(!reschedule);    
+    const toggleFollowUp = () => setFollowUp(!followUp);
+    const toggleMarkPaid = () => setMarkPaid(!markPaid);
 
     const dummy = [
         {
@@ -35,6 +43,7 @@ const Appointments = () => {
             gender:'Female',
             test:'-',
             rebate:'-',
+            pay_date:'14-04-2024 11:39pm',
         },
         {
             name:'Luke Hudsonlee Jack',
@@ -43,6 +52,8 @@ const Appointments = () => {
             gender:'Male',
             test:'3',
             rebate:'₦103,000',
+            pay_date:'09-11-2012 09:15pm',
+
         },
         {
             name:'Anthony Von',
@@ -50,6 +61,7 @@ const Appointments = () => {
             appointment:'12-09-2023 09:00am',
             gender:'Male',
             test:'-',
+            pay_date:'09-11-2012 09:15pm',
             rebate:'-',
         },
         {
@@ -282,17 +294,17 @@ const Appointments = () => {
                     <div className="grid grid-cols-2 gap-5 mt-10">
                        {
                         acitveTab == 0 ? 
-                            <button className="border rounded-3xl flex items-center gap-3 font-medium pl-7  py-2 text-sm">
+                            <button onClick={() => { toggleReschedule(); toggleViewDetails() }} className="border rounded-3xl flex items-center gap-3 font-medium pl-7  py-2 text-sm">
                                 <RiCalendarScheduleFill />
                                 <span>Reschedule</span>
                             </button>
                             :
-                            <button className="border rounded-3xl flex items-center gap-3 font-medium pl-7  py-2 text-sm">
+                            <button onClick={() => {toggleMarkPaid(); toggleViewDetails() }} className="border rounded-3xl flex items-center gap-3 font-medium pl-7  py-2 text-sm">
                                 <ImCheckmark />
                                 <span>Mark as Paid</span>
                             </button>
                         }
-                        <button className="bg-light_blue text-white border rounded-3xl flex items-center gap-3 font-medium pl-7  py-2 text-sm">
+                        <button onClick={() => {toggleFollowUp(); toggleViewDetails()}} className="bg-light_blue text-white border rounded-3xl flex items-center gap-3 font-medium pl-7  py-2 text-sm">
                             <CgMail size={18} />
                             <span>Send Follow Up</span>
                         </button>
@@ -327,6 +339,56 @@ const Appointments = () => {
                             </div>
                         </div>
 
+            </div> : null
+        }
+        {
+           followUp ? <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+                <div className="bg-white w-[400px] p-5 rounded-2xl flex flex-col justify-center text-center gap-3 text-sm">
+                    <img className='w-12 m-auto' src={followUpIcon} alt="delete" />
+                    <p className='text-base font-semibold' >Send Follow up Email</p>
+                    <p className='text-sm' >Are you sure you want to send an email remainder to this User?</p>
+                    <div className="text-left mt-5">
+                        <p className='font-medium mb-1'>Comment</p>
+                        <textarea 
+                            className='outline-none rounded-lg p-3 border w-full min-h-[100px]'
+                            placeholder='Type your message here..' />
+                    </div>
+                    <div className="mt-10 flex items-center gap-5 ">
+                        <Button onClick={toggleFollowUp} className={'!px-5 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
+                        <Button onClick={toggleFollowUp} className={'!px-5 bg-primary'} title={'Yes Proceed'} />
+                    </div>
+                </div>
+            </div> : null
+        }
+        {
+           markPaid ? <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+                <div className="bg-white w-[400px] p-5 rounded-2xl flex flex-col justify-center text-center gap-3 text-sm">
+                    <img className='w-12 m-auto' src={paid} alt="delete" />
+                    <p className='text-base font-semibold' >Mark as Paid</p>
+                    <p className='text-sm' >Confirm that this user has made a payment. Their status will change to "Paid”</p>
+                    <div className="mt-10 flex items-center gap-5 ">
+                        <Button onClick={toggleFollowUp} className={'!px-5 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
+                        <Button onClick={toggleFollowUp} className={'!px-5 bg-green-700'} title={'Yes Proceed'} />
+                    </div>
+                </div>
+            </div> : null
+        }
+        {
+           reschedule ? <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+                <div className="bg-white w-[400px] p-5 rounded-2xl flex flex-col justify-center text-center gap-3 text-sm">
+                    <img className='w-12 m-auto' src={rescheduleImg} alt="delete" />
+                    <p className='text-base font-semibold' >Reschedule Appointment</p>
+                    <div className="grid gap-5 text-left mt-10">
+                        <Input type={'date'} label={'Date'} />
+                        <Input type={'time'} label={'Time'} />
+                    </div>
+                    <p className='text-xs text-left'>Users will receive an email concerning this changes.</p>
+
+                    <div className="mt-10 flex items-center gap-5 ">
+                        <Button onClick={toggleReschedule} className={'!px-5 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
+                        <Button onClick={toggleReschedule} className={'!px-5 !bg-black text-white'} title={'Reschedule'} />
+                    </div>
+                </div>
             </div> : null
         }
     </div> :
