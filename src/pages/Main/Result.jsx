@@ -1,0 +1,315 @@
+import React, { useEffect, useState } from 'react'
+import Input from '../../components/Inputs'
+import { BiCopy, BiCopyAlt, BiPhoneIncoming, BiSearch, BiTestTube, BiUser } from 'react-icons/bi'
+import Select from '../../components/Inputs/Select'
+import Button from '../../components/Button'
+import { CgClose, CgMail } from 'react-icons/cg'
+import stacey from '../../assets/images/stacey.svg'
+import { MdArrowForward, MdOutlineEmail } from 'react-icons/md'
+import completed from '../../assets/images/completed.svg'
+import New from '../../components/Referral/New'
+import { useLocation } from 'react-router-dom'
+ 
+import Calendar from 'react-calendar'
+import 'react-calendar/dist/Calendar.css'; 
+import preview from '../../assets/images/preview.svg';
+
+const Results = () => {
+    
+    const query = useLocation().search.split('=')[1];
+    const [acitveTab, setActiveTab] = useState(0);
+    const [date,setDate] = useState();
+
+    const [viewDetails, setViewDetails] = useState(false);
+    const [uploadTest, setUploadTest] = useState(false);
+
+    const toggleViewDetails = () => setViewDetails(!viewDetails);
+    const toggleUploadTest = () => setUploadTest(!uploadTest);
+
+
+    const dummy = [
+        {
+            name:'Abdulrazak Mumuni',
+            test_token:'C.T. Scan - Pelvimetry, Menstrual Irregularities, Fibrinogen, Rubella Immunity (IgG)',
+            date:'July 21, 2023',
+            status:'1',
+        },
+        {
+            name:'Emmanuella Bami',
+            test_token:'Fribology - Pelvimetry, Menstrual Irregularities, Rubella Immunity (IgG)',
+            date:'August 7, 2019',
+            status:'2',
+        },
+        {
+            name:'John Smith',
+            test_token:'C.T. Scan - Pelvimetry, Menstrual Irregularities, Fibrinogen, Rubella Immunity (IgG)',
+            date:'July 21, 2023',
+            status:'1',
+        },
+        {
+            name:'Maduagbum Chinenye',
+            test_token:'C.T. Scan - Pelvimetry, Menstrual Irregularities, Fibrinogen, Rubella Immunity (IgG)',
+            date:'February 22, 2020',
+            status:'2',
+        },
+        {
+            name:'Emmanuella Bami',
+            test_token:'Fribology - Pelvimetry, Menstrual Irregularities, Rubella Immunity (IgG)',
+            date:'August 7, 2019',
+            status:'2',
+        },
+        {
+            name:'Abdulrazak Mumuni',
+            test_token:'C.T. Scan - Pelvimetry, Menstrual Irregularities, Fibrinogen, Rubella Immunity (IgG)',
+            date:'July 21, 2023',
+            status:'1',
+        },
+
+    ]
+
+    const today_booking = [
+        {
+            name:'Felix Otti',
+            tests: 4,
+            time:'10:00am - 11:00am',
+            status:'paid',
+        },
+        {
+            name:'Christine Jones',
+            tests: 4,
+            time:'02:00pm - 02:30pm',
+            status:'unpaid',
+        },
+        {
+            name:'Felix Otti',
+            tests: 4,
+            time:'10:00am - 11:00am',
+            status:'paid',
+        },
+        {
+            name:'Christine Jones',
+            tests: 4,
+            time:'02:00pm - 02:30pm',
+            status:'unpaid',
+        },
+    ]
+    
+    const selectedTests = [
+        {
+          type:'C.T. Scan - Pelvimetry',
+          category:'C.T Test',
+          amount:'₦28,000',
+        },
+        {
+            type:'Menstrual Irregularities',
+            category:'Endocrinology',
+            amount:'₦8,000',
+        },
+        {
+          type:'C.T. Scan - Pelvimetry',
+          category:'C.T Test',
+          amount:'₦28,000',
+        },
+        {
+            type:'Fibronology',
+            category:'HAEMATOLOGY',
+            amount:'₦5,500',
+        },
+    ]
+
+    useEffect(() => {
+
+    }, [date])
+    
+
+  return (
+   <div className='mt-3 w-full border border-custom_gray rounded-xl bg-white mb-7'>
+        <div className="relative border-b p-3 flex justify-between items-center">
+            <p className='font-semibold text-base opacity-90' >Department of Radiology</p>
+            <div className="flex items-center gap-4">
+                <Input className={'!rounded-3xl !py-2.5 !min-w-[300px]'} placeholder={'Type user name here...'} icon={<BiSearch size={20} className='text-custom_gray' />} />
+                {/* <Select className={'!rounded-3xl !py-2.5 !min-w-[120px]'} options={[ { label:'All Status',value:null }, {label:'Completed',value:''},{label:'Ongoing'}]} /> */}
+            </div>
+        </div>
+        <div className={`mt-5 text-[13px] hidden ${(acitveTab == 0 || acitveTab == 1 ) && '!block'}`}>
+            <div className="header grid grid-cols-12 gap-3 px-5 font-medium">
+                <p className='mt-1' > <input type="checkbox" className="accent-primary" id="" /></p>
+                <p className='col-span-2 line-clamp-1' >Full Name</p>
+                <p className='col-span-3 line-clamp-1' >Test Token</p>
+                <p className='col-span-2 line-clamp-1' >Test Date</p>
+                <p className='col-span-2 line-clamp-1' >Status</p>
+                <p className='' >Action</p>
+            </div>
+            <div className="data text-text_color mt-3">
+                {
+                    dummy.map((item,idx) => (
+                    <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid items-center grid-cols-12  gap-3 px-5 py-6 font-medium`}>
+                    <p className='' > <input type="checkbox" className="accent-primary" id="" /></p>
+                    <p className='col-span-2 line-clamp-1' >{item.name}</p>
+                    <p className='col-span-3 line-clamp-3 pr-5' >{item.test_token}</p>
+                    <p className='col-span-2 line-clamp-1' >{item.date}</p>
+                    <p className='col-span-2 line-clamp-1' >{item.status == 1 ?
+                        <div className='w-24 bg-custom_gray rounded-3xl text-center p-3 py-2'>
+                            Awaiting
+                        </div> : 
+                        <div className='w-24 bg-blue-100 rounded-3xl text-center p-3 py-2'>
+                            Sent
+                        </div>    
+                        }
+                    </p>
+                    <p onClick={toggleViewDetails} className='col-span-2 font-semibold text-light_blue cursor-pointer' >View Details</p>
+                    </div>
+                    )) 
+                }
+
+            </div>
+        </div>
+        <div className={`mt-5 text-[13px] hidden ${acitveTab == 2 && '!block' }`}>
+            <Calendar className={'min-w-[700px] !leading-[6] !text-lg'} onChange={setDate}  />
+        </div>
+        {viewDetails ? <div className="fixed inset-0 bg-black/70 flex justify-end">
+            <div className="bg-white w-[450px] max-h-screen overflow-y-auto">
+                <div className="flex items-center justify-between p-3 border-b">
+                    <p className='font-semibold' >Referral Details</p>
+                    <button onClick={toggleViewDetails} className="font-medium flex items-center gap-2">
+                        <span>Close</span>
+                        <CgClose />
+                    </button>
+                </div>
+                <div className="flex flex-col gap-1 border-b p-5">
+                    <img className='w-16 mx-auto' src={stacey} alt="stacey" />
+                    <p className='text-center font-medium' >Stacey Jacobs</p>
+                    <div className="mt-5 grid grid-cols-3 gap-3 text-sm">
+                        <div className="flex flex-col justify-center text-center">
+                            <div className="mx-auto mb-2 text-center w-6 h-6 rounded-full grid place-content-center bg-custom_gray">
+                                <MdOutlineEmail />
+                             </div>
+                            <p className='font-semibold' >Email Address</p>
+                            <p className='line-clamp-1 underline text-light_blue' >earnestine_macejkovic89@yahoo.com</p>
+                        </div>
+                        <div className="flex flex-col justify-center items-center text-center">
+                            <div className="mb-2 text-center w-6 h-6 rounded-full grid place-content-center bg-custom_gray">
+                                <BiPhoneIncoming />
+                             </div>
+                            <p className='font-semibold' >Phone Number</p>
+                            <p className='line-clamp-1' >299-470-4508</p>
+                        </div>
+                        <div className="flex flex-col justify-center items-center text-center">
+                            <div className="mb-2 text-center w-6 h-6 rounded-full grid place-content-center bg-custom_gray">
+                                <BiUser />
+                             </div>
+                            <p className='font-semibold' >Gender</p>
+                            <p className='line-clamp-1' >Female</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="p-5 text-sm">
+                    <p className='font-semibold' >Test Type</p>
+                    <div className="mt-3 grid grid-cols-2 gap-2">
+                        {
+                            selectedTests.map((item,idx) => (
+                                <div key={idx} className="bg-white rounded-md border p-3 text-sm">
+                                    <div className="mb-2 font-semibold flex gap-2 justify-between items-center">
+                                        <p className='' >{item.type}</p>
+                                        <p className='text-3xl opacity-70' >0{idx + 1}</p>
+                                    </div>
+                                    <div className="flex text-sm items-center justify-between gap-2">
+                                        <p className='' >{item.category}</p>
+                                      
+                                        <p className='text-base font-medium' >{item.amount}</p>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                    <div className="mt-5 mb-16 grid grid-cols-2  gap-5 gap-y-7 text-sm">
+                        <div className="flex flex-col ">
+                            <p className='font-medium' >Rebate</p>
+                            <p className=' ' >10% on each Test</p>
+                        </div>
+                        <div className="flex flex-col ">
+                            <p className='font-medium' >Date</p>
+                            <p className=' ' >09 September, 2024</p>
+                        </div>
+                        <div className="flex flex-col ">
+                            <p className='font-medium' >Referrer's Name</p>
+                            <div className="w-fit flex items-center gap-2 bg-custom_gray p-1 rounded-3xl pr-3">
+                                <img className='w-7' src={stacey} alt="stacey" />
+                                <p className=' ' >Emmanuella Bami</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <p className='font-medium' >Invitation Code</p>
+                            <p className=' text-primary font-semibold' >UYBFJK</p>
+                        </div>
+                        <div className="flex flex-col">
+                            <p className='font-medium' >Appointment</p>
+                            <p className=' ' >09 September 11:30am</p>
+                        </div>
+                        <div className="flex flex-col">
+                            <p className='font-medium' >Booking Number</p>
+                            <p className=' ' >003</p>
+                        </div>
+                        <div className="flex flex-col">
+                            <p className='font-medium' >Referral Status</p>
+                            <p className='' >pending</p>
+                        </div>
+                        <div className="flex flex-col">
+                            <p className='font-medium' >Total Test Payment</p>
+                            <p className='text-primary font-semibold' >₦112,000</p>
+                        </div>
+                    </div>
+                    <div className="grid  gap-5 mt-20">
+                        <button onClick={() => {toggleUploadTest(); toggleViewDetails()}} className="justify-center bg-light_blue text-white border rounded-3xl flex  items-center gap-3 font-medium pl-7  py-2 text-sm">
+                            <BiTestTube size={18} />
+                            <span>Upload Tests Result</span>
+                        </button>
+                    </div>
+                </div>
+               
+                {/* <div className="border-t my-5 p-5">
+                    <Button onClick={toggleNewReferral} title={'Refer'} className={'w-full !px-10 !py-2.5 !text-sm  !bg-light_blue'} />
+                </div> */}
+            </div>
+        </div> : null}
+        {
+            date ? <div onClick={() => setDate()} className='bg-white/80 inset-0 fixed grid place-content-center'>
+                        <div className="bg-white shadow border p-5 rounded-lg w-[400px]">
+                            <div className="flex justify-between items-center gap-5">
+                                <p className='text-sm font-semibold mt-1' >Scheduled For The Day</p>
+                                <p className='text-sm  mt-1' >Tuesday | January 02 2025</p>
+
+                            </div>
+                            <div className="grid gap-3 mt-5">
+                                {
+                                    today_booking.map((item,idx) => (
+                                        <div className='text-sm p-3 px-2 rounded-md border' key={idx}>
+                                            <div className="flex items-center justify-between gap-5">
+                                                <p className='font-medium mb-1'>{item.name}</p>
+                                                <p className={`text-white p-1  rounded-xl text-xs w-[50px] text-center ${item.status == 'paid' ? 'bg-primary' : 'bg-yellow-400'}`} >{item.status}</p>
+                                            </div>
+                                            <p className='text-xs line-clamp-1' >{item.tests} Test(s) booked &bull; {item.time} </p>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
+
+            </div> : null
+        }
+        {
+           uploadTest ? <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+                <div className="relative grid grid-cols-3 bg-[#ededed] w-[1000px] max-h-[90vh] my-auto  rounded-2xl gap-3 text-sm">
+                    <div className="col-span-2 max-h-[inherit] px-7 py-14">
+                        <img className='w-full h-full' src={preview} alt="previwe" />
+                    </div>
+                    <div className="bg-white"></div>
+                </div>
+            </div> : null
+        }
+
+    </div> 
+  )
+}
+
+export default Results

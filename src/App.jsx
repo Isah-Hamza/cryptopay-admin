@@ -11,6 +11,7 @@ import Dashboard from './pages/Main/Dashboard';
 import MainLayout from './layouts/MainLayout';
 import Referrals from './pages/Main/Referrals';
 import Appointments from './pages/Main/Appointments';
+import Results from './pages/Main/Result';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,6 +28,10 @@ function App() {
     {
       path:'/appointments',
       Component:Appointments,
+    },
+    {
+      path:'/results',
+      Component:Results,
     },
   ]
 
