@@ -17,7 +17,7 @@ import { FaEdit } from 'react-icons/fa'
 import { BsFillTrashFill } from 'react-icons/bs'
 import { FcDownload } from 'react-icons/fc'
 
-const Results = () => {
+const Tests = () => {
     
     const query = useLocation().search.split('=')[1];
     const [acitveTab, setActiveTab] = useState(0);
@@ -402,4 +402,4 @@ const Results = () => {
   )
 }
 
-export default Results
+export default Tests

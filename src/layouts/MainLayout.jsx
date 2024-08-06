@@ -69,6 +69,10 @@ const MainLayout = () => {
             title:'Tests',
             link:'tests',
             icon: LuTestTube,
+            info:{
+                header:'Test Management',
+                sub:'Manage and organize test categories and sub-tests.',
+            }
         },
         {
             title:'Referrers',
