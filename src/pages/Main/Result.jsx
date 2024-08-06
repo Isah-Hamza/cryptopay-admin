@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Input from '../../components/Inputs'
-import { BiCopy, BiCopyAlt, BiPhoneIncoming, BiSearch, BiTestTube, BiUser } from 'react-icons/bi'
+import { BiCopy, BiCopyAlt, BiPhoneIncoming, BiSearch, BiTestTube, BiUser, BiZoomOut } from 'react-icons/bi'
 import Select from '../../components/Inputs/Select'
 import Button from '../../components/Button'
 import { CgClose, CgMail } from 'react-icons/cg'
@@ -13,6 +13,8 @@ import { useLocation } from 'react-router-dom'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'; 
 import preview from '../../assets/images/preview.svg';
+import { FaEdit } from 'react-icons/fa'
+import { BsFillTrashFill } from 'react-icons/bs'
 
 const Results = () => {
     
@@ -22,10 +24,11 @@ const Results = () => {
 
     const [viewDetails, setViewDetails] = useState(false);
     const [uploadTest, setUploadTest] = useState(false);
+    const [viewTest, setViewTest] = useState(false);
 
     const toggleViewDetails = () => setViewDetails(!viewDetails);
     const toggleUploadTest = () => setUploadTest(!uploadTest);
-
+    const toggleViewTest = () => setViewTest(!viewTest);
 
     const dummy = [
         {
@@ -204,7 +207,7 @@ const Results = () => {
                     </div>
                 </div>
                 <div className="p-5 text-sm">
-                    <p className='font-semibold' >Test Type</p>
+                    <p className='font-semibold text-base' >Test Type</p>
                     <div className="mt-3 grid grid-cols-2 gap-2">
                         {
                             selectedTests.map((item,idx) => (
@@ -222,7 +225,7 @@ const Results = () => {
                             ))
                         }
                     </div>
-                    <div className="mt-5 mb-16 grid grid-cols-2  gap-5 gap-y-7 text-sm">
+                    <div className="mt-5 grid grid-cols-2 gap-5 gap-y-7 text-sm">
                         <div className="flex flex-col ">
                             <p className='font-medium' >Rebate</p>
                             <p className=' ' >10% on each Test</p>
@@ -259,6 +262,30 @@ const Results = () => {
                             <p className='text-primary font-semibold' >₦112,000</p>
                         </div>
                     </div>
+                    <div className="mt-10 text-sm mb-16 ">
+                    <p className='font-semibold text-base' >Uploded Results</p>
+                    <div className="my-7 mt-5 grid grid-cols-3 gap-2 gap-y-4">
+                        {
+                            [1,2,3,4,5].map(item => (
+                                <div key={item}>
+                                    <div onClick={() => {toggleViewDetails(); toggleViewTest()}} className="cursor-pointer group relative overflow-hidden rounded-lg">
+                                        <div className="group-hover:grid absolute inset-0 bg-black/50 hidden place-content-center">
+                                            <BiZoomOut size={20} className='text-white' />
+                                        </div>
+                                        <img className='max-h-[80vh]' src={preview} alt="preview" />
+                                        {/* <button className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-white border grid place-content-center">
+                                            <BsFillTrashFill size={15} color='red' />
+                                        </button>   */}
+                                    </div>
+                                    {/* <div className="flex items-center justify-between gap-3">
+                                        <p>Stacey MRI Test</p>
+                                        <FaEdit />
+                                    </div> */}
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
                     <div className="grid  gap-5 mt-20">
                         <button onClick={() => {toggleUploadTest(); toggleViewDetails()}} className="justify-center bg-light_blue text-white border rounded-3xl flex  items-center gap-3 font-medium pl-7  py-2 text-sm">
                             <BiTestTube size={18} />
@@ -266,6 +293,27 @@ const Results = () => {
                         </button>
                     </div>
                 </div>
+                {/* <div className="p-5 text-sm">
+                    <p className='font-semibold' >Uploded Results</p>
+                    <div className="my-7 grid grid-cols-3 gap-3 gap-y-7">
+                        {
+                            [1,2,3].map(item => (
+                                <div key={item}>
+                                    <div className="relative">
+                                        <img className='max-h-[80vh]' src={preview} alt="preview" />
+                                        <button className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-white border grid place-content-center">
+                                            <BsFillTrashFill size={15} color='red' />
+                                        </button>  
+                                    </div>
+                                    <div className="flex items-center justify-between gap-3">
+                                        <p>Stacey MRI Test</p>
+                                        <FaEdit />
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div> */}
                
                 {/* <div className="border-t my-5 p-5">
                     <Button onClick={toggleNewReferral} title={'Refer'} className={'w-full !px-10 !py-2.5 !text-sm  !bg-light_blue'} />
@@ -299,12 +347,51 @@ const Results = () => {
         }
         {
            uploadTest ? <div className='bg-black/50 fixed inset-0 grid place-content-center' >
-                <div className="relative grid grid-cols-3 bg-[#ededed] w-[1000px] max-h-[90vh] my-auto  rounded-2xl gap-3 text-sm">
+                <div className="relative grid grid-cols-3 overflow-hidden bg-[#ededed] w-[1000px] max-h-[95vh] my-auto  rounded-2xl gap-3 text-sm">
                     <div className="col-span-2 max-h-[inherit] px-7 py-14">
                         <img className='w-full h-full' src={preview} alt="previwe" />
                     </div>
-                    <div className="bg-white"></div>
+                    <div className="bg-white flex flex-col overflow-y-auto">
+                        <div className="p-3 flex items-center gap-5 justify-between">
+                            <p className='font-semibold opacity-90 '>Uploaded Tets</p>
+                            <button className='underline'>upload more</button>
+                        </div>
+                        <div className="my-7 grid grid-cols-2 gap-3 gap-y-7 px-5">
+                            {
+                                [1,2,3].map(item => (
+                                    <div key={item}>
+                                        <div className="relative">
+                                            <img className='max-h-[80vh]' src={preview} alt="preview" />
+                                            <button className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-white border grid place-content-center">
+                                                <BsFillTrashFill size={15} color='red' />
+                                            </button>  
+                                        </div>
+                                        <div className="flex items-center justify-between gap-3">
+                                            <p>Stacey MRI Test</p>
+                                            <FaEdit />
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <div className="mt-auto p-5 grid grid-cols-2 gap-5">
+                            <button onClick={toggleUploadTest} className="justify-center border rounded-3xl flex items-center gap-2 font-medium py-2 text-sm">
+                                <span>Close</span>
+                            </button>
+                            <button onClick={() => {toggleFollowUp(); toggleViewDetails()}} className="justify-center bg-light_blue text-white border rounded-3xl flex items-center gap-2 font-medium py-2 text-sm">
+                                <CgMail size={18} />
+                                <span>Send Result</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+            </div> : null
+        }
+        {
+           viewTest ? <div className='bg-black/50 fixed inset-0 grid justify-center' >
+                        <div className="">close</div>
+                        <img className='w-full h-full flex-1' src={preview} alt="previwe" />       
+                        <div className="">download</div>            
             </div> : null
         }
 
