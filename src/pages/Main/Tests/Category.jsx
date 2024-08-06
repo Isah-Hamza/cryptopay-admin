@@ -1,102 +1,143 @@
 import React, { useEffect, useState } from 'react'
-import Input from '../../components/Inputs'
-import { BiCopy, BiCopyAlt, BiPhoneIncoming, BiSearch, BiTestTube, BiUser, BiZoomOut } from 'react-icons/bi'
-import Select from '../../components/Inputs/Select'
-import Button from '../../components/Button'
-import { CgClose, CgMail } from 'react-icons/cg'
-import stacey from '../../assets/images/stacey.svg'
+import Input from '../../../components/Inputs'
+import { BiArrowBack, BiCopy, BiCopyAlt, BiEdit, BiMoney, BiPhoneIncoming, BiSearch, BiTestTube, BiTrash, BiUser, BiZoomOut } from 'react-icons/bi'
+import Select from '../../../components/Inputs/Select'
+import Button from '../../../components/Button'
+import { CgClose, CgLock, CgMail } from 'react-icons/cg'
+import stacey from '../../../assets/images/stacey.svg'
 import { MdArrowForward, MdOutlineEmail } from 'react-icons/md'
-import completed from '../../assets/images/completed.svg'
-import New from '../../components/Referral/New'
-import { useLocation } from 'react-router-dom'
+import completed from '../../../assets/images/completed.svg'
+import New from '../../../components/Referral/New'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
  
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'; 
-import preview from '../../assets/images/preview.svg';
-import { FaEdit } from 'react-icons/fa'
-import { BsFillTrashFill } from 'react-icons/bs'
-import { FcDownload } from 'react-icons/fc'
+import preview from '../../../assets/images/preview.svg';
+import { FaEdit, FaEllipsisH } from 'react-icons/fa'
+import { BsArrowRight, BsClock, BsFillTrashFill, BsTrash } from 'react-icons/bs'
+import { FcDownload } from 'react-icons/fc';
+import { LuTestTube, LuTestTube2 } from 'react-icons/lu';
+import deleteIcon from '../../../assets/images/delete.svg';
+import disableIcon from '../../../assets/images/disable.svg';
 
-const Tests = () => {
-    
-    const query = useLocation().search.split('=')[1];
+import { FaEyeSlash } from 'react-icons/fa6'
+
+const Category = () => {
+    const navigate = useNavigate();
+
     const [acitveTab, setActiveTab] = useState(0);
+    const [activeItem, setActiveItem] = useState(-1);
     const [date,setDate] = useState();
 
     const [viewDetails, setViewDetails] = useState(false);
     const [uploadTest, setUploadTest] = useState(false);
     const [viewTest, setViewTest] = useState(false);
+    const [newCategory, setNewCategory] = useState(false);
+    const [editCategory, setEditCategory] = useState(false);
+    const [deleteCategory, setDeleteCategory] = useState(false);
+    const [disable, setDisable] = useState(false);
+    const [_delete_, setDelete] = useState(false);
+    const [showMore, setShowMore] = useState(false);
 
     const toggleViewDetails = () => setViewDetails(!viewDetails);
     const toggleUploadTest = () => setUploadTest(!uploadTest);
     const toggleViewTest = () => setViewTest(!viewTest);
+    const toggleNewCategory = () => setNewCategory(!newCategory);
+    const toggleEditCategory = () => setEditCategory(!editCategory);
+    const toggleDeleteCategory = () => setDeleteCategory(!deleteCategory);
+    const toggleShowMore = ( ) => setShowMore(!showMore);
+    const toggleDisable = () => setDisable(!disable);
+    const toggleDelete = () => setDelete(!_delete_);
+
+    const { category } = useLocation().state;
+    console.log(category)
 
     const dummy = [
         {
-            name:'Abdulrazak Mumuni',
-            test_token:'C.T. Scan - Pelvimetry, Menstrual Irregularities, Fibrinogen, Rubella Immunity (IgG)',
-            date:'July 21, 2023',
-            status:'1',
+            test:'24hr urine albumin/Creatine ratio',
+            price:'₦20,000', 
         },
         {
-            name:'Emmanuella Bami',
-            test_token:'Fribology - Pelvimetry, Menstrual Irregularities, Rubella Immunity (IgG)',
-            date:'August 7, 2019',
-            status:'2',
+            test:'Albumin',
+            price:'₦52,500', 
         },
         {
-            name:'John Smith',
-            test_token:'C.T. Scan - Pelvimetry, Menstrual Irregularities, Fibrinogen, Rubella Immunity (IgG)',
-            date:'July 21, 2023',
-            status:'1',
+            test:'Elephant 2 criticality call',
+            price:'₦409,000', 
         },
         {
-            name:'Maduagbum Chinenye',
-            test_token:'C.T. Scan - Pelvimetry, Menstrual Irregularities, Fibrinogen, Rubella Immunity (IgG)',
-            date:'February 22, 2020',
-            status:'2',
+            test:'Uat too anomalies',
+            price:'₦21,000', 
         },
         {
-            name:'Emmanuella Bami',
-            test_token:'Fribology - Pelvimetry, Menstrual Irregularities, Rubella Immunity (IgG)',
-            date:'August 7, 2019',
-            status:'2',
+            test:'Elephant 2 criticality call',
+            price:'₦409,000', 
         },
         {
-            name:'Abdulrazak Mumuni',
-            test_token:'C.T. Scan - Pelvimetry, Menstrual Irregularities, Fibrinogen, Rubella Immunity (IgG)',
-            date:'July 21, 2023',
-            status:'1',
+            test:'Albumin',
+            price:'₦52,500', 
+        },
+        {
+            test:'Solutions idea metal your',
+            price:'₦25,000', 
+        },
+        {
+            test:'Activities ground seems',
+            price:'₦85,000', 
+        },
+        {
+            test:'Sorry race protocol',
+            price:'₦32,500', 
         },
 
     ]
 
-    const today_booking = [
+    const dummyCategories = [
         {
-            name:'Felix Otti',
-            tests: 4,
-            time:'10:00am - 11:00am',
-            status:'paid',
+            title:'Chemical Pathology',
+            tests:'120',
         },
         {
-            name:'Christine Jones',
-            tests: 4,
-            time:'02:00pm - 02:30pm',
-            status:'unpaid',
+            title:'Haematology',
+            tests:'55',
         },
         {
-            name:'Felix Otti',
-            tests: 4,
-            time:'10:00am - 11:00am',
-            status:'paid',
+            title:'Histology/Cytology',
+            tests:'103',
         },
         {
-            name:'Christine Jones',
-            tests: 4,
-            time:'02:00pm - 02:30pm',
-            status:'unpaid',
+            title:'Hommone/Immunology',
+            tests:'49',
+        },
+        {
+            title:'Molecular Biology (CPR)',
+            tests:'5',
+        },
+        {
+            title:'Profiles',
+            tests:'5',
+        },
+        {
+            title:'Toxicology/Drug Testing',
+            tests:'5',
+        },
+        {
+            title:'Microbiology/Parasitology',
+            tests:'5',
+        },
+        {
+            title:'Other Lab Services',
+            tests:'5',
         },
     ]
+
+    const handleClickEllipses = (e,id) => {
+        toggleShowMore();
+        if(activeItem == id)
+          setActiveItem(-1);
+        else
+          setActiveItem(id);
+      }
     
     const selectedTests = [
         {
@@ -124,44 +165,64 @@ const Tests = () => {
     useEffect(() => {
 
     }, [date])
+
+
     
 
   return (
    <div className='mt-3 w-full border border-custom_gray rounded-xl bg-white mb-7'>
         <div className="relative border-b p-3 flex justify-between items-center">
-            <p className='font-semibold text-base opacity-90' >Department of Radiology</p>
+            <button onClick={() => navigate('/tests')} className="flex items-center gap-2">
+                <BiArrowBack />
+                <p className='font-semibold text-base opacity-90' >{category?.title}</p>
+            </button>
             <div className="flex items-center gap-4">
-                <Input className={'!rounded-3xl !py-2.5 !min-w-[300px]'} placeholder={'Type user name here...'} icon={<BiSearch size={20} className='text-custom_gray' />} />
+                <button onClick={toggleNewCategory} className="justify-center bg-light_blue text-white border rounded-3xl flex  items-center gap-3 font-medium px-10 py-2 text-sm">
+                    <span>Add New Test</span>
+                </button>
+                {/* <Input className={'!rounded-3xl !py-2.5 !min-w-[300px]'} placeholder={'Type user name here...'} icon={<BiSearch size={20} className='text-custom_gray' />} /> */}
                 {/* <Select className={'!rounded-3xl !py-2.5 !min-w-[120px]'} options={[ { label:'All Status',value:null }, {label:'Completed',value:''},{label:'Ongoing'}]} /> */}
             </div>
         </div>
         <div className={`mt-5 text-[13px] hidden ${(acitveTab == 0 || acitveTab == 1 ) && '!block'}`}>
-            <div className="header grid grid-cols-12 gap-3 px-5 font-medium">
-                <p className='mt-1' > <input type="checkbox" className="accent-primary" id="" /></p>
-                <p className='col-span-2 line-clamp-1' >Full Name</p>
-                <p className='col-span-3 line-clamp-1' >Test Token</p>
-                <p className='col-span-2 line-clamp-1' >Test Date</p>
-                <p className='col-span-2 line-clamp-1' >Status</p>
+            <div className="header grid grid-cols-10 gap-3 px-5 font-medium">
+                <p className='col-span-3 line-clamp-1' >Test</p>
+                <p className='col-span-2 line-clamp-1' >Price</p>
+                <p className='col-span-2 line-clamp-1' >Turnaround Time</p>
+                <p className='col-span-2 line-clamp-1' >Instruction</p>
                 <p className='' >Action</p>
             </div>
             <div className="data text-text_color mt-3">
                 {
                     dummy.map((item,idx) => (
-                    <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid items-center grid-cols-12  gap-3 px-5 py-6 font-medium`}>
-                    <p className='' > <input type="checkbox" className="accent-primary" id="" /></p>
-                    <p className='col-span-2 line-clamp-1' >{item.name}</p>
-                    <p className='col-span-3 line-clamp-3 pr-5' >{item.test_token}</p>
-                    <p className='col-span-2 line-clamp-1' >{item.date}</p>
-                    <p className='col-span-2 line-clamp-1' >{item.status == 1 ?
-                        <div className='w-24 bg-custom_gray rounded-3xl text-center p-3 py-2'>
-                            Awaiting
-                        </div> : 
-                        <div className='w-24 bg-blue-100 rounded-3xl text-center p-3 py-2'>
-                            Sent
-                        </div>    
-                        }
-                    </p>
-                    <p onClick={toggleViewDetails} className='col-span-2 font-semibold text-light_blue cursor-pointer' >View Details</p>
+                    <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} grid items-center grid-cols-10 gap-3 px-5 py-6 font-medium`}>
+                        <p className='col-span-3 line-clamp-1' >{item.test}</p>
+                        <p className='col-span-2 line-clamp-1' >{item.price}</p>
+                        <p className='col-span-2 line-clamp-1' >-</p>
+                        <p className='col-span-2 line-clamp-1' >-</p>
+                        <button onClick={(e) => handleClickEllipses(e,idx)} className='relative z-50' ><FaEllipsisH className='opacity-60 ' />
+                                { idx == activeItem ? 
+                                    <div className="z-10 origin-top-right absolute right-5 mt-2 w-48 rounded-md shadow-lg bg-white">
+                                        <div className="bg-white py-2 p-2 w-full relative z-10">
+                                            <button 
+                                                onClick={toggleEditCategory} 
+                                                className="whitespace-nowrap flex items-center gap-3 w-full rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                                                <BiEdit size={17} /> Edit Test
+                                            </button> 
+                                            <button 
+                                                onClick={toggleDisable} 
+                                                className="whitespace-nowrap flex items-center gap-2 text-green-500 w-full rounded-md px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                                <FaEyeSlash size={17} /> Disable Test
+                                            </button> 
+                                            <button 
+                                                onClick={toggleDelete} 
+                                                className="whitespace-nowrap flex items-center gap-2 text-red-700 w-full rounded-md px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                                <BiTrash size={17} /> Delete Test
+                                            </button> 
+                                        </div>
+                                    </div> : null
+                                }
+                        </button>
                     </div>
                     )) 
                 }
@@ -294,58 +355,8 @@ const Tests = () => {
                         </button>
                     </div>
                 </div>
-                {/* <div className="p-5 text-sm">
-                    <p className='font-semibold' >Uploded Results</p>
-                    <div className="my-7 grid grid-cols-3 gap-3 gap-y-7">
-                        {
-                            [1,2,3].map(item => (
-                                <div key={item}>
-                                    <div className="relative">
-                                        <img className='max-h-[80vh]' src={preview} alt="preview" />
-                                        <button className="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-white border grid place-content-center">
-                                            <BsFillTrashFill size={15} color='red' />
-                                        </button>  
-                                    </div>
-                                    <div className="flex items-center justify-between gap-3">
-                                        <p>Stacey MRI Test</p>
-                                        <FaEdit />
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div> */}
-               
-                {/* <div className="border-t my-5 p-5">
-                    <Button onClick={toggleNewReferral} title={'Refer'} className={'w-full !px-10 !py-2.5 !text-sm  !bg-light_blue'} />
-                </div> */}
             </div>
         </div> : null}
-        {
-            date ? <div onClick={() => setDate()} className='bg-white/80 inset-0 fixed grid place-content-center'>
-                        <div className="bg-white shadow border p-5 rounded-lg w-[400px]">
-                            <div className="flex justify-between items-center gap-5">
-                                <p className='text-sm font-semibold mt-1' >Scheduled For The Day</p>
-                                <p className='text-sm  mt-1' >Tuesday | January 02 2025</p>
-
-                            </div>
-                            <div className="grid gap-3 mt-5">
-                                {
-                                    today_booking.map((item,idx) => (
-                                        <div className='text-sm p-3 px-2 rounded-md border' key={idx}>
-                                            <div className="flex items-center justify-between gap-5">
-                                                <p className='font-medium mb-1'>{item.name}</p>
-                                                <p className={`text-white p-1  rounded-xl text-xs w-[50px] text-center ${item.status == 'paid' ? 'bg-primary' : 'bg-yellow-400'}`} >{item.status}</p>
-                                            </div>
-                                            <p className='text-xs line-clamp-1' >{item.tests} Test(s) booked &bull; {item.time} </p>
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                        </div>
-
-            </div> : null
-        }
         {
            uploadTest ? <div className='bg-black/50 fixed inset-0 grid place-content-center' >
                 <div className="relative grid grid-cols-3 overflow-hidden bg-[#ededed] w-[1000px] max-h-[95vh] my-auto  rounded-2xl gap-3 text-sm">
@@ -398,8 +409,61 @@ const Tests = () => {
             </div> : null
         }
 
+        {
+            newCategory || editCategory ? <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+            <div className="bg-white w-[450px] p-5 rounded-xl flex flex-col justify-center text-center gap-3 text-sm">
+                <p className='text-base font-semibold' >{newCategory ? 'Add New' : 'Edit'} Test</p>
+                <div className="grid grid-cols-2 gap-5 text-left mt-7">
+                    <div className="col-span-2"><Input placeholder={'Retinal Curvature Correction'} icon={<LuTestTube2 className='opacity-80 ' size={17} />} type={'text'} label={'Test'} /></div>
+                    <Input placeholder={'₦20,000'} icon={<BiMoney className='opacity-80' size={17} />} type={'text'} label={'Price'} />
+                    <Input placeholder={''} icon={<BsClock className='opacity-80' size={17} />} type={'text'} label={'Turnaround Time'} />
+                    <div className="text-left col-span-2">
+                        <p className='font-medium mb-1'>Instruction</p>
+                        <textarea 
+                            className='outline-none rounded-lg p-3 border w-full min-h-[100px]'
+                            placeholder='Type your test instruction here..' />
+                    </div>
+                </div>
+
+                <div className="mt-10 flex items-center gap-5 ">
+                    <Button onClick={ newCategory ? toggleNewCategory : toggleEditCategory} className={'!px-5 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
+                    <Button onClick={ newCategory ? toggleNewCategory : toggleEditCategory} className={'!px-5 !bg-black text-white'} title={`${newCategory ? 'Add Test' : 'Save Changes'}`} />
+                </div>
+            </div>
+        </div> : null
+        }
+
+        {
+            _delete_ ? 
+               <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+                 <div className="bg-white w-[350px] p-5 rounded-2xl flex flex-col justify-center text-center gap-3 text-sm">
+                   <img className='w-12 m-auto' src={deleteIcon} alt="delete" />
+                   <p className='text-base font-semibold' >Delete This Test</p>
+                   <p className='text-sm' >Are you sure you want to delete this test? This action is irreversible.</p>
+                   <div className="mt-10 flex items-center gap-5 ">
+                   <Button onClick={toggleDelete} className={'!px-5 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
+                   <Button onClick={toggleDelete} className={'!px-5 bg-red-600'} title={'Yes Proceed'} />
+                   </div>
+                 </div>
+               </div> : null
+        }
+        {
+            disable ? 
+               <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+                 <div className="bg-white w-[350px] p-5 rounded-2xl flex flex-col justify-center text-center gap-3 text-sm">
+                   <img className='w-12 m-auto' src={disableIcon} alt="delete" />
+                   <p className='text-base font-semibold' >Disable Test</p>
+                   <p className='text-sm' >Are you sure you want to disable this test? It wouldn't be avaible to patients.</p>
+                   <div className="mt-10 flex items-center gap-5 ">
+                   <Button onClick={toggleDisable} className={'!px-5 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
+                   <Button onClick={toggleDisable} className={'!px-5 !bg-black'} title={'Yes Proceed'} />
+                   </div>
+                 </div>
+               </div> : null
+        }
+
     </div> 
   )
 }
 
-export default Tests
+export default Category

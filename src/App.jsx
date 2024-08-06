@@ -12,7 +12,8 @@ import MainLayout from './layouts/MainLayout';
 import Referrals from './pages/Main/Referrals';
 import Appointments from './pages/Main/Appointments';
 import Results from './pages/Main/Result';
-import Tests from './pages/Main/Test';
+import Tests from './pages/Main/Tests';
+import Category from './pages/Main/Tests/Category';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -37,6 +38,10 @@ function App() {
     {
       path:'/tests',
       Component:Tests,
+    },
+    {
+      path:'/tests/:id',
+      Component:Category,
     },
   ]
 
