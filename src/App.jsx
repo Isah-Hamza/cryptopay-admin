@@ -14,6 +14,7 @@ import Appointments from './pages/Main/Appointments';
 import Results from './pages/Main/Result';
 import Tests from './pages/Main/Tests';
 import Category from './pages/Main/Tests/Category';
+import Referrers from './pages/Main/Referrers';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -42,6 +43,10 @@ function App() {
     {
       path:'/tests/:id',
       Component:Category,
+    },
+    {
+      path:'/referrers',
+      Component:Referrers,
     },
   ]
 

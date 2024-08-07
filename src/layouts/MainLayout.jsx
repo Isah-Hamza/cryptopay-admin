@@ -78,6 +78,10 @@ const MainLayout = () => {
             title:'Referrers',
             link:'referrers',
             icon:PiPlusBold,
+            info:{
+                header:'Referrer Management',
+                sub:'View and manage a list of all registered doctors/referrers.',
+            }
         },
         {
             title:'Rebates',
