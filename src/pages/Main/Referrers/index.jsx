@@ -9,19 +9,56 @@ import { MdOutlineEmail } from 'react-icons/md'
 import completed from '../../../assets/images/completed.svg'
 import New from '../../../components/Referral/New'
 import { useLocation } from 'react-router-dom'
+import reactivateIcon from '../../../assets/images/reactivate.svg'
 
 const Referrers = () => {
     
     const query = useLocation().search.split('=')[1];
     const [acitveTab, setActiveTab] = useState(0);
-    console.log(query);
 
     const [viewDetails, setViewDetails] = useState(false);
-    const [newReferral, setNewReferral] = useState(() => query == 'true' ? true : false);
+    const [reactivate, setReactivate] = useState(false);
 
     const toggleViewDetails = () => setViewDetails(!viewDetails);
-    const toggleNewReferral = () => setNewReferral(!newReferral);
+    const toggleReactivate = () => setReactivate(!reactivate);
 
+    const dummy_deactivated = [
+        {
+            name:'Marcia Cronin ',
+            email:'gerald37@hotmail.com',
+            reason:'Money sky boy discussions existing growth air barn conversation looking. Points need overflow effects unpack must.',
+        },
+        {
+            name:'Luke Hudsonlee Jack',
+            email:'earnestine_macejkovic89@yahoo.com',
+            reason:"Tent status ask didn't good giant. Enable well mint metal respectively.",
+        },
+        {
+            name:'Anthony Von',
+            email:'emily.rolfson@hotmail.com',
+            reason:"Rundown one cloud in social is leverage place. Giant like spaces offline turn seems clean moving."
+        },
+        {
+            name:'Stacey Jacobs Volkswagon',
+            email:'mohammad.schimmel@gmail.com',
+            reason:"Disband functional solutionize solutionize community plane. Indicators fruit running call pushback individual important space one."
+        },
+        {
+            name:'Luke Hudson',
+            email:'earnestine_macejkovic89@yahoo.com',
+            reason:"Cob offline banner rehydrate about just. Idea strategy got me thought encourage."
+        },
+        {
+            name:'Anthony Von',
+            email:'emily.rolfson@hotmail.com',
+            reason:"Dangerous build we've solutions nobody sorry dive. Spaces deep hanging new group hard."
+        },
+        {
+            name:'Stacey Jacobs',
+            email:'mohammad.schimmel@gmail.com',
+            reason:"Build roll that's crack but functional boardroom expectations so third. Break place dogpile scope line reality bed future-proof."
+        },
+    ]
     const dummy = [
         {
             name:'Marcia Cronin ',
@@ -114,11 +151,11 @@ const Referrers = () => {
 
     const test_stats = [
         {
-            title:'Total Tests Paid',
+            title:'Total Rebate Earned',
             value:'₦2,800,000',
         },
         {
-            title:'Total Rebate Given',
+            title:'Pending Rebate',
             value:'₦280,000',
         },
     ]
@@ -133,7 +170,6 @@ const Referrers = () => {
 
   return (
   <>
-   {!newReferral ? 
    <div className='mt-3 w-full border border-custom_gray rounded-xl bg-white mb-7'>
         <div className="relative border-b p-3 flex justify-between items-center">
             <div className={`transition-all duration-300 absolute h-0.5 w-24 bg-primary left-5 bottom-0 ${acitveTab == 1 && '!left-[125px] w-32'}`}></div>
@@ -149,6 +185,31 @@ const Referrers = () => {
                 <Select className={'!rounded-3xl !py-2.5 !min-w-[120px]'} options={[ { label:'All Status',value:null }, {label:'Completed',value:''},{label:'Ongoing'}]} />
             </div>
         </div>
+       { 
+        acitveTab == 1 ? <div className="mt-5 text-[13px]">
+            <div className="header grid grid-cols-8 gap-3 px-5 font-medium">
+                <p className='col-span-2 line-clamp-1' >Full Name</p>
+                <p className='col-span-2 line-clamp-1' >Email Address</p>
+                <p className='col-span-3 line-clamp-2 ' >Deactivation Reason</p>
+                <p className='col-span-1' >Action</p>
+            </div>
+            <div className="data  text-text_color mt-3">
+                {
+                    dummy_deactivated.map((item,idx) => (
+                    <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid items-center grid-cols-8  gap-3 px-5 py-6 font-medium`}>
+                    <div className="flex items-center gap-2 col-span-2 line-clamp-1">
+                        <img className='w-8' src={stacey} alt="stacey" />
+                        <p className='col-span-2 line-clamp-1' >{item.name}</p>
+                    </div>
+                        <p className='col-span-2 line-clamp-1' >{item.email}</p>
+                        <p className='col-span-3 line-clamp-2 ' >{item.reason}</p>
+                        <p onClick={toggleReactivate} className='font-semibold text-light_blue cursor-pointer' >Reactivate User</p>
+                    </div>
+                    )) 
+                }
+
+            </div>
+        </div> :
         <div className="mt-5 text-[13px]">
             <div className="header grid grid-cols-8 gap-3 px-5 font-medium">
                 <p className='col-span-2 line-clamp-1' >Full Name</p>
@@ -177,6 +238,7 @@ const Referrers = () => {
 
             </div>
         </div>
+        }
        {viewDetails ? <div className="fixed inset-0 bg-black/70 flex justify-end">
             <div className="bg-white w-[450px] max-h-screen overflow-y-auto">
                 <div className="flex items-center justify-between p-3 border-b">
@@ -188,36 +250,22 @@ const Referrers = () => {
                 </div>
                 <div className="flex flex-col gap-1 border-b p-5">
                     {/* <img className='w-16 mx-auto' src={stacey} alt="stacey" /> */}
-                    <p className=' font-semibold text-lg' >Stacey Jacobs</p>
-                    <div className="mt-5 grid grid-cols-2 gap-3 gap-y-5 text-sm">
-                        <div className="flex flex-col ">
-                            <p className='font-medium' >Email Address</p>
-                            <p className='line-clamp-1 underline text-light_blue' >earnestine_macejkovic89@yahoo.com</p>
-                        </div>
-                        <div className="flex flex-col">
-                            <p className='font-medium' >Phone Number</p>
-                            <p className='line-clamp-1' >299-470-4508</p>
-                        </div>
-                        <div className="flex flex-col">
-                            <p className='font-medium' >Gender</p>
-                            <p className='line-clamp-1' >Female</p>
-                        </div>
-                        <div className="flex flex-col">
-                            <p className='font-medium' >First Invited By</p>
-                            <p className='line-clamp-1' >Ogu Chidinma</p>
-                        </div>
-                        <div className="flex flex-col">
-                            <p className='font-medium' >Total Tests Assignmed</p>
-                            <p className='line-clamp-1' >33</p>
-                        </div>
-                        <div className="flex flex-col ">
-                            <p className='font-medium' >Total Tests Completed</p>
-                            <p className='line-clamp-1' >18</p>
+                    <div className="flex gap-5 items-center">
+                        <img className='w-40' src={stacey} alt="stacey" />
+                        <div className="grid gap-2 text-sm">
+                            <p className=' font-semibold text-lg' >Stacey Jacobs</p>
+                            <div className="flex flex-col ">
+                                <p className='font-medium' >Email Address</p>
+                                <p className='line-clamp-1 underline text-light_blue' >earnestine_macejkovic89@yahoo.com</p>
+                            </div>
+                            <div className="flex flex-col">
+                                <p className='font-medium' >Phone Number</p>
+                                <p className='line-clamp-1' >299-470-4508</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className="p-5 text-sm">
-                    <p className='font-semibold text-base' >Test Information</p>
                     <div className="mt-3 grid grid-cols-2 gap-5">
                         {
                             test_stats.map((item,idx) => (
@@ -256,11 +304,21 @@ const Referrers = () => {
                 </div>
             </div>
         </div> : null}
-    </div> :
-    <div className='w-full'>
-        <New toggleNewReferral={toggleNewReferral} /> 
+        {
+            reactivate ? 
+               <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+                 <div className="bg-white w-[350px] p-5 rounded-2xl flex flex-col justify-center text-center gap-3 text-sm">
+                   <img className='w-12 m-auto' src={reactivateIcon} alt="reactivate" />
+                   <p className='text-base font-semibold' >Reactivate User</p>
+                   <p className='text-sm' >Are you sure you want to reactivate this user?</p>
+                   <div className="mt-10 flex items-center gap-5 ">
+                   <Button onClick={toggleReactivate} className={'!px-5 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
+                   <Button onClick={toggleReactivate} className={'!px-5 !bg-light_blue'} title={'Yes Proceed'} />
+                   </div>
+                 </div>
+               </div> : null
+        }
     </div>
-    }
   </>
   )
 }
