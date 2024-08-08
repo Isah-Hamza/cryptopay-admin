@@ -16,6 +16,7 @@ import Tests from './pages/Main/Tests';
 import Category from './pages/Main/Tests/Category';
 import Referrers from './pages/Main/Referrers';
 import Rebate from './pages/Main/Rebate'
+import Profile from './pages/Main/Profile';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -52,6 +53,10 @@ function App() {
     {
       path:'/rebates',
       Component:Rebate,
+    },
+    {
+      path:'/settings',
+      Component:Profile,
     },
   ]
 
