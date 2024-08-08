@@ -380,7 +380,7 @@ const Referrers = () => {
                             <p className='line-clamp-1' >Gynecologist</p>
                         </div>
                     </div>
-                    <div className="mt-5 px-5 text-base">
+                    <div className="mt-10 px-5 text-base">
                         <p className='text-base font-semibold'>Payout Information</p>
                         <div className="flex gap-2 mt-3 text-sm">
                             <p className='font-medium' >Account Name:</p>
@@ -391,7 +391,7 @@ const Referrers = () => {
                             <p className='line-clamp-1' > 1234 - 5678 - 901</p>
                         </div>
                         <div className="flex gap-2 mt-3 text-sm">
-                            <p className='font-medium' >Bank Number:</p>
+                            <p className='font-medium' >Bank Name:</p>
                             <p className='line-clamp-1' >Lifebridge Bank PLC</p>
                         </div>
                         <button onClick={toggleDeactivate} className="flex text-red-700 font-semibold items-center gap-2 my-6 text-sm">

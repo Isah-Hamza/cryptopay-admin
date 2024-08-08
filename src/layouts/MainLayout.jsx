@@ -87,6 +87,10 @@ const MainLayout = () => {
             title:'Rebates',
             link:'rebates',
             icon:BsCurrencyDollar,
+            info:{
+                header:'Rebate Management',
+                sub:'View the total amount earned by referrers.',
+            }
         },
         {
             title:'Reports',
