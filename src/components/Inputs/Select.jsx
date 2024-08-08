@@ -1,7 +1,7 @@
 import React from "react";
 import {RxCaretDown} from "react-icons/rx";
 
-const Select = ({options, className, label, labelClass, value, onChange,icon, ...rest}) => {
+const Select = ({options, className, label, labelClass, placeholder, value, onChange,icon, ...rest}) => {
   return (
     <div className="flex flex-col gap-1 ">
       <p className={`text-sm font-medium ${labelClass}`}>{label}</p>
@@ -12,14 +12,14 @@ const Select = ({options, className, label, labelClass, value, onChange,icon, ..
           value={value}
           {...rest}
         >
-          <option disabled className="text-text_color" value={""}>Select</option>
+          <option disabled className="text-text_color" value={""}>{ placeholder || 'Select' }</option>
           {options?.map((item, idx) => (
             <option key={idx} value={item.value ?? item.id}>
               {item.label ?? item.text ?? item.name}
             </option>
           ))}
         </select>
-        <span className="absolute top-1/2 -translate-y-1/2 right-2 pointer-events-none ">
+        <span className="absolute top-1/2 -translate-y-1/2 right-4 pointer-events-none ">
           <RxCaretDown />
         </span>
         {icon ?<span className='absolute left-3 top-1/2 -translate-y-1/2' >{icon}</span> : null}
