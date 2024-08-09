@@ -19,22 +19,27 @@ import { MdOutlineAccountTree } from "react-icons/md";
 import deleteIcon from '../../../assets/images/delete.svg';
 import { FaEdit, FaEllipsisH, FaEyeSlash } from 'react-icons/fa';
 import { LuTestTube2 } from 'react-icons/lu';
+import stacey from '../../../assets/images/stacey.svg';
+import inviteImg from '../../../assets/images/reactivate.svg';
 
 const Profile = ({  }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [successful, setSuccessful] = useState(false);
   const [deleteAccount, setDeleteAccount] = useState(false);
+  const [invite, setInvite] = useState(false);
 
   const [newCategory, setNewCategory] = useState(false);
   const [editCategory, setEditCategory] = useState(false);
   const [activeItem, setActiveItem] = useState(-1);
+  const [changeRole, setChangeRole] = useState(false);
 
   const toggleSuccessful = () => setSuccessful(!successful);
   const toggleDeleteAccount = () => setDeleteAccount(!deleteAccount);
 
   const toggleNewCategory = () => setNewCategory(!newCategory);
   const toggleEditCategory = () => setEditCategory(!editCategory);
-
+  const toggleChangeRole = () => setChangeRole(!changeRole);
+  const toggleInvite = () => setInvite(!invite);
 
   const tabs = [
     {
@@ -132,7 +137,6 @@ const Profile = ({  }) => {
         phone:'801 4359 940',
         role:'Finance'
     },
-
   ]
 
   const close = () => {
@@ -223,53 +227,53 @@ const Profile = ({  }) => {
                 <p className='text-base font-semibold' >User Roles & Permissions</p>
                 <p className='text-sm' >Manage user access levels and roles.</p>
             </div>
-            <Button onClick={toggleNewCategory} className={'!text-sm px-5 !w-fit !bg-light_blue'} title={'Invite New User'}  /> 
+            <Button onClick={toggleInvite} className={'!text-sm px-5 !w-fit !bg-light_blue'} title={'Invite New User'}  /> 
             </div>
             <div className="mt-10">
-            <div className={`mt-5 text-[13px]`}>
-              <div className="header grid grid-cols-9 gap-3 px-5 font-medium">
-                  <p className='col-span-3 line-clamp-1' >User Info</p>
-                  <p className='line-clamp-2 col-span-2' >Phone Number</p>
-                  <p className='line-clamp-2 col-span-3' >Assigned Role</p>
-                  <p className='' >Action</p>
-              </div>
-              <div className="data text-text_color mt-3">
-                  {
-                      dummy.map((item,idx) => (
-                      <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} grid items-center grid-cols-9 gap-3 px-5 py-6 font-medium`}>
-                          <div className='col-span-3 overflow-x-hidden flex items-center gap-1' >
-                              <img className='w-8' src={avatar} alt="user" />
-                              <div className="">
-                                <p className='line-clamp-1'>{item.user}</p>
-                                <p className='line-clamp-1'>{item.email}</p>
+              <div className={`mt-5 text-[13px]`}>
+                <div className="header grid grid-cols-9 gap-3 px-5 font-medium">
+                    <p className='col-span-3 line-clamp-1' >User Info</p>
+                    <p className='line-clamp-2 col-span-2' >Phone Number</p>
+                    <p className='line-clamp-2 col-span-3' >Assigned Role</p>
+                    <p className='' >Action</p>
+                </div>
+                <div className="data text-text_color mt-3">
+                    {
+                        dummy.map((item,idx) => (
+                        <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} grid items-center grid-cols-9 gap-3 px-5 py-6 font-medium`}>
+                            <div className='col-span-3 overflow-x-hidden flex items-center gap-1' >
+                                <img className='w-8' src={avatar} alt="user" />
+                                <div className="">
+                                  <p className='line-clamp-1'>{item.user}</p>
+                                  <p className='line-clamp-1'>{item.email}</p>
+                                </div>
                               </div>
-                            </div>
-                            <p className='line-clamp-1 col-span-2'>{item.phone}</p>
-                            <p className='line-clamp-1 col-span-3'>{item.role}</p>
-                          <button onClick={(e) => handleClickEllipses(e,idx)} className='relative z-50' ><FaEllipsisH className='opacity-60 ' />
-                                  { idx == activeItem ? 
-                                      <div className="z-10 origin-top-right absolute right-5 mt-2 w-40 rounded-md shadow-lg bg-white">
-                                          <div className="bg-white py-2 p-2 w-full relative z-10">
-                                              <button 
-                                                  onClick={null} 
-                                                  className="whitespace-nowrap flex items-center gap-3 w-full rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
-                                                  <BiEdit size={17} /> Change Role
-                                              </button> 
-                                              <button 
-                                                  onClick={null} 
-                                                  className="whitespace-nowrap flex items-center gap-2 text-red-700 w-full rounded-md px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                                  <BiTrash size={17} /> Delete User
-                                              </button> 
-                                          </div>
-                                      </div> : null
-                                  }
-                          </button>
-                      </div>
-                      )) 
-                  }
+                              <p className='line-clamp-1 col-span-2'>{item.phone}</p>
+                              <p className='line-clamp-1 col-span-3'>{item.role}</p>
+                            <button onClick={(e) => handleClickEllipses(e,idx)} className='relative z-50' ><FaEllipsisH className='opacity-60 ' />
+                                    { idx == activeItem ? 
+                                        <div className="z-10 origin-top-right absolute right-5 mt-2 w-40 rounded-md shadow-lg bg-white">
+                                            <div className="bg-white py-2 p-2 w-full relative z-10">
+                                                <button 
+                                                    onClick={toggleChangeRole} 
+                                                    className="whitespace-nowrap flex items-center gap-2 w-full rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                                                    <BiEdit size={17} /> Change Role
+                                                </button> 
+                                                <button 
+                                                    onClick={null} 
+                                                    className="whitespace-nowrap flex items-center gap-2 text-red-700 w-full rounded-md px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                                    <BiTrash size={17} /> Delete User
+                                                </button> 
+                                            </div>
+                                        </div> : null
+                                    }
+                            </button>
+                        </div>
+                        )) 
+                    }
 
+                </div>
               </div>
-          </div>
             </div>
           </div>
           : activeTab == 4 ? 
@@ -380,6 +384,39 @@ const Profile = ({  }) => {
           </div>
         </div> : null
       }
+      {
+        changeRole ? 
+            <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+                <div className="bg-white w-[400px] p-5 rounded-2xl flex flex-col justify-center text-center gap-3 text-sm">
+                  <p className='font-medium text-base text-center mb-2'>User Permissions</p>
+                  <img className='w-12 m-auto' src={stacey} alt="reactivate" />
+                  <p className='text-base font-semibold mb-3' >Diana Sipes</p>
+                  <div className="text-left">
+                    <Select label={'Roles'} options={[{label:'Radiology-Result Unit', value:'1'}]} icon={<RiBankCard2Line size={22} />}/>
+                  </div>
+                  <div className="mt-10 flex items-center gap-3">
+                    <Button onClick={toggleChangeRole} className={'!px-4 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
+                    <Button onClick={toggleChangeRole} className={'!px-4 '} title={'Change Role'} />
+                  </div>
+                </div>
+            </div> : null
+      }
+      {
+          invite ? 
+              <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+                  <div className="bg-white w-[400px] p-5 rounded-2xl flex flex-col justify-center text-center gap-3 text-sm">
+                    <img className='w-12 m-auto' src={inviteImg} alt="reactivate" />
+                    <p className='text-base font-semibold mb-3' >Invite New User(s)</p>
+                    <div className="text-left">
+                      <Select label={'Roles'} options={[{label:'Radiology-Result Unit', value:'1'}]} icon={<RiBankCard2Line size={22} />}/>
+                    </div>
+                    <div className="mt-10 flex items-center gap-3">
+                    <Button onClick={toggleChangeRole} className={'!px-4 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
+                    <Button onClick={toggleChangeRole} className={'!px-4 !bg-light_blue'} title={'Send Invite(s)'} />
+                    </div>
+                  </div>
+              </div> : null
+        }
     </div>
   )
 }
