@@ -50,7 +50,6 @@ const Category = () => {
     const toggleDelete = () => setDelete(!_delete_);
 
     const { category } = useLocation().state;
-    console.log(category)
 
     const dummy = [
         {

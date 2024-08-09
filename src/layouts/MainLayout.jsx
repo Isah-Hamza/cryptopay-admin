@@ -94,7 +94,7 @@ const MainLayout = () => {
         },
         {
             title:'Reports',
-            link:'reports',
+            link:'#',
             icon:FcStatistics,
         },
         {
@@ -103,7 +103,7 @@ const MainLayout = () => {
             icon:LuSettings2,
             info:{
                 header:'Settings',
-                sub:'View the total amount earned by referrers.',
+                sub:'Customize and manage your account and platform preferences.',
             }
         },
     ]
@@ -171,7 +171,7 @@ const MainLayout = () => {
     if(active_item == 'tests') setActiveTab(4);
     if(active_item == 'referrers') setActiveTab(5);
     if(active_item == 'rebates') setActiveTab(6);
-    if(active_item == 'setings') setActiveTab(8);
+    if(active_item == 'settings') setActiveTab(8);
 
     // setActiveLink(active_item);
     

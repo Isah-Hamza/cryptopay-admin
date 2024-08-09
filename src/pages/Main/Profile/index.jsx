@@ -1,35 +1,60 @@
 import React, { useState } from 'react'
-import { BiCopy, BiPhoneIncoming, BiSolidUserDetail, BiTrashAlt, BiUser } from "react-icons/bi";
+import { BiCalendar, BiCopy, BiEdit, BiPhoneIncoming, BiSolidUserDetail, BiTrash, BiTrashAlt, BiUser } from "react-icons/bi";
 import { CgClose } from 'react-icons/cg';
 import { CiLocationOn, CiUser } from 'react-icons/ci';
 import { MdOutlineLockPerson, MdOutlineMarkEmailUnread, MdTitle } from 'react-icons/md';
-import { PiTestTubeFill } from "react-icons/pi";
-import Select from '../../components/Inputs/Select';
+import { PiTestTube, PiTestTubeFill, PiUserCircleDuotone } from "react-icons/pi";
+import Select from '../../../components/Inputs/Select';
 import { BsCaretRight, BsFillTrashFill } from 'react-icons/bs';
-import Button from '../../components/Button'
-import success from '../../assets/images/success.svg';
+import Button from '../../../components/Button'
+import success from '../../../assets/images/success.svg';
 import { IoIosArrowForward } from "react-icons/io";
-import Input from '../../components/Inputs';
+import Input from '../../../components/Inputs';
 import { RiBankCardLine } from 'react-icons/ri';
 import { GrSettingsOption } from 'react-icons/gr';
-import avatar from '../../assets/images/avatar.svg'
+import avatar from '../../../assets/images/avatar.svg'
 import { FaLocationPin } from 'react-icons/fa6';
 import { RiBankCard2Line } from "react-icons/ri";
 import { MdOutlineAccountTree } from "react-icons/md";
-import deleteIcon from '../../assets/images/delete.svg';
+import deleteIcon from '../../../assets/images/delete.svg';
+import { FaEdit, FaEllipsisH, FaEyeSlash } from 'react-icons/fa';
+import { LuTestTube2 } from 'react-icons/lu';
 
 const Profile = ({  }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [successful, setSuccessful] = useState(false);
   const [deleteAccount, setDeleteAccount] = useState(false);
 
+  const [newCategory, setNewCategory] = useState(false);
+  const [editCategory, setEditCategory] = useState(false);
+  const [activeItem, setActiveItem] = useState(-1);
+
   const toggleSuccessful = () => setSuccessful(!successful);
   const toggleDeleteAccount = () => setDeleteAccount(!deleteAccount);
 
+  const toggleNewCategory = () => setNewCategory(!newCategory);
+  const toggleEditCategory = () => setEditCategory(!editCategory);
+
+
   const tabs = [
     {
-      title:'Profile Details',
+      title:'General',
       icon:<BiSolidUserDetail size={20} />,
+      onClick:() => { document.querySelector('#patient').scrollIntoView() },
+    },
+    {
+      title:'Departments',
+      icon:<PiTestTube size={20} />,
+      onClick:() => { document.querySelector('#patient').scrollIntoView() },
+    },
+    {
+      title:'User Roles & Permissions',
+      icon:<PiUserCircleDuotone size={20} />,
+      onClick:() => { document.querySelector('#patient').scrollIntoView() },
+    },
+    {
+      title:'Appointment Settings',
+      icon:<BiCalendar size={20} />,
       onClick:() => { document.querySelector('#patient').scrollIntoView() },
     },
     {
@@ -48,6 +73,67 @@ const Profile = ({  }) => {
     },
   ]
 
+  const departments = [
+    {
+      name:'Radiology Department',
+      users:4,
+    },
+    {
+      name:'Laboratory Department',
+      users:4,
+    },
+    {
+      name:'Endoscopy',
+      users:4,
+    },
+  ]
+
+  const handleClickEllipses = (e,id) => {
+    if(activeItem == id)
+      setActiveItem(-1);
+    else
+      setActiveItem(id);
+  }
+
+  const dummy = [
+    {
+        user:'Jersey Russvelt',
+        email:'roosevelt.jersey@gmail.com',
+        phone:'903 2393 343',
+        role:'Tests - Gynaecology'
+    },
+    {
+        user:'Abdullahi Magdalene',
+        email:'abd.mag@hotmail.com',
+        phone:'801 4359 940',
+        role:'Finance'
+    },
+    {
+        user:'Jersey Russvelt',
+        email:'roosevelt.jersey@gmail.com',
+        phone:'903 2393 343',
+        role:'Tests - Gynaecology'
+    },
+    {
+        user:'Abdullahi Magdalene',
+        email:'abd.mag@hotmail.com',
+        phone:'801 4359 940',
+        role:'Finance'
+    },
+    {
+        user:'Jersey Russvelt',
+        email:'roosevelt.jersey@gmail.com',
+        phone:'903 2393 343',
+        role:'Tests - Gynaecology'
+    },
+    {
+        user:'Abdullahi Magdalene',
+        email:'abd.mag@hotmail.com',
+        phone:'801 4359 940',
+        role:'Finance'
+    },
+
+  ]
 
   const close = () => {
     toggleSuccessful();
@@ -58,9 +144,8 @@ const Profile = ({  }) => {
      <div className='w-full bg-white rounded-xl flex' >
       { !successful ? 
       <>
-        <div className="w-[350px] border-r h-[calc(100vh-120px)] p-5 pt-7">
-        <p className='font-semibold pl-7' >Settings</p> 
-        <div className="mt-7 grid gap-7 max-w-[250px]">
+        <div className="w-[300px] border-r h-[calc(100vh-120px)] p-5 pt-7">
+        <div className="grid gap-5 max-w-[250px]">
           {
             tabs.map((item,idx) => (
               <div onClick={() =>{ setActiveTab(idx); item.onClick()}} key={idx} 
@@ -72,101 +157,171 @@ const Profile = ({  }) => {
           }
         </div>
         </div>
-        { activeTab == 0 ? 
-        <div className="flex-1 p-10 pt-7  h-[calc(100vh-120px)] overflow-y-auto">
-          <div className="flex justify-between">
-              <div id='patient' className="">
-                <p className='font-semibold mb-1' >Profile Details</p>
-                <p className='text-sm' >Manage your profile.</p>
+        <div className='h-[calc(100vh-120px)] overflow-y-auto flex-1'>
+          { activeTab == 0 ? 
+          <div className=" p-10 pt-7">
+            <div className="flex justify-between">
+                <div id='patient' className="">
+                  <p className='font-semibold mb-1' >Profile Details</p>
+                  <p className='text-sm' >Manage your profile.</p>
+                </div>
+            </div>
+            <div className="mt-10 flex gap-5 items-center">
+              <img className='w-24' src={avatar} alt="user" />
+              <div className="grid gap-1">
+                <p className='font-medium' >Profile Picture</p>
+                <p className='text-text_color text-sm' >PNG, JPG, GIF max size of 5MB</p>
+              </div>
+            </div>
+            <div className="mt-10 grid grid-cols-2 gap-5 max-w-[600px]">
+              <div className="">
+                  <Input label={'First Name'} placeholder={'John Doe'} icon={<CiUser size={24} />}/>
+              </div>
+              <div className="">
+                  <Input label={'Last Name'} placeholder={'Doe'} icon={<CiUser size={24} />}/>
+              </div>
+              <div className=" col-span-2">
+                  <Input label={'Email Address'} placeholder={'support@lifebridge.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
+              </div>
+              <div className=" col-span-2">
+                  <Input label={'Phone Number'} placeholder={'Phone Number'} icon={<BiPhoneIncoming size={24} />}/>
+              </div>
+            </div>
+            <div className='w-fit mt-10' >
+              <Button className={'px-14'} title={'Update Details'} />
+            </div>
+          </div>
+          : activeTab == 1 ?
+          <div className="p-7">
+            <div className="flex items-center justify-between gap-5">
+            <div className="">
+                <p className='text-base font-semibold' >Departments</p>
+                <p className='text-sm' >Set up and manage your respective departments.</p>
+            </div>
+            <Button onClick={toggleNewCategory} className={'!text-sm px-5 !w-fit !bg-light_blue'} title={'Add New Department'}  /> 
+            </div>
+            <div className="grid grid-cols-2 w-full gap-5 mt-7">
+              {
+                  departments.map((item,idx) => (
+                      <div key={idx} className='border rounded-xl p-5 bg-[#fcfcfd]' >
+                          <p className='text-sm font-medium mb-1'>{item.name}</p>
+                          <p>{item.users} user(s)</p>
+                          <div className="mt-7 flex items-center justify-end gap-5">
+                              <div className="flex items-center gap-3">
+                                  <button onClick={toggleEditCategory}><FaEdit className='opacity-80'  size={16 }/></button>
+                              </div>
+                          </div>
+                      </div>
+                  ))
+              }
+          </div>
+          </div>
+          : activeTab == 2 ?
+          <div className="p-7">
+            <div className="flex items-center justify-between gap-5">
+            <div className="">
+                <p className='text-base font-semibold' >User Roles & Permissions</p>
+                <p className='text-sm' >Manage user access levels and roles.</p>
+            </div>
+            <Button onClick={toggleNewCategory} className={'!text-sm px-5 !w-fit !bg-light_blue'} title={'Invite New User'}  /> 
+            </div>
+            <div className="mt-10">
+            <div className={`mt-5 text-[13px]`}>
+              <div className="header grid grid-cols-9 gap-3 px-5 font-medium">
+                  <p className='col-span-3 line-clamp-1' >User Info</p>
+                  <p className='line-clamp-2 col-span-2' >Phone Number</p>
+                  <p className='line-clamp-2 col-span-3' >Assigned Role</p>
+                  <p className='' >Action</p>
+              </div>
+              <div className="data text-text_color mt-3">
+                  {
+                      dummy.map((item,idx) => (
+                      <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} grid items-center grid-cols-9 gap-3 px-5 py-6 font-medium`}>
+                          <div className='col-span-3 overflow-x-hidden flex items-center gap-1' >
+                              <img className='w-8' src={avatar} alt="user" />
+                              <div className="">
+                                <p className='line-clamp-1'>{item.user}</p>
+                                <p className='line-clamp-1'>{item.email}</p>
+                              </div>
+                            </div>
+                            <p className='line-clamp-1 col-span-2'>{item.phone}</p>
+                            <p className='line-clamp-1 col-span-3'>{item.role}</p>
+                          <button onClick={(e) => handleClickEllipses(e,idx)} className='relative z-50' ><FaEllipsisH className='opacity-60 ' />
+                                  { idx == activeItem ? 
+                                      <div className="z-10 origin-top-right absolute right-5 mt-2 w-40 rounded-md shadow-lg bg-white">
+                                          <div className="bg-white py-2 p-2 w-full relative z-10">
+                                              <button 
+                                                  onClick={null} 
+                                                  className="whitespace-nowrap flex items-center gap-3 w-full rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                                                  <BiEdit size={17} /> Change Role
+                                              </button> 
+                                              <button 
+                                                  onClick={null} 
+                                                  className="whitespace-nowrap flex items-center gap-2 text-red-700 w-full rounded-md px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                                                  <BiTrash size={17} /> Delete User
+                                              </button> 
+                                          </div>
+                                      </div> : null
+                                  }
+                          </button>
+                      </div>
+                      )) 
+                  }
+
               </div>
           </div>
-          <div className="mt-10 flex gap-5 items-center">
-            <img className='w-24' src={avatar} alt="user" />
-            <div className="grid gap-1">
-              <p className='font-medium' >Profile Picture</p>
-              <p className='text-text_color text-sm' >PNG, JPG, GIF max size of 5MB</p>
             </div>
           </div>
-          <div className="mt-10 grid grid-cols-2 gap-5 max-w-[600px]">
-            <div className="">
-                <Input label={'First Name'} placeholder={'John Doe'} icon={<CiUser size={24} />}/>
+          : activeTab == 4 ? 
+          <div className=" p-10 pt-7">
+            <div className="flex justify-between">
+                <div id='patient' className="">
+                  <p className='font-semibold mb-1' >Payout Settings</p>
+                  <p className='text-sm' >Manage your bank information.</p>
+                </div>
             </div>
-            <div className="">
-                <Input label={'Last Name'} placeholder={'Doe'} icon={<CiUser size={24} />}/>
+            <div className="mt-5 grid gap-5 max-w-[600px]">
+              <div className="mt-5">
+                    <Select label={'Bank Name'} options={[]} icon={<RiBankCard2Line size={22} />}/>
+                </div>
+                <div className="">
+                    <Input label={'Account Number'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
+                </div>
+                <div className="">
+                    <Input label={'Account Name'}  placeholder={'Isah Hamza Onipe'} icon={<BiUser size={22} />}/>
+                </div>
             </div>
-            <div className=" col-span-2">
-                <Input label={'Email Address'} placeholder={'support@lifebridge.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
-            </div>
-            <div className=" col-span-2">
-                <Input label={'Phone Number'} placeholder={'Phone Number'} icon={<BiPhoneIncoming size={24} />}/>
-            </div>
-            <div className=" col-span-2">
-                <Input label={'Hospital Name'} placeholder={'Lifebridge Medical Diagnostic'} icon={<CiUser size={24} />}/>
-            </div>
-            <div className="">
-                <Input label={'Location'} placeholder={'Wuye, Abuja'} icon={<CiLocationOn size={24} />}/>
-            </div>
-            <div className="">
-                <Select label={'Professional Title'} options={[{label:'Gyneacology',value:0,}]} icon={<MdTitle size={24} />}/>
+            <div className='w-fit mt-10' >
+              <Button className={'px-14'} title={'Update'} />
             </div>
           </div>
+          : activeTab == 5 ?
+          <div className=" p-10 pt-7">
+            <div className="flex justify-between">
+                <div id='patient' className="">
+                  <p className='font-semibold mb-1' >Account & Security</p>
+                  <p className='text-sm' >Update your old password.</p>
+                </div>
+            </div>
+            <div className="mt-10 grid gap-5 max-w-[600px]">
+              <div className="">
+                  <Input label={'Old Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
+              </div>
+              <div className="">
+                  <Input label={'New Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
+                  <p className='text-xs text-text_color' >Password must contain at least one lowercase letters, uppercase letters, numbers and special symbols</p>
+              </div>
+              <div className="">
+                  <Input label={'Confirm New Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
+              </div>
+            </div>
           <div className='w-fit mt-10' >
-            <Button className={'px-14'} title={'Update'} />
+            <Button className={'px-14'} title={'Update Password'} />
           </div>
-        </div>
-        : activeTab == 1 ? 
-        <div className="flex-1 p-10 pt-7  h-[calc(100vh-120px)] overflow-y-auto">
-        <div className="flex justify-between">
-            <div id='patient' className="">
-              <p className='font-semibold mb-1' >Payout Settings</p>
-              <p className='text-sm' >Manage your bank information.</p>
-            </div>
-        </div>
-
-        <div className="mt-5 grid gap-5 max-w-[600px]">
-        <div className="mt-5">
-                <Select label={'Bank Name'} options={[]} icon={<RiBankCard2Line size={22} />}/>
-            </div>
-            <div className="">
-                <Input label={'Account Number'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
-            </div>
-            <div className="">
-                <Input label={'Account Name'}  placeholder={'Isah Hamza Onipe'} icon={<BiUser size={22} />}/>
-            </div>
-        </div>
-        <div className='w-fit mt-10' >
-          <Button className={'px-14'} title={'Update'} />
-        </div>
-      </div>
-        : activeTab == 2 ?
-        <div className="flex-1 p-10 pt-7  h-[calc(100vh-120px)] overflow-y-auto">
-        <div className="flex justify-between">
-            <div id='patient' className="">
-              <p className='font-semibold mb-1' >Account & Security</p>
-              <p className='text-sm' >Update your old password.</p>
-            </div>
-        </div>
-
-        <div className="mt-10 grid gap-5 max-w-[600px]">
-            <div className="">
-                <Input label={'Old Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
-            </div>
-            <div className="">
-                <Input label={'New Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
-                <p className='text-xs text-text_color' >Password must contain at least one lowercase letters, uppercase letters, numbers and special symbols</p>
-            </div>
-            <div className="">
-                <Input label={'Confirm New Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
-            </div>
           </div>
-        <div className='w-fit mt-10' >
-          <Button className={'px-14'} title={'Update Password'} />
+          : null
+        }
         </div>
-        <hr className='w-full my-3 mt-14' />
-        <button onClick={toggleDeleteAccount} className={'text-red-700 font-semibold'}>Delete Account</button>
-        </div>
-        : null
-      }
       </>:
        <div className='p-10 h-[calc(100vh-130px)] flex flex-col justify-center items-center w-full' >
             <img className='-mt-5 w-[120px]' src={success} alt="success" />
@@ -207,6 +362,21 @@ const Profile = ({  }) => {
             <Button onClick={toggleDeleteAccount} className={'!px-5 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
             <Button onClick={toggleDeleteAccount} className={'!px-5 bg-red-600'} title={'Yes Proceed'} />
             </div>
+          </div>
+        </div> : null
+      }
+      {
+          newCategory || editCategory ? <div className='bg-black/50 fixed inset-0 grid place-content-center' >
+          <div className="bg-white w-[400px] p-5 rounded-xl flex flex-col justify-center text-center gap-3 text-sm">
+              <p className='text-base font-semibold' >{newCategory ? 'Add New' : 'Edit'} Department</p>
+              <div className="grid gap-5 text-left mt-7">
+                  <Input placeholder={'Enter name here..'} icon={<LuTestTube2 className='opacity-80' size={17} />} type={'text'} label={'Department Name'} />
+              </div>
+
+              <div className="mt-10 flex items-center gap-5 ">
+                  <Button onClick={ newCategory ? toggleNewCategory : toggleEditCategory} className={'!px-5 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
+                  <Button onClick={ newCategory ? toggleNewCategory : toggleEditCategory} className={'!px-5 !bg-light_blue text-white'} title={`${newCategory ? 'Add Department' : 'Save Changes'}`} />
+              </div>
           </div>
         </div> : null
       }
