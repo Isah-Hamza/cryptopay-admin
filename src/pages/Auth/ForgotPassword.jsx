@@ -28,7 +28,7 @@ const ForgotPassword = () => {
             </div>
             <div className="px-7 flex flex-col flex-1 ">
               <div className="mt-10 mb-10">
-                  <Input label={'Email Address'} placeholder={'support@lifebridge.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
+                  <Input label={'Email Address'} placeholder={'example@gmail.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
               </div>
               {/* <div className="mt-5">
                   <Input label={'Create Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>

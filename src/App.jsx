@@ -1,6 +1,4 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState } from 'react' 
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Auth/Login'
@@ -10,12 +8,7 @@ import ChangePassword from './pages/Auth/ChangePassword';
 import Dashboard from './pages/Main/Dashboard';
 import MainLayout from './layouts/MainLayout';
 import Referrals from './pages/Main/Referrals';
-import Appointments from './pages/Main/Appointments';
-import Results from './pages/Main/Result';
-import Tests from './pages/Main/Tests';
-import Category from './pages/Main/Tests/Category';
 import Referrers from './pages/Main/Referrers';
-import Rebate from './pages/Main/Rebate'
 import Profile from './pages/Main/Profile';
 
 function App() {
@@ -27,32 +20,12 @@ function App() {
       Component:Dashboard,
     },
     {
-      path:'/referrals',
+      path:'/transactions',
       Component:Referrals,
     },
     {
-      path:'/appointments',
-      Component:Appointments,
-    },
-    {
-      path:'/results',
-      Component:Results,
-    },
-    {
-      path:'/tests',
-      Component:Tests,
-    },
-    {
-      path:'/tests/:id',
-      Component:Category,
-    },
-    {
-      path:'/referrers',
+      path:'/users',
       Component:Referrers,
-    },
-    {
-      path:'/rebates',
-      Component:Rebate,
     },
     {
       path:'/settings',
@@ -65,6 +38,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' Component={Login} />
+        <Route path='/login' Component={Login} />
         <Route path='/forgot-password' Component={ForgotPassword} />
         <Route path='/verify-otp' Component={VerifyOTP} />
         <Route path='/change-password' Component={ChangePassword} />

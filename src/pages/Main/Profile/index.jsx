@@ -48,21 +48,6 @@ const Profile = ({  }) => {
       onClick:() => { document.querySelector('#patient').scrollIntoView() },
     },
     {
-      title:'Departments',
-      icon:<PiTestTube size={20} />,
-      onClick:() => { document.querySelector('#patient').scrollIntoView() },
-    },
-    {
-      title:'User Roles & Permissions',
-      icon:<PiUserCircleDuotone size={20} />,
-      onClick:() => { document.querySelector('#patient').scrollIntoView() },
-    },
-    {
-      title:'Appointment Settings',
-      icon:<BiCalendar size={20} />,
-      onClick:() => { document.querySelector('#patient').scrollIntoView() },
-    },
-    {
       title:'Payout Settings',
       icon:<RiBankCardLine size={20} />,
       onClick:() => {
@@ -195,88 +180,7 @@ const Profile = ({  }) => {
               <Button className={'px-14'} title={'Update Details'} />
             </div>
           </div>
-          : activeTab == 1 ?
-          <div className="p-7">
-            <div className="flex items-center justify-between gap-5">
-            <div className="">
-                <p className='text-base font-semibold' >Departments</p>
-                <p className='text-sm' >Set up and manage your respective departments.</p>
-            </div>
-            <Button onClick={toggleNewCategory} className={'!text-sm px-5 !w-fit !bg-light_blue'} title={'Add New Department'}  /> 
-            </div>
-            <div className="grid grid-cols-2 w-full gap-5 mt-7">
-              {
-                  departments.map((item,idx) => (
-                      <div key={idx} className='border rounded-xl p-5 bg-[#fcfcfd]' >
-                          <p className='text-sm font-medium mb-1'>{item.name}</p>
-                          <p>{item.users} user(s)</p>
-                          <div className="mt-7 flex items-center justify-end gap-5">
-                              <div className="flex items-center gap-3">
-                                  <button onClick={toggleEditCategory}><FaEdit className='opacity-80'  size={16 }/></button>
-                              </div>
-                          </div>
-                      </div>
-                  ))
-              }
-          </div>
-          </div>
-          : activeTab == 2 ?
-          <div className="p-7">
-            <div className="flex items-center justify-between gap-5">
-            <div className="">
-                <p className='text-base font-semibold' >User Roles & Permissions</p>
-                <p className='text-sm' >Manage user access levels and roles.</p>
-            </div>
-            <Button onClick={toggleInvite} className={'!text-sm px-5 !w-fit !bg-light_blue'} title={'Invite New User'}  /> 
-            </div>
-            <div className="mt-10">
-              <div className={`mt-5 text-[13px]`}>
-                <div className="header grid grid-cols-9 gap-3 px-5 font-medium">
-                    <p className='col-span-3 line-clamp-1' >User Info</p>
-                    <p className='line-clamp-2 col-span-2' >Phone Number</p>
-                    <p className='line-clamp-2 col-span-3' >Assigned Role</p>
-                    <p className='' >Action</p>
-                </div>
-                <div className="data text-text_color mt-3">
-                    {
-                        dummy.map((item,idx) => (
-                        <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} grid items-center grid-cols-9 gap-3 px-5 py-6 font-medium`}>
-                            <div className='col-span-3 overflow-x-hidden flex items-center gap-1' >
-                                <img className='w-8' src={avatar} alt="user" />
-                                <div className="">
-                                  <p className='line-clamp-1'>{item.user}</p>
-                                  <p className='line-clamp-1'>{item.email}</p>
-                                </div>
-                              </div>
-                              <p className='line-clamp-1 col-span-2'>{item.phone}</p>
-                              <p className='line-clamp-1 col-span-3'>{item.role}</p>
-                            <button onClick={(e) => handleClickEllipses(e,idx)} className='relative z-50' ><FaEllipsisH className='opacity-60 ' />
-                                    { idx == activeItem ? 
-                                        <div className="z-10 origin-top-right absolute right-5 mt-2 w-40 rounded-md shadow-lg bg-white">
-                                            <div className="bg-white py-2 p-2 w-full relative z-10">
-                                                <button 
-                                                    onClick={toggleChangeRole} 
-                                                    className="whitespace-nowrap flex items-center gap-2 w-full rounded-md px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
-                                                    <BiEdit size={17} /> Change Role
-                                                </button> 
-                                                <button 
-                                                    onClick={null} 
-                                                    className="whitespace-nowrap flex items-center gap-2 text-red-700 w-full rounded-md px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
-                                                    <BiTrash size={17} /> Delete User
-                                                </button> 
-                                            </div>
-                                        </div> : null
-                                    }
-                            </button>
-                        </div>
-                        )) 
-                    }
-
-                </div>
-              </div>
-            </div>
-          </div>
-          : activeTab == 4 ? 
+          : activeTab == 1 ? 
           <div className=" p-10 pt-7">
             <div className="flex justify-between">
                 <div id='patient' className="">
@@ -299,7 +203,7 @@ const Profile = ({  }) => {
               <Button className={'px-14'} title={'Update'} />
             </div>
           </div>
-          : activeTab == 5 ?
+          : activeTab == 2 ?
           <div className=" p-10 pt-7">
             <div className="flex justify-between">
                 <div id='patient' className="">

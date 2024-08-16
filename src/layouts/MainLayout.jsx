@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { IoLogOut } from 'react-icons/io5';
 import { Outlet, useNavigate } from 'react-router-dom'
 import logo from '/favicon.png';
 import { AiOutlineHome } from "react-icons/ai";
@@ -7,20 +6,13 @@ import avatar from '../assets/images/avatar.svg';
 import admin from '../assets/images/admin.png';
 import { BiCalendarEvent, BiCaretDown, BiLogOut, BiUser } from 'react-icons/bi';
 import { LuSettings2, LuSheet, LuTestTube } from 'react-icons/lu';
-import { BsBellFill, BsCurrencyDollar } from 'react-icons/bs';
-import { PiPlusBold } from 'react-icons/pi';
-import { FcStatistics } from 'react-icons/fc';
 
-
-import bank from '../assets/images/Bank.svg';
-import test from '../assets/images/Test.svg';
-import earn from '../assets/images/Earn.svg';
 import { CgClose } from 'react-icons/cg';
+import { FaMoneyBillTransfer } from 'react-icons/fa6';
 
 const MainLayout = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState(0);
-    const [showActivities, setShowActivities] = useState(false);
     const [headerInfo, setHeaderInfo] = useState({
         header:'Dashboard Overview',
         sub:'Manage and analyze your patient statistics.',
@@ -38,21 +30,21 @@ const MainLayout = () => {
             }
         },
         {
-            title:'Referrals',
-            link:'referrals',
+            title:'Users',
+            link:'users',
             icon:BiUser,
-            info:{
-                header:'Referrals Management',
-                sub:'View a list of all referred patients, including those who have not yet booked an appointment.',
-            }
-        },
-        {
-            title:'Referrers',
-            link:'referrers',
-            icon:PiPlusBold,
             info:{
                 header:'Referrer Management',
                 sub:'View and manage a list of all registered doctors/referrers.',
+            }
+        },
+        {
+            title:'Transactions',
+            link:'transactions',
+            icon:FaMoneyBillTransfer,
+            info:{
+                header:'Referrals Management',
+                sub:'View a list of all referred patients, including those who have not yet booked an appointment.',
             }
         },
         {
@@ -65,6 +57,10 @@ const MainLayout = () => {
             }
         },
     ]
+
+    const logout = () => {
+        navigate('login');
+    }
 
 
         
@@ -112,7 +108,7 @@ const MainLayout = () => {
                 ))
             }
         </div>
-        <button className='mt-auto font-semibold text-red-800 flex items-center gap-2 pl-7'>
+        <button onClick={logout} className='mt-auto font-semibold text-red-800 flex items-center gap-2 pl-7'>
             <BiLogOut/>
             <p>Logout</p>
         </button>
