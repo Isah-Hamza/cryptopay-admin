@@ -5,14 +5,11 @@ import Select from '../../../components/Inputs/Select'
 import Button from '../../../components/Button'
 import { CgClose } from 'react-icons/cg'
 import stacey from '../../../assets/images/stacey.svg'
-import { MdOutlineEmail } from 'react-icons/md'
-import completed from '../../../assets/images/completed.svg'
-import New from '../../../components/Referral/New'
 import { useLocation } from 'react-router-dom'
 import reactivateIcon from '../../../assets/images/reactivate.svg'
 import deactivateIcon from '../../../assets/images/deactivate_user.svg'
 
-const Referrers = () => {
+const Users = () => {
     
     const query = useLocation().search.split('=')[1];
     const [acitveTab, setActiveTab] = useState(0);
@@ -70,56 +67,56 @@ const Referrers = () => {
             email:'gerald37@hotmail.com',
             phone:'601-671-8795',
             gender:'Female',
-            test:'41',
-            rebate:'₦121,000',
+            balance:'$1,500',
+            total_profit:'$250',
         },
         {
             name:'Luke Hudsonlee Jack',
             email:'earnestine_macejkovic89@yahoo.com',
             phone:'528-323-1027',
             gender:'Male',
-            test:'3',
-            rebate:'₦103,000',
+            balance:'$5,000',
+            total_profit:'$305',
         },
         {
             name:'Anthony Von',
             email:'emily.rolfson@hotmail.com',
             phone:'366-430-1102',
             gender:'Male',
-            test:'23',
-            rebate:'₦34,500',
+            balance:'$12,050',
+            total_profit:'$550',
         },
         {
             name:'Stacey Jacobs Volkswagon',
             email:'mohammad.schimmel@gmail.com',
             phone:'448-970-7550',
             gender:'Female',
-            test:'2',
-            rebate:'₦21,000',
+            balance:'$21,000',
+            total_profit:'$1,500',
         },
         {
             name:'Luke Hudson',
             email:'earnestine_macejkovic89@yahoo.com',
             phone:'528-323-1027',
             gender:'Male',
-            test:'19',
-            rebate:'₦55,500',
+            balance:'$1,900',
+            total_profit:'$550',
         },
         {
             name:'Anthony Von',
             email:'emily.rolfson@hotmail.com',
             phone:'366-430-1102',
             gender:'Male',
-            test:'106',
-            rebate:'₦600,000',
+            balance:'$1,100',
+            total_profit:'$99',
         },
         {
             name:'Stacey Jacobs',
             email:'mohammad.schimmel@gmail.com',
             phone:'448-970-7550',
             gender:'Female',
-            test:'2',
-            rebate:'₦21,000',
+            balance:'$850',
+            total_profit:'$76',
         },
     ]
 
@@ -242,8 +239,8 @@ const Referrers = () => {
                 <p className='col-span-2 line-clamp-1' >Full Name</p>
                 <p className='col-span-2 line-clamp-1' >Email Address</p>
                 <p className='' >Phone Number</p>
-                <p className='' >Total Referrals</p>
-                <p className='' >Total Rebate</p>
+                <p className='' >Wallet Balance</p>
+                <p className='' >Profit Earned</p>
                 <p className='' >Action</p>
             </div>
             <div className="data  text-text_color mt-3">
@@ -256,9 +253,12 @@ const Referrers = () => {
                     </div>
                     <p className='col-span-2 line-clamp-1' >{item.email}</p>
                     <p className='' >{item.phone}</p>
-                    <p className='' >{item.test}</p>
-                    <p className='' >{item.rebate}</p>
-                    <p onClick={toggleViewDetails} className='font-semibold text-light_blue cursor-pointer' >View Details</p>
+                    <p className='' >{item.balance}</p>
+                    <p className='' >{item.total_profit}</p>
+                    <div className="flex gap-3">
+                        <p onClick={toggleViewDetails} className='font-semibold text-light_blue cursor-pointer' >View</p>
+                        <p onClick={toggleViewDetails} className='font-semibold text-green-800 cursor-pointer' >Save</p>
+                    </div>
                     </div>
                     )) 
                 }
@@ -293,16 +293,16 @@ const Referrers = () => {
                     </div>
                 </div>
                 <div className="relative pt-5 border-b pb-5">
-                    <div className={`transition-all duration-300 absolute h-0.5 w-28 bg-primary left-2.5 bottom-0 ${acitveInnerTab == 1 && '!left-[131px] !w-20'} ${acitveInnerTab == 2 && '!left-[220px] w-[95px]'}`}></div>
+                    <div className={`transition-all duration-300 absolute h-0.5 w-28 bg-primary left-2.5 bottom-0 ${acitveInnerTab == 1 && '!left-[127px] !w-28'} ${acitveInnerTab == 2 && '!left-[220px] w-[95px]'}`}></div>
                     <div className="flex gap-7 text-sm pl-4">
                         {
-                            ['Rebate History', 'Referrals', 'User Details'].map((item, idx) => (
+                            ['Rebate History', 'User Details'].map((item, idx) => (
                                 <button onClick={() => setActiveInnerTab(idx)} className={`opacity-70  ${acitveInnerTab==idx && 'font-semibold opacity-100'}`} key={idx}>{item}</button>
                             ))
                         }
                     </div>
                 </div>
-                {acitveInnerTab !== 2 ? <div className="p-5 text-sm">
+                {acitveInnerTab == 0 ? <div className="p-5 text-sm">
                     <div className="mt-3 grid grid-cols-2 gap-5">
                         {
                             test_stats.map((item,idx) => (
@@ -339,28 +339,7 @@ const Referrers = () => {
 
                     </div>
                 </div>
-                <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 1 && '!block'}`}>
-                    <div className="header grid grid-cols-5 gap-3 px-5 font-medium">
-                        <p className='line-clamp-1 col-span-2' >Referral</p>
-                        <p className='' >Recurring</p>
-                        <p className='' >Completed Tests</p>
-                        <p className='' >Action</p>
-                    </div>
-                    <div className="data  text-text_color mt-3 mb-10">
-                        {
-                            dummyDetails2.map((item,idx) => (
-                            <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-5 gap-3 px-5 py-6 font-medium`}>
-                            <p className='line-clamp-1 col-span-2' >{item.refer}</p>
-                            <p className='line-clamp-1' >{item.recurring}</p>
-                            <p className='' >{item.completed_tests}</p>
-                            <p onClick={null} className='font-semibold text-light_blue cursor-pointer pl-2' >View</p>
-                            </div>
-                            )) 
-                        }
-
-                    </div>
-                </div>
-                <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 2 && '!block'} pb-5`}>
+                <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 1 && '!block'} pb-5`}>
                      <div className="px-5 text-base">
                         <p className='text-base font-semibold'>Other Information</p>
                         <div className="flex gap-2 mt-3 text-sm">
@@ -437,4 +416,4 @@ const Referrers = () => {
   )
 }
 
-export default Referrers
+export default Users

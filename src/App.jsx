@@ -7,9 +7,9 @@ import VerifyOTP from './pages/Auth/VerifyOTP';
 import ChangePassword from './pages/Auth/ChangePassword';
 import Dashboard from './pages/Main/Dashboard';
 import MainLayout from './layouts/MainLayout';
-import Referrals from './pages/Main/Referrals';
-import Referrers from './pages/Main/Referrers';
 import Profile from './pages/Main/Profile';
+import Users from './pages/Main/Users';
+import Transactions from './pages/Main/Transactions';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -21,11 +21,11 @@ function App() {
     },
     {
       path:'/transactions',
-      Component:Referrals,
+      Component:Transactions,
     },
     {
       path:'/users',
-      Component:Referrers,
+      Component:Users,
     },
     {
       path:'/settings',

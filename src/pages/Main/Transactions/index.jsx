@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
-import Input from '../../components/Inputs'
+import Input from '../../../components/Inputs'
 import { BiCopy, BiCopyAlt, BiPhoneIncoming, BiSearch, BiUser } from 'react-icons/bi'
-import Select from '../../components/Inputs/Select'
-import Button from '../../components/Button'
+import Select from '../../../components/Inputs/Select'
 import { CgClose } from 'react-icons/cg'
-import stacey from '../../assets/images/stacey.svg'
-import { MdOutlineEmail } from 'react-icons/md'
-import completed from '../../assets/images/completed.svg'
-import New from '../../components/Referral/New'
+import New from '../../../components/Referral/New'
 import { useLocation } from 'react-router-dom'
 
-const Referrals = () => {
+const Transactions = () => {
     
     const query = useLocation().search.split('=')[1];
     const [acitveTab, setActiveTab] = useState(0);
@@ -264,4 +260,4 @@ const Referrals = () => {
   )
 }
 
-export default Referrals
+export default Transactions
