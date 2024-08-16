@@ -35,18 +35,18 @@ const Dashboard = () => {
     const today_booking = [
         {
             name:'Felix Otti',
-            tests: 4,
-            time:'10:00am - 11:00am',
+            amount: '$400',
+            time:'10:00am',
         },
         {
             name:'Christine Jones',
-            tests: 4,
-            time:'02:00pm - 02:30pm',
+            amount: '$2,500',
+            time:'02:00pm',
         },
         {
             name:'Felix Otti',
-            tests: 4,
-            time:'10:00am - 11:00am',
+            amount: '$750',
+            time:'10:00am',
         },
     ]
 
@@ -150,18 +150,18 @@ const Dashboard = () => {
             <div className="flex gap-5 mt-5">
                 <div className="flex-1 bg-white rounded-xl border pb-3">
                     <div className="flex items-center justify-between p-3 border-b">
-                        <p className='font-semibold' >Calendar Appointments</p>
+                        <p className='font-semibold' >Calendar</p>
                     </div>
                     <div className="mt-3 flex gap-3 px-5">
                         <Calendar className={'w-6/12'}  />
                         <div className="w-6/12">
-                            <p className='text-sm font-semibold mt-1' >Scheduled For The Day</p>
+                            <p className='text-sm font-semibold mt-1' >Transactions of the day</p>
                             <div className="grid gap-3 mt-5">
                                 {
                                     today_booking.map((item,idx) => (
                                         <div className='text-sm p-3 px-2 rounded-md border' key={idx}>
                                             <p className='font-semibold'>{item.name}</p>
-                                            <p className='text-xs line-clamp-1' >{item.tests} Test(s) booked &bull; {item.time} </p>
+                                            <p className='text-xs line-clamp-1' >Funded Wallet &bull; {item.amount} &bull; {item.time} </p>
                                         </div>
                                     ))
                                 }
@@ -169,16 +169,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="relative w-[28%] bg-black p-5 text-white rounded-xl">
-                    <p className='font-medium' >Appointment Stats</p>
-                    <div className="grid gap-2 mt-5 relative z-10">
-                        <p>210 Booked</p>
-                        <p>93 Paid</p>
-                        <p>14 Scheduled For Today</p>
-                        <Button className={'opacity-90 mt-10 text-sm'}  title='View More Details' />
-                    </div>
-                        <img className='absolute right-0 bottom-0' src={design} alt="" />
-                </div>
+               
             </div>
         </div>
         {/* <div className="w-4/6 max-h-[calc(100vh-115px)] overflow-y-auto">

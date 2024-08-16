@@ -18,11 +18,11 @@ const navigate = useNavigate();
         <div className="bg-white rounded-2xl max-w-[400px] py-6">
               <div className='px-7 border-red-600 border-l-8' >
                   <h4 className='font-semibold text-xl' >Welcome back, Admin</h4>
-                  <p className='text-sm text-text_color'>Manage referrers, earnings, bookings, and patient referrals efficiently today.</p>
+                  <p className='text-sm text-text_color'>Provide your login credentials to manage users, funds and profits.</p>
               </div>
               <div className="px-7">
                 <div className="mt-10">
-                    <Input label={'Email Address'} placeholder={'support@lifebridge.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
+                    <Input label={'Email Address'} placeholder={'example@gmail.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
                 </div>
                 <div className="mt-5">
                     <Input label={'Create Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
