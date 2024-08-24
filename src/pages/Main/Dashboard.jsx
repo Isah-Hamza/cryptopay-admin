@@ -55,7 +55,7 @@ const Dashboard = () => {
         <div className="mt-2">
             <div className="grid grid-cols-4 gap-5">
                 <div className="bg-white rounded-lg p-5 border">
-                    <p>Total Referrals</p>
+                    <p>Total Transactions</p>
                     <p className='font-semibold text-xl my-3'>232</p>
                     <div className="flex items-center justify-between gap-5 mt-5">
                         <p className='bg-[#C9E6FF] px-3 text-sm py-0.5 rounded-2xl' >+21</p>
@@ -66,7 +66,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div className="bg-white rounded-lg p-5 border">
-                    <p>Total Referrers</p>
+                    <p>Total Withdrawal</p>
                     <p className='font-semibold text-xl my-3'>3,109</p>
                     <div className="flex items-center justify-between gap-5 mt-5">
                         <p className='bg-[#C9E6FF] px-3 text-sm py-0.5 rounded-2xl' >+61</p>
@@ -77,7 +77,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div className="bg-white rounded-lg p-5 border">
-                    <p>Monthly Rebate Earned</p>
+                    <p>Total Wallet Fund</p>
                     <p className='font-semibold text-xl my-3'>₦3,009,100</p>
                     <div className="flex text-sm items-center gap-1 mt-5">
                         <div className="text-green-500 font-medium flex items-center gap-1">
@@ -88,7 +88,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div className="bg-white rounded-lg p-5 border">
-                    <p>Total Payouts Settled</p>
+                    <p>Total Profit Made</p>
                     <p className='font-semibold text-xl my-3'>₦1,440,900</p>
                     <div className="flex text-sm items-center gap-1 mt-5">
                         <span>Payment</span>

@@ -151,8 +151,8 @@ const Transactions = () => {
                 <p className='col-span-2 line-clamp-1' >Email Address</p>
                 <p className='' >Phone Number</p>
                 <p className='' >Gender</p>
-                <p className='' >Test Completed</p>
-                <p className='' >Rebate Earned</p>
+                <p className='' >Date & Time</p>
+                <p className='' >Profit Earaned</p>
                 <p className='' >Action</p>
             </div>
             <div className="data  text-text_color mt-3">

@@ -1,4 +1,4 @@
-import { useState } from 'react' 
+import { useEffect, useState } from 'react' 
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Auth/Login'
@@ -10,6 +10,7 @@ import MainLayout from './layouts/MainLayout';
 import Profile from './pages/Main/Profile';
 import Users from './pages/Main/Users';
 import Transactions from './pages/Main/Transactions';
+import axios from 'axios';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -32,6 +33,19 @@ function App() {
       Component:Profile,
     },
   ]
+
+  
+  useEffect(async () => {
+
+    await axios.get('http://127.0.0.1:8000/api/profile',{
+      headers:{
+        Authorization:"Bearer 5|seN7PFUtoG6AqivH0YDGiN9es6mhFObxIOAv5L032f556c01"
+      }
+    }).then(res => console.log(res))
+    .catch(e => console.log(e))
+
+  }, [])
+  
 
   return ( 
     <>
