@@ -11,8 +11,17 @@ import Profile from './pages/Main/Profile';
 import Users from './pages/Main/Users';
 import Transactions from './pages/Main/Transactions';
 import axios from 'axios';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
+
+export const queryClient = new QueryClient();
+
 
 function App() {
+
+
 
   const mainRoutes = [
     {
@@ -51,6 +60,17 @@ function App() {
 
   return ( 
     <>
+    <ToastContainer
+      theme="colored"
+      hideProgressBar
+      pauseOnHover
+      draggable
+      autoClose={true}
+      closeOnClick={true}
+      stacked={false}
+      position="top-right"
+  />
+    <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Routes>
         <Route path='/' Component={Login} />
@@ -69,6 +89,8 @@ function App() {
       </Routes>
 
     </BrowserRouter>
+    </QueryClientProvider>
+
     </>
   )
 }

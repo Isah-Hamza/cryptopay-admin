@@ -1,10 +1,12 @@
 import axios from "axios";
 
 const DEBUG = process.env.NODE_ENV === "development";
+const url = 'http://127.0.0.1:8000';
 
 export const axiosClient = () => {
   let axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL,
+    // baseURL: import.meta.env.VITE_BASE_URL,
+    baseURL: url,
     headers: {
       Accept: "application/json",
     },
@@ -12,9 +14,8 @@ export const axiosClient = () => {
   
   axiosInstance.interceptors.request.use(
     (config) => {
-      let token = window.localStorage.getItem("referrer-token") ?? JSON.parse(window.localStorage.getItem("referrer-user"))?.token ;
-      // let token = JSON.parse(window.localStorage.getItem("referrer-user"))?.token;
-
+      let token = window.localStorage.getItem("cryptopay-token");
+      
       if (token !== null && typeof token !== 'string' && token !== 'undefined' && token !== undefined) {
         token = JSON.parse(token);
       }

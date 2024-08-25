@@ -196,7 +196,10 @@ const Profile = ({  }) => {
                     <Input label={'Solanar Wallet Address'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
                 </div>
                 <div className="">
-                    <Input label={'Bitcoin Wallet Address'}  placeholder={'Isah Hamza Onipe'} icon={<BiUser size={22} />}/>
+                    <Input label={'Ethereum Wallet Address'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
+                </div>
+                <div className="">
+                    <Input label={'Bitcoin Wallet Address'}  placeholder={'0232322951'} icon={<BiUser size={22} />}/>
                 </div>
             </div>
             <div className='w-fit mt-10' >
