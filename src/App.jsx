@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react' 
+import { useEffect } from 'react' 
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Auth/Login'
@@ -13,7 +13,6 @@ import Transactions from './pages/Main/Transactions';
 import axios from 'axios';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   const mainRoutes = [
     {
@@ -35,16 +34,19 @@ function App() {
   ]
 
   
-  useEffect(async () => {
+  // useEffect(async () => {
 
-    await axios.get('http://127.0.0.1:8000/api/profile',{
-      headers:{
-        Authorization:"Bearer 5|seN7PFUtoG6AqivH0YDGiN9es6mhFObxIOAv5L032f556c01"
-      }
-    }).then(res => console.log(res))
-    .catch(e => console.log(e))
+  //   await axios.patch('http://127.0.0.1:8000/api/transactions/1', {
+  //     status:2,
+  //     profit:100,
+  //   },{
+  //     headers:{
+  //       Authorization:"Bearer 7|1yaaHPAo141WMnjmeOlzIgO6MQvhAxJulxZ6Lmcpe0a1bfc1"
+  //     }
+  //   }, ).then(res => console.log(res))
+  //   .catch(e => console.log(e))
 
-  }, [])
+  // }, []);
   
 
   return ( 

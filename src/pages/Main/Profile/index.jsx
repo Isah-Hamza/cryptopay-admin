@@ -189,14 +189,14 @@ const Profile = ({  }) => {
                 </div>
             </div>
             <div className="mt-5 grid gap-5 max-w-[600px]">
-              <div className="mt-5">
-                    <Select label={'Bank Name'} options={[]} icon={<RiBankCard2Line size={22} />}/>
+                <div className="">
+                    <Input label={'USDT Wallet Address'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
                 </div>
                 <div className="">
-                    <Input label={'Account Number'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
+                    <Input label={'Solanar Wallet Address'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
                 </div>
                 <div className="">
-                    <Input label={'Account Name'}  placeholder={'Isah Hamza Onipe'} icon={<BiUser size={22} />}/>
+                    <Input label={'Bitcoin Wallet Address'}  placeholder={'Isah Hamza Onipe'} icon={<BiUser size={22} />}/>
                 </div>
             </div>
             <div className='w-fit mt-10' >
