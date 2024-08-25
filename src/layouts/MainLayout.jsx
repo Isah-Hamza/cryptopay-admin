@@ -59,6 +59,8 @@ const MainLayout = () => {
     ]
 
     const logout = () => {
+        localStorage.removeItem('cryptopay-token')
+        localStorage.removeItem('cryptopay-user')
         navigate('login');
     }
 

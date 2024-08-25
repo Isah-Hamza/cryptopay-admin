@@ -1,14 +1,12 @@
-import {toast} from "react-toastify";
-import {CustomSuccessToast} from "../components/customtoast";
-import customToastComponent from "../components/Toast/customToast";
+import {toast} from "react-toastify"; 
 import moment from "moment";
 
 export const successToast = (msg) => {
-  customToastComponent(msg ?? "Operation successful!");
+  toast.success(msg ?? "Operation successful!");
 };
 
 export const errorToast = (msg) => {
-  customToastComponent(msg ?? "An Error Occured!",true);
+  toast.error(msg ?? "An Error Occured!");
   // toast.error(msg ?? "Operation failed. Try again!", {theme: "light"});
 };
 
