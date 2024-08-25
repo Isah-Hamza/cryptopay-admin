@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../../../components/Inputs'
 import { BiCopy, BiCopyAlt, BiPhoneIncoming, BiSearch, BiTrash, BiUser } from 'react-icons/bi'
 import Select from '../../../components/Inputs/Select'
@@ -8,12 +8,16 @@ import stacey from '../../../assets/images/stacey.svg'
 import { useLocation } from 'react-router-dom'
 import reactivateIcon from '../../../assets/images/reactivate.svg'
 import deactivateIcon from '../../../assets/images/deactivate_user.svg'
+import { useMutation, useQuery } from 'react-query'
+import Auth from '../../../services/Auth'
+import PageLoading from '../../../Loader/PageLoading'
 
 const Users = () => {
     
-    const query = useLocation().search.split('=')[1];
     const [acitveTab, setActiveTab] = useState(0);
     const [acitveInnerTab, setActiveInnerTab] = useState(0);
+    const [selectedUser, setSelectedUser] = useState(null);
+
 
     const [viewDetails, setViewDetails] = useState(false);
     const [reactivate, setReactivate] = useState(false);
@@ -61,65 +65,6 @@ const Users = () => {
         },
     ]
 
-    const dummy = [
-        {
-            name:'Marcia Cronin ',
-            email:'gerald37@hotmail.com',
-            phone:'601-671-8795',
-            gender:'Female',
-            balance:'$1,500',
-            total_profit:'$250',
-        },
-        {
-            name:'Luke Hudsonlee Jack',
-            email:'earnestine_macejkovic89@yahoo.com',
-            phone:'528-323-1027',
-            gender:'Male',
-            balance:'$5,000',
-            total_profit:'$305',
-        },
-        {
-            name:'Anthony Von',
-            email:'emily.rolfson@hotmail.com',
-            phone:'366-430-1102',
-            gender:'Male',
-            balance:'$12,050',
-            total_profit:'$550',
-        },
-        {
-            name:'Stacey Jacobs Volkswagon',
-            email:'mohammad.schimmel@gmail.com',
-            phone:'448-970-7550',
-            gender:'Female',
-            balance:'$21,000',
-            total_profit:'$1,500',
-        },
-        {
-            name:'Luke Hudson',
-            email:'earnestine_macejkovic89@yahoo.com',
-            phone:'528-323-1027',
-            gender:'Male',
-            balance:'$1,900',
-            total_profit:'$550',
-        },
-        {
-            name:'Anthony Von',
-            email:'emily.rolfson@hotmail.com',
-            phone:'366-430-1102',
-            gender:'Male',
-            balance:'$1,100',
-            total_profit:'$99',
-        },
-        {
-            name:'Stacey Jacobs',
-            email:'mohammad.schimmel@gmail.com',
-            phone:'448-970-7550',
-            gender:'Female',
-            balance:'$850',
-            total_profit:'$76',
-        },
-    ]
-
     const dummyDetails = [
         {
             date:'09/10/2024',
@@ -151,46 +96,30 @@ const Users = () => {
         },
     ]
 
-    const dummyDetails2 = [
-        {
-            refer:'Stanley Stacey',
-            recurring:3,
-            completed_tests:390,
-        },
-        {
-            refer:'Beverly Weimann',
-            recurring:1,
-            completed_tests:21,
-        },
-        {
-            refer:'Ramona Witting',
-            recurring:5,
-            completed_tests:11,
-        },
-        {
-            refer:'Jerome Prohaska',
-            recurring:9,
-            completed_tests:35,
-        },
-        {
-            refer:'Brendan Schoen',
-            recurring:27,
-            completed_tests:44,
-        },
-    ]
 
+    
+    const { isLoading:loadingUsers, data:users } = useQuery('users', Auth.GetUsers)
+    const { isLoading:loadingUser, data:user, mutate:getUser } = useMutation(Auth.GetUser);
+    
     const test_stats = [
         {
-            title:'Total Rebate Earned',
-            value:'₦2,800,000',
+            title:'Wallet Amount',
+            value:'$'+user?.data?.data?.wallet?.amount?.toLocaleString('en-US'),
         },
         {
-            title:'Pending Rebate',
-            value:'₦280,000',
+            title:'Profit Earned',
+            value:'$'+user?.data?.data?.wallet?.profit?.toLocaleString('en-US'),
         },
     ]
 
-    const details = []
+    useEffect(() => {
+        if(selectedUser) getUser(selectedUser);
+    }, [selectedUser])
+
+
+    if(loadingUsers){
+        return <PageLoading />
+    }
 
   return (
   <>
@@ -204,9 +133,9 @@ const Users = () => {
                     ))
                 }
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1">
                 <Input className={'!rounded-3xl !py-2.5 !min-w-[300px]'} placeholder={'Type user name here...'} icon={<BiSearch size={20} className='text-custom_gray' />} />
-                <Select className={'!rounded-3xl !py-2.5 !min-w-[120px]'} options={[ { label:'All Status',value:null }, {label:'Completed',value:''},{label:'Ongoing'}]} />
+                {/* <button className={'border text-sm !rounded-3xl !py-2.5 !min-w-[120px]'} >Search</button> */}
             </div>
         </div>
        { 
@@ -245,7 +174,7 @@ const Users = () => {
             </div>
             <div className="data  text-text_color mt-3">
                 {
-                    dummy.map((item,idx) => (
+                    users?.data?.data?.data?.map((item,idx) => (
                     <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-8  gap-3 px-5 py-6 font-medium`}>
                     <div className="flex items-center gap-2 col-span-2 line-clamp-1">
                         <img className='w-8' src={stacey} alt="stacey" />
@@ -253,10 +182,13 @@ const Users = () => {
                     </div>
                     <p className='col-span-2 line-clamp-1' >{item.email}</p>
                     <p className='' >{item.phone}</p>
-                    <p className='' >{item.balance}</p>
-                    <p className='' >{item.total_profit}</p>
+                    <p className='' >${item?.wallet?.amount.toLocaleString('en-US')}</p>
+                    <p className='' >${item?.wallet?.profit.toLocaleString('en-US')}</p>
                     <div className="flex gap-3">
-                        <p onClick={toggleViewDetails} className='font-semibold text-light_blue cursor-pointer' >View</p>
+                        <p onClick={() => {
+                            setSelectedUser(item.id);
+                            toggleViewDetails();
+                            }} className='font-semibold text-light_blue cursor-pointer' >View</p>
                         <p onClick={toggleViewDetails} className='font-semibold text-green-800 cursor-pointer' >Save</p>
                     </div>
                     </div>
@@ -267,119 +199,127 @@ const Users = () => {
         </div>
         }
        {viewDetails ? <div className="fixed inset-0 bg-black/70 flex justify-end">
-            <div className="bg-white w-[450px] max-h-screen overflow-y-auto">
-                <div className="flex items-center justify-between p-3 border-b">
-                    <p className='font-semibold' >Referral Details</p>
-                    <button onClick={toggleViewDetails} className="font-medium flex items-center gap-2">
-                        <span>Close</span>
-                        <CgClose />
-                    </button>
+            {
+                loadingUser ? 
+                <div className="bg-white w-[450px] h-screen grid place-content-center overflow-y-auto">
+                    <PageLoading />
                 </div>
-                <div className="flex flex-col gap-1 border-b p-5">
-                    {/* <img className='w-16 mx-auto' src={stacey} alt="stacey" /> */}
-                    <div className="flex gap-5 items-center">
-                        <img className='w-40' src={stacey} alt="stacey" />
-                        <div className="grid gap-2 text-sm">
-                            <p className=' font-semibold text-lg' >Stacey Jacobs</p>
-                            <div className="flex flex-col ">
-                                <p className='font-medium' >Email Address</p>
-                                <p className='line-clamp-1 underline text-light_blue' >earnestine_macejkovic89@yahoo.com</p>
-                            </div>
-                            <div className="flex flex-col">
-                                <p className='font-medium' >Phone Number</p>
-                                <p className='line-clamp-1' >299-470-4508</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="relative pt-5 border-b pb-5">
-                    <div className={`transition-all duration-300 absolute h-0.5 w-28 bg-primary left-2.5 bottom-0 ${acitveInnerTab == 1 && '!left-[127px] !w-28'} ${acitveInnerTab == 2 && '!left-[220px] w-[95px]'}`}></div>
-                    <div className="flex gap-7 text-sm pl-4">
-                        {
-                            ['Rebate History', 'User Details'].map((item, idx) => (
-                                <button onClick={() => setActiveInnerTab(idx)} className={`opacity-70  ${acitveInnerTab==idx && 'font-semibold opacity-100'}`} key={idx}>{item}</button>
-                            ))
-                        }
-                    </div>
-                </div>
-                {acitveInnerTab == 0 ? <div className="p-5 text-sm">
-                    <div className="mt-3 grid grid-cols-2 gap-5">
-                        {
-                            test_stats.map((item,idx) => (
-                                <div key={idx} className='border rounded-lg p-3' >
-                                    <p className='font-semibold text-lg'>{item.value}</p>
-                                    <p className='text-xs' >{item.title}</p>
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div> : null }
-                <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 0 && '!block'}`}>
-                    <div className="header grid grid-cols-6 gap-3 px-5 font-medium">
-                        <p className='line-clamp-1' >Date</p>
-                        <p className='line-clamp-1' >Referral</p>
-                        <p className='' >Test</p>
-                        <p className='' >Rebate</p>
-                        <p className='' >Status</p>
-                        <p className='' >Action</p>
-                    </div>
-                    <div className="data  text-text_color mt-3 mb-10">
-                        {
-                            dummyDetails.map((item,idx) => (
-                            <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-6  gap-3 px-5 py-6 font-medium`}>
-                            <p className='line-clamp-1' >{item.date}</p>
-                            <p className='line-clamp-1' >{item.refer}</p>
-                            <p className='' >{item.test}</p>
-                            <p className='' >{item.amount}</p>
-                            <p className='' >{item.status}</p>
-                            <p onClick={toggleViewDetails} className='font-semibold text-light_blue cursor-pointer pl-2' >View</p>
-                            </div>
-                            )) 
-                        }
-
-                    </div>
-                </div>
-                <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 1 && '!block'} pb-5`}>
-                     <div className="px-5 text-base">
-                        <p className='text-base font-semibold'>Other Information</p>
-                        <div className="flex gap-2 mt-3 text-sm">
-                            <p className='font-medium' >Registration Date:</p>
-                            <p className='line-clamp-1' >July 12, 2024</p>
-                        </div>
-                        <div className="flex gap-2 mt-3 text-sm">
-                            <p className='font-medium' >Hospital Name:</p>
-                            <p className='line-clamp-1' >John Doe Hospital</p>
-                        </div>
-                        <div className="flex gap-2 mt-3 text-sm">
-                            <p className='font-medium' >Location:</p>
-                            <p className='line-clamp-1' >N/A</p>
-                        </div>
-                        <div className="flex gap-2 mt-3 text-sm">
-                            <p className='font-medium' >Professinal Title:</p>
-                            <p className='line-clamp-1' >Gynecologist</p>
-                        </div>
-                    </div>
-                    <div className="mt-10 px-5 text-base">
-                        <p className='text-base font-semibold'>Payout Information</p>
-                        <div className="flex gap-2 mt-3 text-sm">
-                            <p className='font-medium' >Account Name:</p>
-                            <p className='line-clamp-1' >John Doe</p>
-                        </div>
-                        <div className="flex gap-2 mt-3 text-sm">
-                            <p className='font-medium' >Account Number:</p>
-                            <p className='line-clamp-1' > 1234 - 5678 - 901</p>
-                        </div>
-                        <div className="flex gap-2 mt-3 text-sm">
-                            <p className='font-medium' >Bank Name:</p>
-                            <p className='line-clamp-1' >Lifebridge Bank PLC</p>
-                        </div>
-                        <button onClick={toggleDeactivate} className="flex text-red-700 font-semibold items-center gap-2 my-6 text-sm">
-                            <BiTrash size={18} className='' /> <span>Deactivate Account</span>
+                :
+                <div className="bg-white w-[450px] max-h-screen overflow-y-auto">
+                    <div className="flex items-center justify-between p-3 border-b">
+                        <p className='font-semibold' >Referral Details</p>
+                        <button onClick={toggleViewDetails} className="font-medium flex items-center gap-2">
+                            <span>Close</span>
+                            <CgClose />
                         </button>
                     </div>
-                   
+                    <div className="flex flex-col gap-1 border-b p-5">
+                        {/* <img className='w-16 mx-auto' src={stacey} alt="stacey" /> */}
+                        <div className="flex gap-5 items-center">
+                            <img className='w-40' src={stacey} alt="stacey" />
+                            <div className="grid gap-2 text-sm">
+                                <p className=' font-semibold text-lg' >{user?.data?.data?.name}</p>
+                                <div className="flex flex-col ">
+                                    <p className='font-medium' >Email Address</p>
+                                    <p className='line-clamp-1 underline text-light_blue' >{user?.data?.data?.email}</p>
+                                </div>
+                                <div className="flex flex-col">
+                                    <p className='font-medium' >Phone Number</p>
+                                    <p className='line-clamp-1' >{user?.data?.data?.phone}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="relative pt-5 border-b pb-5">
+                        <div className={`transition-all duration-300 absolute h-0.5 w-20 bg-primary left-2.5 bottom-0 ${acitveInnerTab == 1 && '!left-[100px] !w-28'} ${acitveInnerTab == 2 && '!left-[220px] w-[95px]'}`}></div>
+                        <div className="flex gap-7 text-sm pl-4">
+                            {
+                                ['Wallet Info', 'User Details'].map((item, idx) => (
+                                    <button onClick={() => setActiveInnerTab(idx)} className={`opacity-70  ${acitveInnerTab==idx && 'font-semibold opacity-100'}`} key={idx}>{item}</button>
+                                ))
+                            }
+                        </div>
+                    </div>
+                    {acitveInnerTab == 0 ? <div className="p-5 text-sm">
+                        <div className="mt-3 grid grid-cols-2 gap-5">
+                            {
+                                test_stats.map((item,idx) => (
+                                    <div key={idx} className='border rounded-lg p-3' >
+                                        <p className='font-semibold text-lg'>{item.value}</p>
+                                        <p className='text-xs' >{item.title}</p>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div> : null }
+                    <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 0 && '!block'}`}>
+                        <div className="header grid grid-cols-6 gap-3 px-5 font-medium">
+                            <p className='line-clamp-1' >Date</p>
+                            <p className='line-clamp-1' >Referral</p>
+                            <p className='' >Test</p>
+                            <p className='' >Rebate</p>
+                            <p className='' >Status</p>
+                            <p className='' >Action</p>
+                        </div>
+                        <div className="data  text-text_color mt-3 mb-10">
+                            {
+                                dummyDetails.map((item,idx) => (
+                                <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-6  gap-3 px-5 py-6 font-medium`}>
+                                <p className='line-clamp-1' >{item.date}</p>
+                                <p className='line-clamp-1' >{item.refer}</p>
+                                <p className='' >{item.test}</p>
+                                <p className='' >{item.amount}</p>
+                                <p className='' >{item.status}</p>
+                                <p onClick={toggleViewDetails} className='font-semibold text-light_blue cursor-pointer pl-2' >View</p>
+                                </div>
+                                )) 
+                            }
+
+                        </div>
+                    </div>
+                    <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 1 && '!block'} pb-5`}>
+                        <div className="px-5 text-base">
+                            <p className='text-base font-semibold'>Other Information</p>
+                            <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >Gender:</p>
+                                <p className='line-clamp-1' >{user?.data?.data?.gender}</p>
+                            </div>
+                            <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >Role:</p>
+                                <p className='line-clamp-1' >{user?.data?.data?.role ?? '-'}</p>
+                            </div> 
+                            <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >Address:</p>
+                                <p className='line-clamp-1' >{user?.data?.data?.address ?? '-'}</p>
+                            </div>
+                        </div>
+                        <div className="mt-10 px-5 text-base">
+                            <p className='text-base font-semibold'>Payout Information</p>
+                            <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >USDT Wallet Address:</p>
+                                <p className='line-clamp-1' >{user?.data?.data?.wallet?.usdt_wallet_address ?? '-'}</p>
+                            </div>
+                            <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >Bitcoin Wallet Address:</p>
+                                <p className='line-clamp-1' >{user?.data?.data?.wallet?.bitcoin_wallet_address ?? '-'}</p>
+                            </div>
+                            <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >Ethereum Wallet Address:</p>
+                                <p className='line-clamp-1' >{user?.data?.data?.wallet?.ethereum_wallet_address ?? '-'}</p>
+                            </div>
+                            <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >Solanar Wallet Address:</p>
+                                <p className='line-clamp-1' >{user?.data?.data?.wallet?.solanar_wallet_address ?? '-'}</p>
+                            </div>
+                            
+                            <button onClick={toggleDeactivate} className="flex text-red-700 font-semibold items-center gap-2 my-6 text-sm">
+                                <BiTrash size={18} className='' /> <span>Deactivate Account</span>
+                            </button>
+                        </div>
+                    
+                    </div>
                 </div>
-            </div>
+            }
         </div> : null}
         {
             reactivate ? 
