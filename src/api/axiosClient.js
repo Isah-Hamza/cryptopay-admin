@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const DEBUG = process.env.NODE_ENV === "development";
-const url = 'http://127.0.0.1:8000';
+const url = 'http://127.0.0.1:8000/api';
 
 export const axiosClient = () => {
   let axiosInstance = axios.create({
@@ -15,7 +15,7 @@ export const axiosClient = () => {
   axiosInstance.interceptors.request.use(
     (config) => {
       let token = window.localStorage.getItem("cryptopay-token");
-      
+
       if (token !== null && typeof token !== 'string' && token !== 'undefined' && token !== undefined) {
         token = JSON.parse(token);
       }

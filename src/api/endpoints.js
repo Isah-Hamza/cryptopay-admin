@@ -1,6 +1,7 @@
 const endpoints = {
   auth: {
     LOGIN:'login',
+    USERS:'users',
     // REGISTER:'register',
     // SETUP_PROFILE:'set-up-profile',
     // FORGOT_PASSWORD:'forgot-password',

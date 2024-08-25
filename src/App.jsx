@@ -65,7 +65,7 @@ function App() {
       hideProgressBar
       pauseOnHover
       draggable
-      autoClose={true}
+      autoClose={false}
       closeOnClick={true}
       stacked={false}
       position="top-right"
@@ -90,8 +90,7 @@ function App() {
 
     </BrowserRouter>
     </QueryClientProvider>
-
-    </>
+  </>
   )
 }
 
