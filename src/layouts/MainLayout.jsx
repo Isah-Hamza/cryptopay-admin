@@ -9,6 +9,8 @@ import { LuSettings2, LuSheet, LuTestTube } from 'react-icons/lu';
 
 import { CgClose } from 'react-icons/cg';
 import { FaMoneyBillTransfer } from 'react-icons/fa6';
+import { useQuery } from 'react-query';
+import Auth from '../services/Auth';
 
 const MainLayout = () => {
     const navigate = useNavigate();
@@ -64,6 +66,8 @@ const MainLayout = () => {
         navigate('login');
     }
 
+  const { isLoading:loadingProfile, data:profile } = useQuery('profile', Auth.GetProfile)
+
 
         
   useEffect(() => {
@@ -90,7 +94,7 @@ const MainLayout = () => {
         <button className="mt-10 w-full text-left bg-[#C9E6FF] p-2 rounded flex items-center gap-3">
             <img src={admin} alt="admin" />
             <div className='text-sm'>
-                <p className='font-semibold' >Emmanuella Hamza</p>
+                <p className='font-semibold' >{profile?.data?.data?.name}</p>
                 <p>Admin</p>
             </div>
             <span className='block ml-auto'><BiCaretDown /></span>
