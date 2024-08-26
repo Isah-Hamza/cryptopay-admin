@@ -21,6 +21,10 @@ import { FaEdit, FaEllipsisH, FaEyeSlash } from 'react-icons/fa';
 import { LuTestTube2 } from 'react-icons/lu';
 import stacey from '../../../assets/images/stacey.svg';
 import inviteImg from '../../../assets/images/reactivate.svg';
+import { useQuery } from 'react-query';
+import Auth from '../../../services/Auth';
+import PageLoading from '../../../Loader/PageLoading';
+import { useFormik } from 'formik';
 
 const Profile = ({  }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -63,20 +67,6 @@ const Profile = ({  }) => {
     },
   ]
 
-  const departments = [
-    {
-      name:'Radiology Department',
-      users:4,
-    },
-    {
-      name:'Laboratory Department',
-      users:4,
-    },
-    {
-      name:'Endoscopy',
-      users:4,
-    },
-  ]
 
   const handleClickEllipses = (e,id) => {
     if(activeItem == id)
@@ -85,47 +75,44 @@ const Profile = ({  }) => {
       setActiveItem(id);
   }
 
-  const dummy = [
-    {
-        user:'Jersey Russvelt',
-        email:'roosevelt.jersey@gmail.com',
-        phone:'903 2393 343',
-        role:'Tests - Gynaecology'
+  const { isLoading:loadingProfile, data:profile } = useQuery('profile', Auth.GetProfile)
+
+  const { getFieldProps } = useFormik({
+    enableReinitialize:true,
+    initialValues:{
+      email: profile?.data?.data?.email,
+      phone: profile?.data?.data?.phone,
+      gender: profile?.data?.data?.gender,
+      name: profile?.data?.data?.name,
     },
-    {
-        user:'Abdullahi Magdalene',
-        email:'abd.mag@hotmail.com',
-        phone:'801 4359 940',
-        role:'Finance'
+    onSubmit:values => {
+      console.log(values)
+    }
+  })
+
+  const { getFieldProps:walletGetFieldProps } = useFormik({
+    enableReinitialize:true,
+    initialValues:{
+      usdt_wallet_address: profile?.data?.data?.wallet?.usdt_wallet_address,
+      solanar_wallet_address: profile?.data?.data?.wallet?.solanar_wallet_address,
+      ethereum_wallet_address: profile?.data?.data?.wallet?.ethereum_wallet_address,
+      bitcoin_wallet_address: profile?.data?.data?.wallet?.bitcoin_wallet_address,
     },
-    {
-        user:'Jersey Russvelt',
-        email:'roosevelt.jersey@gmail.com',
-        phone:'903 2393 343',
-        role:'Tests - Gynaecology'
-    },
-    {
-        user:'Abdullahi Magdalene',
-        email:'abd.mag@hotmail.com',
-        phone:'801 4359 940',
-        role:'Finance'
-    },
-    {
-        user:'Jersey Russvelt',
-        email:'roosevelt.jersey@gmail.com',
-        phone:'903 2393 343',
-        role:'Tests - Gynaecology'
-    },
-    {
-        user:'Abdullahi Magdalene',
-        email:'abd.mag@hotmail.com',
-        phone:'801 4359 940',
-        role:'Finance'
-    },
-  ]
+    onSubmit:values => {
+      console.log(values)
+    }
+  })
+
+
+
 
   const close = () => {
     toggleSuccessful();
+  }
+
+  
+  if(loadingProfile){
+    return <PageLoading />
   }
 
 
@@ -164,16 +151,16 @@ const Profile = ({  }) => {
             </div>
             <div className="mt-10 grid grid-cols-2 gap-5 max-w-[600px]">
               <div className="">
-                  <Input label={'First Name'} placeholder={'John Doe'} icon={<CiUser size={24} />}/>
+                  <Input {...getFieldProps('name')} label={'First Name'} placeholder={'John Doe'} icon={<CiUser size={24} />}/>
               </div>
               <div className="">
-                  <Input label={'Last Name'} placeholder={'Doe'} icon={<CiUser size={24} />}/>
+                  <Input  {...getFieldProps('name')} label={'Last Name'} placeholder={'Doe'} icon={<CiUser size={24} />}/>
               </div>
               <div className=" col-span-2">
-                  <Input label={'Email Address'} placeholder={'support@lifebridge.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
+                  <Input disabled  {...getFieldProps('email')} label={'Email Address'} placeholder={'support@lifebridge.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
               </div>
               <div className=" col-span-2">
-                  <Input label={'Phone Number'} placeholder={'Phone Number'} icon={<BiPhoneIncoming size={24} />}/>
+                  <Input  {...getFieldProps('phone')} label={'Phone Number'} placeholder={'Phone Number'} icon={<BiPhoneIncoming size={24} />}/>
               </div>
             </div>
             <div className='w-fit mt-10' >
@@ -190,16 +177,16 @@ const Profile = ({  }) => {
             </div>
             <div className="mt-5 grid gap-5 max-w-[600px]">
                 <div className="">
-                    <Input label={'USDT Wallet Address'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
+                    <Input {...walletGetFieldProps('usdt_wallet_address')} label={'USDT Wallet Address'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
                 </div>
                 <div className="">
-                    <Input label={'Solanar Wallet Address'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
+                    <Input {...walletGetFieldProps('solanar_wallet_address')} label={'Solanar Wallet Address'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
                 </div>
                 <div className="">
-                    <Input label={'Ethereum Wallet Address'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
+                    <Input {...walletGetFieldProps('ethereum_wallet_address')} label={'Ethereum Wallet Address'}  placeholder={'0232322951'} icon={<MdOutlineAccountTree size={22} />}/>
                 </div>
                 <div className="">
-                    <Input label={'Bitcoin Wallet Address'}  placeholder={'0232322951'} icon={<BiUser size={22} />}/>
+                    <Input {...walletGetFieldProps('bitcoin_wallet_address')} label={'Bitcoin Wallet Address'}  placeholder={'0232322951'} icon={<BiUser size={22} />}/>
                 </div>
             </div>
             <div className='w-fit mt-10' >

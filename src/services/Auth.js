@@ -24,6 +24,34 @@ const GetUser = (id) => {
     .catch((error) => Promise.reject(error));
 };
 
+const GetTnxById = (id) => {
+  return axiosClient()
+    .get(endpoints.auth.TNX_BY_ID+'/'+id)
+    .then((res) => res)
+    .catch((error) => Promise.reject(error));
+};
+
+const GetTnxs = () => {
+  return axiosClient()
+    .get(endpoints.auth.TRANSACTIONS)
+    .then((res) => res)
+    .catch((error) => Promise.reject(error));
+};
+
+const GetProfile = () => {
+  return axiosClient()
+    .get(endpoints.auth.PROFILE)
+    .then((res) => res)
+    .catch((error) => Promise.reject(error));
+};
+
+const UpdateTnx = ({id, data}) => {
+  return axiosClient()
+    .patch(`${endpoints.auth.TRANSACTIONS}/${id}`,data)
+    .then((res) => res)
+    .catch((error) => Promise.reject(error));
+};
+
 
 // const SetupProfile = (data) => {
 //   return axiosClient()
@@ -55,5 +83,5 @@ const GetUser = (id) => {
 
 
 export default {
-  Login, GetUsers, GetUser,
+  Login, GetUsers, GetUser, GetTnxById, GetTnxs, GetProfile, UpdateTnx
 };

@@ -5,6 +5,10 @@ import Select from '../../../components/Inputs/Select'
 import { CgClose } from 'react-icons/cg'
 import New from '../../../components/Referral/New'
 import { useLocation } from 'react-router-dom'
+import Auth from '../../../services/Auth'
+import PageLoading from '../../../Loader/PageLoading'
+import { useQuery } from 'react-query'
+import moment from 'moment'
 
 const Transactions = () => {
     
@@ -119,12 +123,12 @@ const Transactions = () => {
         },
     ]
 
-    const details = [
-        {
+    const { isLoading:loadingTnx, data:tnx } = useQuery('tnx', Auth.GetTnxs)
 
-        }
-    ]
 
+    if(loadingTnx){
+        return <PageLoading />
+    }
 
 
   return (
@@ -133,9 +137,9 @@ const Transactions = () => {
    <div className='mt-3 w-full border border-custom_gray rounded-xl bg-white mb-7'>
         <div className="relative border-b p-3 flex justify-between items-center">
             <div className={`transition-all duration-300 absolute h-0.5 w-36 bg-primary left-5 bottom-0 ${acitveTab == 1 && '!left-[165px] w-48'}`}></div>
-            <div className="flex gap-14 text-sm pl-10">
+            <div className="flex gap-14 text-sm pl-6">
                 {
-                    ['All Referrals', 'No Test Appointments'].map((item, idx) => (
+                    ['All Transactions'].map((item, idx) => (
                         <button onClick={() => setActiveTab(idx)} className={`opacity-70  ${acitveTab==idx && 'font-semibold opacity-100'}`} key={idx}>{item}</button>
                     ))
                 }
@@ -146,25 +150,27 @@ const Transactions = () => {
             </div>
         </div>
         <div className="mt-5 text-[13px]">
-            <div className="header grid grid-cols-9 gap-3 px-5 font-medium">
+            <div className="header grid grid-cols-10 gap-3 px-5 font-medium">
                 <p className='col-span-2 line-clamp-1' >Full Name</p>
                 <p className='col-span-2 line-clamp-1' >Email Address</p>
                 <p className='' >Phone Number</p>
                 <p className='' >Gender</p>
+                <p className='' >Amount Deposited</p>
+                <p className='' >Profit Earned</p>
                 <p className='' >Date & Time</p>
-                <p className='' >Profit Earaned</p>
                 <p className='' >Action</p>
             </div>
             <div className="data  text-text_color mt-3">
                 {
-                    dummy.map((item,idx) => (
-                    <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-9  gap-3 px-5 py-6 font-medium`}>
-                    <p className='col-span-2 line-clamp-1' >{item.name}</p>
-                    <p className='col-span-2 line-clamp-1' >{item.email}</p>
-                    <p className='' >{item.phone}</p>
-                    <p className='' >{item.gender}</p>
-                    <p className='' >{item.test}</p>
-                    <p className='' >{item.rebate}</p>
+                    tnx?.data?.data?.data?.map((item,idx) => (
+                    <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-10  gap-3 px-5 py-6 font-medium`}>
+                    <p className='col-span-2 line-clamp-1' >{item.user.name}</p>
+                    <p className='col-span-2 line-clamp-1' >{item.user.email}</p>
+                    <p className='' >{item.user.phone}</p>
+                    <p className='' >{item.user.gender}</p>
+                    <p className='' >${item.amount.toLocaleString('en-US')}</p>
+                    <p className='' >${item.profit.toLocaleString('en-US')}</p>
+                    <p className='' >{moment(item.created_at).format('lll')}</p>
                     <p onClick={toggleViewDetails} className='font-semibold text-light_blue cursor-pointer' >View Details</p>
                     </div>
                     )) 

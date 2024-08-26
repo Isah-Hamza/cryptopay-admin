@@ -26,7 +26,7 @@ const MainLayout = () => {
             icon:AiOutlineHome,
             info: {
                 header:'Dashboard Overview',
-                sub:'Manage and analyze your patient statistics.',
+                sub:'Manage and analyze your users statistics.',
             }
         },
         {
@@ -34,8 +34,8 @@ const MainLayout = () => {
             link:'users',
             icon:BiUser,
             info:{
-                header:'Referrer Management',
-                sub:'View and manage a list of all registered doctors/referrers.',
+                header:'User Management',
+                sub:'View and manage a list of all registered users.',
             }
         },
         {
@@ -43,8 +43,8 @@ const MainLayout = () => {
             link:'transactions',
             icon:FaMoneyBillTransfer,
             info:{
-                header:'Referrals Management',
-                sub:'View a list of all referred patients, including those who have not yet booked an appointment.',
+                header:'Transaction Management',
+                sub:'View a list of all pending, completed and rejected transactions.',
             }
         },
         {

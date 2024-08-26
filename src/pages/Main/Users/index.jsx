@@ -11,9 +11,13 @@ import deactivateIcon from '../../../assets/images/deactivate_user.svg'
 import { useMutation, useQuery } from 'react-query'
 import Auth from '../../../services/Auth'
 import PageLoading from '../../../Loader/PageLoading'
+import moment from 'moment'
+import LoadingModal from '../../../Loader/LoadingModal'
+import { successToast } from '../../../utils/Helper'
 
 const Users = () => {
-    
+    const [profit, setProfit] = useState(0);
+
     const [acitveTab, setActiveTab] = useState(0);
     const [acitveInnerTab, setActiveInnerTab] = useState(0);
     const [selectedUser, setSelectedUser] = useState(null);
@@ -65,55 +69,53 @@ const Users = () => {
         },
     ]
 
-    const dummyDetails = [
-        {
-            date:'09/10/2024',
-            refer:'Stanley Stacey',
-            test:3,
-            status:'paid',
-            amount:'₦80,000',
-        },
-        {
-            date:'12/01/2023',
-            refer:'Stanley Stacey',
-            test:3,
-            status:'paid',
-            amount:'₦28,000',
-        },
-        {
-            date:'09/10/2024',
-            refer:'Hilda Bacci',
-            test:3,
-            status:'pending',
-            amount:'₦44,000',
-        },
-        {
-            date:'12/01/2023',
-            refer:'Emunne Ijeoma',
-            test:3,
-            status:'pending',
-            amount:'₦26,500',
-        },
-    ]
+    const statuses = {
+        1: <span className='text-sm text-yellow-600' >Pending</span>,
+        2: <span className='text-sm text-green-600' >Approved</span>,
+        3: <span className='text-sm text-red-600' >Rejected</span>
+    }
+
+    // const statuses = []
 
 
     
-    const { isLoading:loadingUsers, data:users } = useQuery('users', Auth.GetUsers)
+    const { isLoading:loadingUsers, data:users, refetch:refetchUsers} = useQuery('users', Auth.GetUsers)
     const { isLoading:loadingUser, data:user, mutate:getUser } = useMutation(Auth.GetUser);
+    const { isLoading:loadingTnx, data:tnx, mutate:getTnx } = useMutation(Auth.GetTnxById);
+    const { isLoading:updatingTnx, mutate:updateTnx } = useMutation(Auth.UpdateTnx, {
+        onSuccess: res => {
+            successToast(res.data.message);
+            getUser(selectedUser);
+            getTnx(selectedUser);
+        }
+    });
     
     const test_stats = [
         {
-            title:'Wallet Amount',
+            title:'Total Amount in Wallet',
             value:'$'+user?.data?.data?.wallet?.amount?.toLocaleString('en-US'),
         },
         {
-            title:'Profit Earned',
+            title:'Total Profit Earned',
             value:'$'+user?.data?.data?.wallet?.profit?.toLocaleString('en-US'),
+        },
+        {
+            title:'Transactions Count',
+            value: tnx?.data?.data?.total,
         },
     ]
 
+    const updateProfit = (e,idx) => {  
+
+        const data = { profit:Number(e.target.value) }
+        updateTnx({ data, id:idx });
+    }
+
     useEffect(() => {
-        if(selectedUser) getUser(selectedUser);
+        if(selectedUser) {
+            getUser(selectedUser);
+            getTnx(selectedUser);
+        }
     }, [selectedUser])
 
 
@@ -189,7 +191,6 @@ const Users = () => {
                             setSelectedUser(item.id);
                             toggleViewDetails();
                             }} className='font-semibold text-light_blue cursor-pointer' >View</p>
-                        <p onClick={toggleViewDetails} className='font-semibold text-green-800 cursor-pointer' >Save</p>
                     </div>
                     </div>
                     )) 
@@ -201,14 +202,14 @@ const Users = () => {
        {viewDetails ? <div className="fixed inset-0 bg-black/70 flex justify-end">
             {
                 loadingUser ? 
-                <div className="bg-white w-[450px] h-screen grid place-content-center overflow-y-auto">
+                <div className="bg-white w-[550px] h-screen grid place-content-center overflow-y-auto">
                     <PageLoading />
                 </div>
                 :
-                <div className="bg-white w-[450px] max-h-screen overflow-y-auto">
+                <div className="bg-white w-[550px] max-h-screen overflow-y-auto">
                     <div className="flex items-center justify-between p-3 border-b">
                         <p className='font-semibold' >Referral Details</p>
-                        <button onClick={toggleViewDetails} className="font-medium flex items-center gap-2">
+                        <button onClick={() => {toggleViewDetails();refetchUsers()}} className="font-medium flex items-center gap-2">
                             <span>Close</span>
                             <CgClose />
                         </button>
@@ -231,17 +232,17 @@ const Users = () => {
                         </div>
                     </div>
                     <div className="relative pt-5 border-b pb-5">
-                        <div className={`transition-all duration-300 absolute h-0.5 w-20 bg-primary left-2.5 bottom-0 ${acitveInnerTab == 1 && '!left-[100px] !w-28'} ${acitveInnerTab == 2 && '!left-[220px] w-[95px]'}`}></div>
+                        <div className={`transition-all duration-300 absolute h-0.5 w-28 bg-primary left-2.5 bottom-0 ${acitveInnerTab == 1 && '!left-[120px] !w-28'} ${acitveInnerTab == 2 && '!left-[220px] w-[95px]'}`}></div>
                         <div className="flex gap-7 text-sm pl-4">
                             {
-                                ['Wallet Info', 'User Details'].map((item, idx) => (
+                                ['Wallet & Trnx.', 'User Details'].map((item, idx) => (
                                     <button onClick={() => setActiveInnerTab(idx)} className={`opacity-70  ${acitveInnerTab==idx && 'font-semibold opacity-100'}`} key={idx}>{item}</button>
                                 ))
                             }
                         </div>
                     </div>
                     {acitveInnerTab == 0 ? <div className="p-5 text-sm">
-                        <div className="mt-3 grid grid-cols-2 gap-5">
+                        <div className="mt-3 grid grid-cols-3 gap-5">
                             {
                                 test_stats.map((item,idx) => (
                                     <div key={idx} className='border rounded-lg p-3' >
@@ -254,25 +255,35 @@ const Users = () => {
                     </div> : null }
                     <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 0 && '!block'}`}>
                         <div className="header grid grid-cols-6 gap-3 px-5 font-medium">
+                            <p className='' >Amount</p>
+                            <p className='' >Profit</p>
                             <p className='line-clamp-1' >Date</p>
-                            <p className='line-clamp-1' >Referral</p>
-                            <p className='' >Test</p>
-                            <p className='' >Rebate</p>
+                            <p className='line-clamp-1' >Time</p>
                             <p className='' >Status</p>
                             <p className='' >Action</p>
                         </div>
                         <div className="data  text-text_color mt-3 mb-10">
                             {
-                                dummyDetails.map((item,idx) => (
-                                <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-6  gap-3 px-5 py-6 font-medium`}>
-                                <p className='line-clamp-1' >{item.date}</p>
-                                <p className='line-clamp-1' >{item.refer}</p>
-                                <p className='' >{item.test}</p>
-                                <p className='' >{item.amount}</p>
-                                <p className='' >{item.status}</p>
-                                <p onClick={toggleViewDetails} className='font-semibold text-light_blue cursor-pointer pl-2' >View</p>
+                                tnx?.data?.data?.data?.map((item,idx) => {
+                                return <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-6  gap-3 px-5 py-6 font-medium`}>
+                                <p className='line-clamp-1' >${item.amount.toLocaleString('en-US')}</p>
+                                <p className='line-clamp-1 flex items-center' >$ <input className='w-12' onKeyDown={e => {
+                                    e.keyCode == 13 && updateProfit(e, item.id)
+                                }} onChange={e => console.log(e.target.value)} defaultValue = {item.profit.toLocaleString('en-US')} /> </p>
+                                <p className='line-clamp-1' >{moment(item.created_at).format('ll')}</p>
+                                <p className='' >{moment(item.created_at).format('hh:mm a')}</p>
+                                <p className='' >{statuses[item.status]}</p>
+                                {
+                                    item.status == 1 ?
+                                    <p onClick={() => {
+                                        const data = { status:2 }
+                                        updateTnx({ data, id:item.id})}
+                                    } className='font-semibold text-light_blue cursor-pointer pl-2' >Approve</p> :
+                                    <p onClick={() => approveTransaction(item.id)} className='font-semibold text-red-800 cursor-pointer pl-2' >Reject</p>
+                                }
                                 </div>
-                                )) 
+                                }
+                                ) 
                             }
 
                         </div>
@@ -350,6 +361,9 @@ const Users = () => {
                    </div>
                  </div>
                </div> : null
+        }
+        {
+            updatingTnx ? <LoadingModal /> : null
         }
     </div>
   </>

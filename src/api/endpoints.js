@@ -2,6 +2,10 @@ const endpoints = {
   auth: {
     LOGIN:'login',
     USERS:'users',
+    TNX_BY_ID:'transactions-by-user-id',
+    TRANSACTIONS:'transactions',
+    PROFILE:'profile',
+    
     // REGISTER:'register',
     // SETUP_PROFILE:'set-up-profile',
     // FORGOT_PASSWORD:'forgot-password',
