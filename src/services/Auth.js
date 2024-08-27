@@ -53,6 +53,29 @@ const UpdateTnx = ({id, data}) => {
 };
 
 
+const UpdateProfile = (payload) => {
+  return axiosClient()
+    .patch(`${endpoints.auth.PROFILE}`,payload)
+    .then((res) => res)
+    .catch((error) => Promise.reject(error));
+};
+
+
+const ChangePassword = (payload) => {
+  return axiosClient()
+    .patch(`${endpoints.auth.CHANGE_PASSWORD}`,payload)
+    .then((res) => res)
+    .catch((error) => Promise.reject(error));
+};
+
+const UpdateWallet = ({id, payload}) => {
+  return axiosClient()
+    .patch(`${endpoints.auth.WALLET}/${id}`,payload)
+    .then((res) => res)
+    .catch((error) => Promise.reject(error));
+};
+
+
 // const SetupProfile = (data) => {
 //   return axiosClient()
 //     .post(endpoints.auth.SETUP_PROFILE, data)
@@ -83,5 +106,6 @@ const UpdateTnx = ({id, data}) => {
 
 
 export default {
-  Login, GetUsers, GetUser, GetTnxById, GetTnxs, GetProfile, UpdateTnx
+  Login, GetUsers, GetUser, GetTnxById, GetTnxs, GetProfile, UpdateTnx,
+  ChangePassword, UpdateProfile, UpdateWallet
 };

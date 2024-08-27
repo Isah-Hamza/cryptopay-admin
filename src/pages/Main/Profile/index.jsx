@@ -21,10 +21,12 @@ import { FaEdit, FaEllipsisH, FaEyeSlash } from 'react-icons/fa';
 import { LuTestTube2 } from 'react-icons/lu';
 import stacey from '../../../assets/images/stacey.svg';
 import inviteImg from '../../../assets/images/reactivate.svg';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import Auth from '../../../services/Auth';
 import PageLoading from '../../../Loader/PageLoading';
 import { useFormik } from 'formik';
+import { errorToast, successToast } from '../../../utils/Helper';
+import LoadingModal from '../../../Loader/LoadingModal';
 
 const Profile = ({  }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -49,21 +51,17 @@ const Profile = ({  }) => {
     {
       title:'General',
       icon:<BiSolidUserDetail size={20} />,
-      onClick:() => { document.querySelector('#patient').scrollIntoView() },
+      onClick:null,
     },
     {
       title:'Payout Settings',
       icon:<RiBankCardLine size={20} />,
-      onClick:() => {
-        console.log('clicked')
-        document.querySelector('#test').scrollIntoView()},
+      onClick:null,
     },
     {
       title:'Account & Security',
       icon:<GrSettingsOption size={20} />,
-      onClick:() => {
-        console.log('clicked')
-        document.querySelector('#test').scrollIntoView()},
+      onClick:null,
     },
   ]
 
@@ -75,9 +73,9 @@ const Profile = ({  }) => {
       setActiveItem(id);
   }
 
-  const { isLoading:loadingProfile, data:profile } = useQuery('profile', Auth.GetProfile)
+  const { isLoading:loadingProfile, data:profile, refetch:refetchProfile } = useQuery('profile', Auth.GetProfile)
 
-  const { getFieldProps } = useFormik({
+  const { getFieldProps, handleSubmit } = useFormik({
     enableReinitialize:true,
     initialValues:{
       email: profile?.data?.data?.email,
@@ -87,10 +85,24 @@ const Profile = ({  }) => {
     },
     onSubmit:values => {
       console.log(values)
+      updateProfile(values);
     }
   })
 
-  const { getFieldProps:walletGetFieldProps } = useFormik({
+  const { getFieldProps:passwordGetFieldProps, handleSubmit:handlePasswordSubmit } = useFormik({
+    enableReinitialize:true,
+    initialValues:{
+      old_password: "",
+      new_password: "",
+      confirm_password: "",
+    },
+    onSubmit:values => {
+      updatePassword(values);
+      console.log(values)
+    }
+  })
+
+  const { getFieldProps:walletGetFieldProps, handleSubmit:handleWalletSubmit } = useFormik({
     enableReinitialize:true,
     initialValues:{
       usdt_wallet_address: profile?.data?.data?.wallet?.usdt_wallet_address,
@@ -99,11 +111,35 @@ const Profile = ({  }) => {
       bitcoin_wallet_address: profile?.data?.data?.wallet?.bitcoin_wallet_address,
     },
     onSubmit:values => {
-      console.log(values)
+      const id = profile?.data?.data?.wallet?.id;
+      console.log({id, payload:values})
+      updateWallet({id, payload:values});
     }
   })
 
+  const { mutate:updateProfile, isLoading:updatingProfile } = useMutation(Auth.UpdateProfile, {
+    onSuccess:res => {
+      successToast(res.data.message);
+      refetchProfile();
+    },
+    onError: e => errorToast(e.message)
+  })
 
+  const { mutate:updateWallet, isLoading:updatingWallet } = useMutation(Auth.UpdateWallet, {
+    onSuccess:res => {
+      successToast(res.data.message);
+      refetchProfile();
+    },
+    onError: e => errorToast(e.message)
+  })
+
+  const { mutate:updatePassword, isLoading:updatingPassword } = useMutation(Auth.UpdateWallet, {
+    onSuccess:res => {
+      successToast(res.data.message);
+      refetchProfile();
+    },
+    onError: e => errorToast(e.message)
+  })
 
 
   const close = () => {
@@ -118,13 +154,12 @@ const Profile = ({  }) => {
 
   return (
      <div className='w-full bg-white rounded-xl flex' >
-      { !successful ? 
       <>
         <div className="w-[300px] border-r h-[calc(100vh-120px)] p-5 pt-7">
         <div className="grid gap-5 max-w-[250px]">
           {
             tabs.map((item,idx) => (
-              <div onClick={() =>{ setActiveTab(idx); item.onClick()}} key={idx} 
+              <div onClick={() =>{ setActiveTab(idx)}} key={idx} 
                     className={`hover:font-medium hover:opacity-90 cursor-pointer text-sm flex items-center gap-2 rounded-3xl p-3 px-6 opacity-60 ${idx == activeTab && '!opacity-100 bg-[#f9f9f9] !font-medium'}`} >
                 <span>{item.icon}</span>
                 <span>{item.title}</span>
@@ -135,7 +170,7 @@ const Profile = ({  }) => {
         </div>
         <div className='h-[calc(100vh-120px)] overflow-y-auto flex-1'>
           { activeTab == 0 ? 
-          <div className=" p-10 pt-7">
+          <form onSubmit={handleSubmit} className=" p-10 pt-7">
             <div className="flex justify-between">
                 <div id='patient' className="">
                   <p className='font-semibold mb-1' >Profile Details</p>
@@ -164,11 +199,11 @@ const Profile = ({  }) => {
               </div>
             </div>
             <div className='w-fit mt-10' >
-              <Button className={'px-14'} title={'Update Details'} />
+              <Button type={'submit'} className={'px-14'} title={'Update Details'} />
             </div>
-          </div>
+          </form>
           : activeTab == 1 ? 
-          <div className=" p-10 pt-7">
+          <form  onSubmit={handleWalletSubmit}  className=" p-10 pt-7">
             <div className="flex justify-between">
                 <div id='patient' className="">
                   <p className='font-semibold mb-1' >Payout Settings</p>
@@ -192,9 +227,9 @@ const Profile = ({  }) => {
             <div className='w-fit mt-10' >
               <Button className={'px-14'} title={'Update'} />
             </div>
-          </div>
+          </form>
           : activeTab == 2 ?
-          <div className=" p-10 pt-7">
+          <form onSubmit={handlePasswordSubmit} className=" p-10 pt-7">
             <div className="flex justify-between">
                 <div id='patient' className="">
                   <p className='font-semibold mb-1' >Account & Security</p>
@@ -203,52 +238,24 @@ const Profile = ({  }) => {
             </div>
             <div className="mt-10 grid gap-5 max-w-[600px]">
               <div className="">
-                  <Input label={'Old Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
+                  <Input {...passwordGetFieldProps('old_password')} label={'Old Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
               </div>
               <div className="">
-                  <Input label={'New Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
+                  <Input {...passwordGetFieldProps('new_password')} label={'New Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
                   <p className='text-xs text-text_color' >Password must contain at least one lowercase letters, uppercase letters, numbers and special symbols</p>
               </div>
               <div className="">
-                  <Input label={'Confirm New Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
+                  <Input {...passwordGetFieldProps('confirm_password')} label={'Confirm New Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
               </div>
             </div>
           <div className='w-fit mt-10' >
-            <Button className={'px-14'} title={'Update Password'} />
+            <Button type={'submit'} className={'px-14'} title={'Update Password'} />
           </div>
-          </div>
+          </form>
           : null
         }
         </div>
-      </>:
-       <div className='p-10 h-[calc(100vh-130px)] flex flex-col justify-center items-center w-full' >
-            <img className='-mt-5 w-[120px]' src={success} alt="success" />
-            <div className="max-w-[600px] grid justify-center text-center">
-              <p className='font-semibold' >You have successfuly referred Emmanuella Bami</p>
-              <p className='text-sm max-w-[450px] text-center mx-auto ' >Get ready for a surprise! When your patients make a payment, your rebate will be sent to your wallet within 24 hours. </p>
-                <p className='mt-6' >Copy your referral link below:</p>
-                <div className="flex justify-between items-center gap-10 mt-3 bg-[#f9f9f9] text-light_blue rounded-3xl border px-1 pl-3 py-1">
-                  <p className='underline ' >https://www.patients.lifebridge.com?ref=UYBFJK</p>
-                  <button className='rounded-3xl text-black font-semibold bg-light_blue px-5 py-2 flex items-center gap-1' >
-                    <BiCopy />
-                    Copy
-                  </button> 
-                </div>
-                <p className='mt-10' >Or Copy Your Invite Code</p>
-                  <div className='mx-auto font-semibold text-light_blue px-5 py-2 flex items-center gap-1' >
-                    UYBFJK
-                    <BiCopy />
-                  </div>
-                  <div className="mt-10 justify-center flex items-center gap-7">
-                    <button className='rounded-3xl text-white font-semibold bg-primary px-10 py-3 flex items-center gap-1' >
-                      Share Link
-                      <IoIosArrowForward />
-                    </button> 
-                    <button onClick={close} className='font-semibold' >Cancel</button>
-                  </div>
-            </div>
-        </div>  
-        }
+      </>
       {
         deleteAccount ? 
         <div className='bg-black/50 fixed inset-0 grid place-content-center' >
@@ -263,21 +270,7 @@ const Profile = ({  }) => {
           </div>
         </div> : null
       }
-      {
-          newCategory || editCategory ? <div className='bg-black/50 fixed inset-0 grid place-content-center' >
-          <div className="bg-white w-[400px] p-5 rounded-xl flex flex-col justify-center text-center gap-3 text-sm">
-              <p className='text-base font-semibold' >{newCategory ? 'Add New' : 'Edit'} Department</p>
-              <div className="grid gap-5 text-left mt-7">
-                  <Input placeholder={'Enter name here..'} icon={<LuTestTube2 className='opacity-80' size={17} />} type={'text'} label={'Department Name'} />
-              </div>
-
-              <div className="mt-10 flex items-center gap-5 ">
-                  <Button onClick={ newCategory ? toggleNewCategory : toggleEditCategory} className={'!px-5 !bg-white !text-text_color border border-text_color '} title={'Cancel'} />
-                  <Button onClick={ newCategory ? toggleNewCategory : toggleEditCategory} className={'!px-5 !bg-light_blue text-white'} title={`${newCategory ? 'Add Department' : 'Save Changes'}`} />
-              </div>
-          </div>
-        </div> : null
-      }
+    
       {
         changeRole ? 
             <div className='bg-black/50 fixed inset-0 grid place-content-center' >
@@ -310,6 +303,9 @@ const Profile = ({  }) => {
                     </div>
                   </div>
               </div> : null
+        }
+        {
+          (updatingProfile || updatingWallet || updatingPassword) ? <LoadingModal /> : null
         }
     </div>
   )

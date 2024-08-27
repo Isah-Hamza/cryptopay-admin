@@ -5,6 +5,8 @@ const endpoints = {
     TNX_BY_ID:'transactions-by-user-id',
     TRANSACTIONS:'transactions',
     PROFILE:'profile',
+    WALLET:'wallet',
+    CHANGE_PASSWORD:'change-password',
     
     // REGISTER:'register',
     // SETUP_PROFILE:'set-up-profile',

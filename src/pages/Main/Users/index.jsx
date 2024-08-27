@@ -260,26 +260,29 @@ const Users = () => {
                             <p className='line-clamp-1' >Date</p>
                             <p className='line-clamp-1' >Time</p>
                             <p className='' >Status</p>
-                            <p className='' >Action</p>
+                            <p end='' >Action</p>
                         </div>
                         <div className="data  text-text_color mt-3 mb-10">
                             {
                                 tnx?.data?.data?.data?.map((item,idx) => {
                                 return <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-6  gap-3 px-5 py-6 font-medium`}>
                                 <p className='line-clamp-1' >${item.amount.toLocaleString('en-US')}</p>
-                                <p className='line-clamp-1 flex items-center' >$ <input className='w-12' onKeyDown={e => {
+                                <p className='line-clamp-1 flex items-center' >$ <input disabled={item.status == '1'} className='w-12' onKeyDown={e => {
                                     e.keyCode == 13 && updateProfit(e, item.id)
                                 }} onChange={e => console.log(e.target.value)} defaultValue = {item.profit.toLocaleString('en-US')} /> </p>
                                 <p className='line-clamp-1' >{moment(item.created_at).format('ll')}</p>
                                 <p className='' >{moment(item.created_at).format('hh:mm a')}</p>
                                 <p className='' >{statuses[item.status]}</p>
                                 {
-                                    item.status == 1 ?
+                                    (item.status == 1 || item.status == 3 )?
                                     <p onClick={() => {
                                         const data = { status:2 }
                                         updateTnx({ data, id:item.id})}
                                     } className='font-semibold text-light_blue cursor-pointer pl-2' >Approve</p> :
-                                    <p onClick={() => approveTransaction(item.id)} className='font-semibold text-red-800 cursor-pointer pl-2' >Reject</p>
+                                    <p onClick={() => {
+                                        const data = { status:3 }
+                                        updateTnx({ data, id:item.id})}
+                                    } className='font-semibold text-red-800 cursor-pointer pl-2' >Reject</p>
                                 }
                                 </div>
                                 }
