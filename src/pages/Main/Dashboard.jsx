@@ -26,11 +26,24 @@ import { MdArrowForward } from 'react-icons/md';
 
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { useQuery } from 'react-query';
+import Auth from '../../services/Auth';
+import PageLoading from '../../Loader/PageLoading';
+import moment from 'moment';
 
 
 const Dashboard = () => {
 
-    const navigate = useNavigate('');
+    const { isLoading:loading, data:overvivew,refetch } = useQuery('overview', Auth.Overview);
+    const navigate = useNavigate();
+
+
+    const statuses = {
+        1: <span className='text-sm text-yellow-600' >Pending</span>,
+        2: <span className='text-sm text-green-600' >Approved</span>,
+        3: <span className='text-sm text-red-600' >Rejected</span>
+    }
+
 
     const today_booking = [
         {
@@ -50,35 +63,39 @@ const Dashboard = () => {
         },
     ]
 
+    if(loading){
+        return <PageLoading />
+    }
+
   return (
     <>
         <div className="mt-2">
             <div className="grid grid-cols-4 gap-5">
                 <div className="bg-white rounded-lg p-5 border">
-                    <p>Total Transactions</p>
-                    <p className='font-semibold text-xl my-3'>232</p>
+                    <p>Total Users</p>
+                    <p className='font-semibold text-xl my-3'>{overvivew?.data?.total_users}</p>
                     <div className="flex items-center justify-between gap-5 mt-5">
-                        <p className='bg-[#C9E6FF] px-3 text-sm py-0.5 rounded-2xl' >+21</p>
+                        <p className='bg-[#C9E6FF] px-3 text-sm py-0.5 rounded-2xl' >+61</p>
                         <button className="text-primary flex items-center gap-1 font-semibold pl-7 text-sm">
-                            <span>View All</span>
+                            <button onClick={() => navigate('/users')}>View All</button>
                             <MdArrowForward />
                         </button>
                     </div>
                 </div>
                 <div className="bg-white rounded-lg p-5 border">
-                    <p>Total Withdrawal</p>
-                    <p className='font-semibold text-xl my-3'>3,109</p>
+                    <p>Total Transactions</p>
+                    <p className='font-semibold text-xl my-3'>{overvivew?.data?.total_transaction}</p>
                     <div className="flex items-center justify-between gap-5 mt-5">
-                        <p className='bg-[#C9E6FF] px-3 text-sm py-0.5 rounded-2xl' >+61</p>
+                        <p className='bg-[#C9E6FF] px-3 text-sm py-0.5 rounded-2xl' >+21</p>
                         <button className="text-primary flex items-center gap-1 font-semibold pl-7 text-sm">
-                            <span>View All</span>
+                            <button onClick={() => navigate('/transactions')}>View All</button>
                             <MdArrowForward />
                         </button>
                     </div>
                 </div>
                 <div className="bg-white rounded-lg p-5 border">
                     <p>Total Wallet Fund</p>
-                    <p className='font-semibold text-xl my-3'>₦3,009,100</p>
+                    <p className='font-semibold text-xl my-3'>${overvivew?.data?.total_wallet_fund.toLocaleString('en-US')}</p>
                     <div className="flex text-sm items-center gap-1 mt-5">
                         <div className="text-green-500 font-medium flex items-center gap-1">
                             <BsArrowUpRight color='' />
@@ -89,12 +106,12 @@ const Dashboard = () => {
                 </div>
                 <div className="bg-white rounded-lg p-5 border">
                     <p>Total Profit Made</p>
-                    <p className='font-semibold text-xl my-3'>₦1,440,900</p>
+                    <p className='font-semibold text-xl my-3'>${overvivew?.data?.total_wallet_profit.toLocaleString('en-US')}</p>
                     <div className="flex text-sm items-center gap-1 mt-5">
-                        <span>Payment</span>
+                        {/* <span>Payment</span>
                         <div className="text-green-500 font-medium flex items-center gap-1">
                             <span className='' >Every Friday</span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
@@ -104,7 +121,7 @@ const Dashboard = () => {
                         <p className='font-semibold' >Referrals Stats</p>
                     </div>
                     <div className="mt-3">
-                        <p className='text-sm' >Analysis of pending & completed referrals</p>
+                        <p className='text-sm' >Analysis of pending & approved transactions</p>
                         <div className="flex flex-col">
                             <div className=" -ml-10 h-[250px]">
                                 <PieChart />
@@ -113,7 +130,7 @@ const Dashboard = () => {
                                 <div className="">
                                     <div className="text-sm flex items-center gap-1">
                                         <div className="w-2 h-2 rounded-full bg-[#C9E6FF]"></div>
-                                        <span>Completed</span>
+                                        <span>Approved</span>
                                     </div>
                                     <p className='pl-'>201</p>
                                 </div>
@@ -155,13 +172,13 @@ const Dashboard = () => {
                     <div className="mt-3 flex gap-3 px-5">
                         <Calendar className={'w-6/12'}  />
                         <div className="w-6/12">
-                            <p className='text-sm font-semibold mt-1' >Transactions of the day</p>
+                            <p className='text-sm font-semibold mt-1' >Last 3 Transactions</p>
                             <div className="grid gap-3 mt-5">
                                 {
-                                    today_booking.map((item,idx) => (
+                                    overvivew?.data?.latest_transactions?.map((item,idx) => (
                                         <div className='text-sm p-3 px-2 rounded-md border' key={idx}>
-                                            <p className='font-semibold'>{item.name}</p>
-                                            <p className='text-xs line-clamp-1' >Funded Wallet &bull; {item.amount} &bull; {item.time} </p>
+                                            <p className='font-semibold'>{item?.user?.name}</p>
+                                            <p className='text-xs line-clamp-1' >Funded Wallet &bull; ${item.amount.toLocaleString('en-US')} &bull; {moment(item.created_at).format('ll')} &bull; {statuses[item.status]}  </p>
                                         </div>
                                     ))
                                 }

@@ -45,6 +45,13 @@ const GetProfile = () => {
     .catch((error) => Promise.reject(error));
 };
 
+const Overview = () => {
+  return axiosClient()
+    .get(endpoints.auth.OVERVIEW)
+    .then((res) => res)
+    .catch((error) => Promise.reject(error));
+};
+
 const UpdateTnx = ({id, data}) => {
   return axiosClient()
     .patch(`${endpoints.auth.TRANSACTIONS}/${id}`,data)
@@ -107,5 +114,5 @@ const UpdateWallet = ({id, payload}) => {
 
 export default {
   Login, GetUsers, GetUser, GetTnxById, GetTnxs, GetProfile, UpdateTnx,
-  ChangePassword, UpdateProfile, UpdateWallet
+  ChangePassword, UpdateProfile, UpdateWallet, Overview
 };

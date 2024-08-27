@@ -14,6 +14,7 @@ import PageLoading from '../../../Loader/PageLoading'
 import moment from 'moment'
 import LoadingModal from '../../../Loader/LoadingModal'
 import { successToast } from '../../../utils/Helper'
+import { FiDownloadCloud } from 'react-icons/fi'
 
 const Users = () => {
     const [profit, setProfit] = useState(0);
@@ -87,7 +88,8 @@ const Users = () => {
             successToast(res.data.message);
             getUser(selectedUser);
             getTnx(selectedUser);
-        }
+        },
+        onError: e => errorToast(e.message)
     });
     
     const test_stats = [
@@ -254,36 +256,39 @@ const Users = () => {
                         </div>
                     </div> : null }
                     <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 0 && '!block'}`}>
-                        <div className="header grid grid-cols-6 gap-3 px-5 font-medium">
+                        <div className="header grid grid-cols-7 gap-3 px-5 font-medium">
                             <p className='' >Amount</p>
                             <p className='' >Profit</p>
                             <p className='line-clamp-1' >Date</p>
                             <p className='line-clamp-1' >Time</p>
                             <p className='' >Status</p>
-                            <p end='' >Action</p>
+                            <p className='col-span-2' >Actions</p>
                         </div>
                         <div className="data  text-text_color mt-3 mb-10">
                             {
                                 tnx?.data?.data?.data?.map((item,idx) => {
-                                return <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-6  gap-3 px-5 py-6 font-medium`}>
+                                return <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-7  gap-3 px-5 py-6 font-medium`}>
                                 <p className='line-clamp-1' >${item.amount.toLocaleString('en-US')}</p>
-                                <p className='line-clamp-1 flex items-center' >$ <input disabled={item.status == '1'} className='w-12' onKeyDown={e => {
+                                <p className='line-clamp-1 flex items-center' >$ <input disabled={item.status != '2'} className='w-12 outline-none' onKeyDown={e => {
                                     e.keyCode == 13 && updateProfit(e, item.id)
                                 }} onChange={e => console.log(e.target.value)} defaultValue = {item.profit.toLocaleString('en-US')} /> </p>
                                 <p className='line-clamp-1' >{moment(item.created_at).format('ll')}</p>
                                 <p className='' >{moment(item.created_at).format('hh:mm a')}</p>
                                 <p className='' >{statuses[item.status]}</p>
-                                {
-                                    (item.status == 1 || item.status == 3 )?
-                                    <p onClick={() => {
-                                        const data = { status:2 }
-                                        updateTnx({ data, id:item.id})}
-                                    } className='font-semibold text-light_blue cursor-pointer pl-2' >Approve</p> :
-                                    <p onClick={() => {
-                                        const data = { status:3 }
-                                        updateTnx({ data, id:item.id})}
-                                    } className='font-semibold text-red-800 cursor-pointer pl-2' >Reject</p>
-                                }
+                                <div className="col-span-2 flex items-center gap-2 pl-3">
+                                    <p onClick={null} className='font-semibold text-light_blue cursor-pointer flex items-center gap-1' > <FiDownloadCloud /> Receipt</p>
+                                    {
+                                        (item.status == 1 || item.status == 3 )?
+                                        <p onClick={() => {
+                                            const data = { status:2 }
+                                            updateTnx({ data, id:item.id})}
+                                        } className='font-semibold text-light_blue cursor-pointer pl-2' >Approve</p> :
+                                        <p onClick={() => {
+                                            const data = { status:3 }
+                                            updateTnx({ data, id:item.id})}
+                                        } className='font-semibold text-red-800 cursor-pointer pl-2' >Reject</p>
+                                    }
+                                </div>
                                 </div>
                                 }
                                 ) 

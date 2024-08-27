@@ -7,6 +7,7 @@ const endpoints = {
     PROFILE:'profile',
     WALLET:'wallet',
     CHANGE_PASSWORD:'change-password',
+    OVERVIEW:'overview',
     
     // REGISTER:'register',
     // SETUP_PROFILE:'set-up-profile',
