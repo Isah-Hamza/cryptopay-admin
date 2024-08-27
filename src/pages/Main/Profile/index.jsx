@@ -27,6 +27,7 @@ import PageLoading from '../../../Loader/PageLoading';
 import { useFormik } from 'formik';
 import { errorToast, successToast } from '../../../utils/Helper';
 import LoadingModal from '../../../Loader/LoadingModal';
+import * as Yup from 'yup';
 
 const Profile = ({  }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -89,16 +90,20 @@ const Profile = ({  }) => {
     }
   })
 
-  const { getFieldProps:passwordGetFieldProps, handleSubmit:handlePasswordSubmit } = useFormik({
+  const { getFieldProps:passwordGetFieldProps, handleSubmit:handlePasswordSubmit,errors, touched } = useFormik({
     enableReinitialize:true,
     initialValues:{
       old_password: "",
       new_password: "",
       confirm_password: "",
     },
+    validationSchema: Yup.object().shape({
+      new_password: Yup.string().required().min(8),
+      old_password: Yup.string().required(),
+      confirm_password: Yup.string().required('This field is required').oneOf([Yup.ref('new_password')],'Passwords mismatch'),
+    }),
     onSubmit:values => {
       updatePassword(values);
-      console.log(values)
     }
   })
 
@@ -239,13 +244,22 @@ const Profile = ({  }) => {
             <div className="mt-10 grid gap-5 max-w-[600px]">
               <div className="">
                   <Input {...passwordGetFieldProps('old_password')} label={'Old Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
+                  {
+                    touched.old_password && errors.old_password && <p className='text-xs text-red-700 mt-1'>{errors.old_password}</p>
+                  }
               </div>
               <div className="">
                   <Input {...passwordGetFieldProps('new_password')} label={'New Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
                   <p className='text-xs text-text_color' >Password must contain at least one lowercase letters, uppercase letters, numbers and special symbols</p>
+                  {
+                    touched.new_password && errors.new_password && <p className='text-xs text-red-700 mt-1'>{errors.new_password}</p>
+                  }
               </div>
               <div className="">
                   <Input {...passwordGetFieldProps('confirm_password')} label={'Confirm New Password'} type={'password'} placeholder={'************'} icon={<MdOutlineLockPerson size={22} />}/>
+                  {
+                    touched.confirm_password && errors.confirm_password && <p className='text-xs text-red-700 mt-1'>{errors.confirm_password}</p>
+                  }
               </div>
             </div>
           <div className='w-fit mt-10' >
