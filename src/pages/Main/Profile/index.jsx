@@ -133,7 +133,7 @@ const Profile = ({  }) => {
     onError: e => errorToast(e.message)
   })
 
-  const { mutate:updatePassword, isLoading:updatingPassword } = useMutation(Auth.UpdateWallet, {
+  const { mutate:updatePassword, isLoading:updatingPassword } = useMutation(Auth.ChangePassword, {
     onSuccess:res => {
       successToast(res.data.message);
       refetchProfile();

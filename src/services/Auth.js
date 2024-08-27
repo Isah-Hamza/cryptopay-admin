@@ -63,7 +63,7 @@ const UpdateProfile = (payload) => {
 
 const ChangePassword = (payload) => {
   return axiosClient()
-    .patch(`${endpoints.auth.CHANGE_PASSWORD}`,payload)
+    .post(`${endpoints.auth.CHANGE_PASSWORD}`,payload)
     .then((res) => res)
     .catch((error) => Promise.reject(error));
 };
