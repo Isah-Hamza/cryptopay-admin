@@ -92,10 +92,11 @@ const MainLayout = () => {
             <p>Crypto Pay</p>
         </div>
         <button className="mt-10 w-full text-left bg-[#C9E6FF] p-2 rounded flex items-center gap-3">
-            <img src={admin} alt="admin" />
+            {/* <img className='bg-gray-50' src={admin} alt="admin" /> */}
+            <div className='bg-[#f0ecec] w-10 h-10 rounded-lg' ></div>
             <div className='text-sm'>
                 <p className='font-semibold' >{profile?.data?.data?.name}</p>
-                <p>Admin</p>
+                <p className='first-letter:capitalize' >{profile?.data?.data?.role}</p>
             </div>
             <span className='block ml-auto'><BiCaretDown /></span>
         </button>

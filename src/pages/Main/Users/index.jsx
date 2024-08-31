@@ -125,6 +125,7 @@ const Users = () => {
 
     const sendMail = () => {
         const payload = {
+            email:user?.data?.data?.email,
             subject, body
         }
 
@@ -363,7 +364,7 @@ const Users = () => {
                                 <textarea value={body} onChange={e => setBody(e.target.value)} placeholder='This is to inform you that ...' id='body' className='w-full border outline-none rounded-2xl h-32 p-3' />
                             </div>
                             <div className='w-full mt-10 flex justify-end' >
-                                <Button onClick={sendMail} className={'w-fit px-14'} title={'Send'} />
+                                <Button disabled={!subject || !body} onClick={sendMail} className={'w-fit px-14 disabled:bg-opacity-60'} title={'Send'} />
                             </div>
                         </div>
                     </div>

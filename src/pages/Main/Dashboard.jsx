@@ -86,28 +86,28 @@ const Dashboard = () => {
             <div className="flex gap-5 mt-5">
                 <div className="bg-white min-w-[35%] h-full p-5 rounded-lg border">
                     <div className="flex items-center justify-between pb-3 border-b">
-                        <p className='font-semibold' >Referrals Stats</p>
+                        <p className='font-semibold' >Transaction Stats</p>
                     </div>
                     <div className="mt-3">
                         <p className='text-sm' >Analysis of pending & approved transactions</p>
                         <div className="flex flex-col">
                             <div className=" -ml-10 h-[250px]">
-                                <PieChart />
+                                <PieChart pt={overvivew?.data?.pending_transactions} at={overvivew?.data?.approved_transactions} />
                             </div>
                             <div className="flex justify-center items-center text-center gap-10">
                                 <div className="">
                                     <div className="text-sm flex items-center gap-1">
-                                        <div className="w-2 h-2 rounded-full bg-[#C9E6FF]"></div>
+                                        <div className="w-2 h-2 rounded-full bg-[#00C49F]"></div>
                                         <span>Approved</span>
                                     </div>
-                                    <p className='pl-'>201</p>
+                                    <p className='pl-'>{overvivew?.data?.approved_transactions}</p>
                                 </div>
                                 <div className="">
                                     <div className="text-sm flex items-center gap-1">
                                         <div className="w-2 h-2 rounded-full bg-light_blue"></div>
                                         <span>Pending</span>
                                     </div>
-                                    <p className='pl-'>694</p>
+                                    <p className='pl-'>{overvivew?.data?.pending_transactions}</p>
                                 </div>
                             </div>
                         </div>
@@ -115,17 +115,11 @@ const Dashboard = () => {
                 </div>
                 <div className="flex-1 rounded-lg border border-custom_gray bg-white">
                     <div className="flex items-center justify-between p-3 border-b">
-                        <p className='font-semibold' >Rebate Earning</p>
-                        <div className="flex items-center bg-custom_gray p-1 px-1.5 rounded-3xl">
-                            {
-                                ['Monthly','Weekly','Daily'].map((item,idx) => (
-                                    <button className={`rounded-3xl text-sm px-4  py-1.5 ${idx ==0 && 'shadow bg-white'}`} >{item}</button>
-                                ))
-                            }
-                        </div>
+                        <p className='font-semibold' >Wallet Funding Displayed Per Month</p>
+                      
                     </div>
                     <div className="p-5">
-                        <p className='text-sm' >Earning history displayed per month</p>
+                        <p className='text-sm' >Walet funding</p>
                         <div className="mt-5 -ml-10 min-w-[400px] h-[250px]">
                             <BarChart />
                         </div>
