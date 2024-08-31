@@ -75,6 +75,14 @@ const ChangePassword = (payload) => {
     .catch((error) => Promise.reject(error));
 };
 
+
+const SendMail = (payload) => {
+  return axiosClient()
+    .post(`${endpoints.auth.SENDMAIL}`,payload)
+    .then((res) => res)
+    .catch((error) => Promise.reject(error));
+};
+
 const UpdateWallet = ({id, payload}) => {
   return axiosClient()
     .patch(`${endpoints.auth.WALLET}/${id}`,payload)
@@ -114,5 +122,5 @@ const UpdateWallet = ({id, payload}) => {
 
 export default {
   Login, GetUsers, GetUser, GetTnxById, GetTnxs, GetProfile, UpdateTnx,
-  ChangePassword, UpdateProfile, UpdateWallet, Overview
+  ChangePassword, UpdateProfile, UpdateWallet, Overview, SendMail
 };

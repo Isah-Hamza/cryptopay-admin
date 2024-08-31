@@ -22,6 +22,8 @@ const Users = () => {
     const [acitveTab, setActiveTab] = useState(0);
     const [acitveInnerTab, setActiveInnerTab] = useState(0);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [subject, setSubject] = useState('');
+    const [body, setBody] = useState('');
 
 
     const [viewDetails, setViewDetails] = useState(false);
@@ -336,6 +338,18 @@ const Users = () => {
                             </button>
                         </div>
                     
+                    </div>
+                    <div className={`px-5 mt-5 text-[13px] hidden ${acitveInnerTab == 2 && '!block'} pb-5`}>
+                        <div className='mt-5' >
+                            <Input labelClass={'px-3'} label={'Subject'} placeholder={'Transaction Confirmed'} />
+                            <div className='grid mt-5'>
+                                <label className='px-2 font-medium' htmlFor="body">Email Body</label>
+                                <textarea id='body' className='w-full border outline-none rounded-2xl h-32 p-2' />
+                            </div>
+                            <div className='w-full mt-10 flex justify-end' >
+                                <Button className={'w-fit px-14'} title={'Send'} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             }
