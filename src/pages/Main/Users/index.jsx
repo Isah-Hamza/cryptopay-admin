@@ -237,7 +237,7 @@ const Users = () => {
                         <div className={`transition-all duration-300 absolute h-0.5 w-28 bg-primary left-2.5 bottom-0 ${acitveInnerTab == 1 && '!left-[120px] !w-28'} ${acitveInnerTab == 2 && '!left-[220px] w-[95px]'}`}></div>
                         <div className="flex gap-7 text-sm pl-4">
                             {
-                                ['Wallet & Trnx.', 'User Details'].map((item, idx) => (
+                                ['Wallet & Trnx.', 'User Details','Send Mail'].map((item, idx) => (
                                     <button onClick={() => setActiveInnerTab(idx)} className={`opacity-70  ${acitveInnerTab==idx && 'font-semibold opacity-100'}`} key={idx}>{item}</button>
                                 ))
                             }

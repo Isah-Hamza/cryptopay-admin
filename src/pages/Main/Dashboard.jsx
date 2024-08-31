@@ -1,24 +1,10 @@
 import React, { useState } from 'react'
-import logo from '../../assets/images/logo.svg';
-import { AiOutlineHome } from "react-icons/ai";
-import avatar from '../../assets/images/avatar.svg';
-import { IoLogOut } from "react-icons/io5";
-import { FaEye } from 'react-icons/fa6';
+
 import { BsArrowRight, BsArrowUpRight, BsArrowUpRightSquare } from 'react-icons/bs';
-import { PiEyeClosedBold } from "react-icons/pi";
-import note from '../../assets/images/note.svg';
+
 import BarChart from '../../components/Chart/BarChart';
 import PieChart from '../../components/Chart/PieChart';
-import design from '../../assets/images/dashboard-design.png'
-import Button from '../../components/Button'
 
-import stat1 from '../../assets/images/stat1.svg';
-import stat2 from '../../assets/images/stat2.svg';
-import stat3 from '../../assets/images/stat3.svg';
-
-import bank from '../../assets/images/Bank.svg';
-import test from '../../assets/images/Test.svg';
-import earn from '../../assets/images/Earn.svg';
 
 import refer from '../../assets/images/refer_and_earn.svg';
 import { useNavigate } from 'react-router-dom';
@@ -44,24 +30,6 @@ const Dashboard = () => {
         3: <span className='text-sm text-red-600' >Rejected</span>
     }
 
-
-    const today_booking = [
-        {
-            name:'Felix Otti',
-            amount: '$400',
-            time:'10:00am',
-        },
-        {
-            name:'Christine Jones',
-            amount: '$2,500',
-            time:'02:00pm',
-        },
-        {
-            name:'Felix Otti',
-            amount: '$750',
-            time:'10:00am',
-        },
-    ]
 
     if(loading){
         return <PageLoading />
