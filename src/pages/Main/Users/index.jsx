@@ -93,6 +93,14 @@ const Users = () => {
         },
         onError: e => errorToast(e.message)
     });
+    const { isLoading:sendingMail, mutate:sendMailMutate } = useMutation(Auth.SendMail, {
+        onSuccess: res => {
+            successToast(res.data.message);
+            setSubject('');
+            setBody('');
+        },
+        onError: e => errorToast(e.message)
+    });
     
     const test_stats = [
         {
@@ -113,6 +121,14 @@ const Users = () => {
 
         const data = { profit:Number(e.target.value) }
         updateTnx({ data, id:idx });
+    }
+
+    const sendMail = () => {
+        const payload = {
+            subject, body
+        }
+
+        sendMailMutate(payload);
     }
 
     useEffect(() => {
@@ -140,7 +156,7 @@ const Users = () => {
                 }
             </div>
             <div className="flex items-center gap-1">
-                <Input className={'!rounded-3xl !py-2.5 !min-w-[300px]'} placeholder={'Type user name here...'} icon={<BiSearch size={20} className='text-custom_gray' />} />
+                <Input  className={'!rounded-3xl !py-2.5 !min-w-[300px]'} placeholder={'Type user name here...'} icon={<BiSearch size={20} className='text-custom_gray' />} />
                 {/* <button className={'border text-sm !rounded-3xl !py-2.5 !min-w-[120px]'} >Search</button> */}
             </div>
         </div>
@@ -341,13 +357,13 @@ const Users = () => {
                     </div>
                     <div className={`px-5 mt-5 text-[13px] hidden ${acitveInnerTab == 2 && '!block'} pb-5`}>
                         <div className='mt-5' >
-                            <Input labelClass={'px-3'} label={'Subject'} placeholder={'Transaction Confirmed'} />
+                            <Input value={subject} onChange={e => setSubject(e.target.value)} labelClass={'px-2'} label={'Subject'} placeholder={'Transaction Confirmed'} />
                             <div className='grid mt-5'>
                                 <label className='px-2 font-medium' htmlFor="body">Email Body</label>
-                                <textarea id='body' className='w-full border outline-none rounded-2xl h-32 p-2' />
+                                <textarea value={body} onChange={e => setBody(e.target.value)} placeholder='This is to inform you that ...' id='body' className='w-full border outline-none rounded-2xl h-32 p-3' />
                             </div>
                             <div className='w-full mt-10 flex justify-end' >
-                                <Button className={'w-fit px-14'} title={'Send'} />
+                                <Button onClick={sendMail} className={'w-fit px-14'} title={'Send'} />
                             </div>
                         </div>
                     </div>
@@ -385,7 +401,7 @@ const Users = () => {
                </div> : null
         }
         {
-            updatingTnx ? <LoadingModal /> : null
+            (updatingTnx || sendingMail) ? <LoadingModal /> : null
         }
     </div>
   </>
