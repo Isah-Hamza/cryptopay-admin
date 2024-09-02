@@ -229,7 +229,7 @@ const Users = () => {
                 :
                 <div className="bg-white w-[550px] max-h-screen overflow-y-auto">
                     <div className="flex items-center justify-between p-3 border-b">
-                        <p className='font-semibold' >Referral Details</p>
+                        <p className='font-semibold' >User Details</p>
                         <button onClick={() => {toggleViewDetails();refetchUsers()}} className="font-medium flex items-center gap-2">
                             <span>Close</span>
                             <CgClose />
@@ -329,6 +329,21 @@ const Users = () => {
                             <div className="flex gap-2 mt-3 text-sm">
                                 <p className='font-medium' >Address:</p>
                                 <p className='line-clamp-1' >{user?.data?.data?.address ?? '-'}</p>
+                            </div>
+                        </div>
+                        <div className="mt-10 px-5 text-base">
+                            <p className='text-base font-semibold'>KYC Data</p>
+                            <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >Means of ID:</p>
+                                <p className='line-clamp-1' >{user?.data?.data?.kyc?.means_of_identification}</p>
+                            </div>
+                            <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >Identification Number:</p>
+                                <p className='line-clamp-1' >{user?.data?.data?.kyc?.identification_number}</p>
+                            </div> 
+                            <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >Status:</p>
+                                <p className='line-clamp-1' >{statuses[user?.data?.data?.kyc?.status]}</p>
                             </div>
                         </div>
                         <div className="mt-10 px-5 text-base">
