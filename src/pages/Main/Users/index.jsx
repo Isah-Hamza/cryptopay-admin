@@ -295,13 +295,13 @@ const Users = () => {
                                 <p className='' >{moment(item.created_at).format('hh:mm a')}</p>
                                 <p className='' >{statuses[item.status]}</p>
                                 <div className="col-span-2 flex items-center gap-2 pl-3">
-                                    <p onClick={null} className='font-semibold text-light_blue cursor-pointer flex items-center gap-1' > <FiDownloadCloud /> Receipt</p>
+                                    <a download target='_blank' href={item.proof} className='text-light_blue font-semibold cursor-pointer flex items-center gap-1' > <FiDownloadCloud /> Receipt</a>
                                     {
                                         (item.status == 1 || item.status == 3 )?
                                         <p onClick={() => {
                                             const data = { status:2 }
                                             updateTnx({ data, id:item.id})}
-                                        } className='font-semibold text-light_blue cursor-pointer pl-2' >Approve</p> :
+                                        } className='font-semibold text-green-700 cursor-pointer pl-2' >Approve</p> :
                                         <p onClick={() => {
                                             const data = { status:3 }
                                             updateTnx({ data, id:item.id})}

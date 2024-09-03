@@ -89,7 +89,7 @@ const Transactions = () => {
                     <p className='' >{statuses[item.status]}</p>
                     <p className='' >{moment(item.created_at).format('lll')}</p>
                     <div className="col-span-2 flex items-center gap-2">
-                        <p onClick={null} className='font-semibold text-light_blue cursor-pointer flex items-center gap-1' > <FiDownloadCloud /> Receipt</p>
+                        <a href={item.proof} download target='_blank' className='font-semibold text-light_blue cursor-pointer flex items-center gap-1' > <FiDownloadCloud /> Receipt</a>
                         {
                             (item.status == 1 || item.status == 3 )?
                             <p onClick={() => {
