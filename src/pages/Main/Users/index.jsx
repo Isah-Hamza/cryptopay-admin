@@ -147,7 +147,7 @@ const Users = () => {
   return (
   <>
    <div className='mt-3 w-full border border-custom_gray rounded-xl bg-white mb-7'>
-        <div className="relative border-b p-3 flex justify-between items-center">
+        <div className="relative border-b p-3 flex flex-col sm:flex-row justify-between items-center">
             <div className={`transition-all duration-300 absolute h-0.5 w-24 bg-primary left-5 bottom-0 ${acitveTab == 1 && '!left-[125px] w-32'}`}></div>
             <div className="flex gap-14 text-sm pl-10">
                 {
@@ -169,10 +169,10 @@ const Users = () => {
                 <p className='col-span-3 line-clamp-2 ' >Deactivation Reason</p>
                 <p className='col-span-1' >Action</p>
             </div>
-            <div className="data  text-text_color mt-3">
+            <div className="data overflow-x-auto text-text_color mt-3">
                 {
                     dummy_deactivated.map((item,idx) => (
-                    <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid items-center grid-cols-8  gap-3 px-5 py-6 font-medium`}>
+                    <div key={idx} className={`min-w-[700px] ${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid items-center grid-cols-8  gap-3 px-5 py-6 font-medium`}>
                     <div className="flex items-center gap-2 col-span-2 line-clamp-1">
                         <img className='w-8' src={stacey} alt="stacey" />
                         <p className='col-span-2 line-clamp-1' >{item.name}</p>
@@ -186,37 +186,39 @@ const Users = () => {
 
             </div>
         </div> :
-        <div className="mt-5 text-[13px]">
-            <div className="header grid grid-cols-8 gap-3 px-5 font-medium">
-                <p className='col-span-2 line-clamp-1' >Full Name</p>
-                <p className='col-span-2 line-clamp-1' >Email Address</p>
-                <p className='' >Phone Number</p>
-                <p className='' >Wallet Balance</p>
-                <p className='' >Profit Earned</p>
-                <p className='' >Action</p>
-            </div>
-            <div className="data  text-text_color mt-3">
-                {
-                    users?.data?.data?.data?.map((item,idx) => (
-                    <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-8  gap-3 px-5 py-6 font-medium`}>
-                    <div className="flex items-center gap-2 col-span-2 line-clamp-1">
-                        <img className='w-8' src={stacey} alt="stacey" />
-                        <p className='line-clamp-1' >{item.name}</p>
-                    </div>
-                    <p className='col-span-2 line-clamp-1' >{item.email}</p>
-                    <p className='' >{item.phone}</p>
-                    <p className='' >${item?.wallet?.amount.toLocaleString('en-US')}</p>
-                    <p className='' >${item?.wallet?.profit.toLocaleString('en-US')}</p>
-                    <div className="flex gap-3">
-                        <p onClick={() => {
-                            setSelectedUser(item.id);
-                            toggleViewDetails();
-                            }} className='font-semibold text-light_blue cursor-pointer' >View</p>
-                    </div>
-                    </div>
-                    )) 
-                }
+        <div className="mt-5 text-[13px] overflow-x-auto ">
+            <div className="min-w-[850px]">
+                <div className="header grid grid-cols-8 gap-3 px-5 font-medium">
+                    <p className='col-span-2 line-clamp-1' >Full Name</p>
+                    <p className='col-span-2 line-clamp-1' >Email Address</p>
+                    <p className='' >Phone Number</p>
+                    <p className='' >Wallet Balance</p>
+                    <p className='' >Profit Earned</p>
+                    <p className='' >Action</p>
+                </div>
+                <div className="data overflow-x-auto text-text_color mt-3">
+                    {
+                        users?.data?.data?.data?.map((item,idx) => (
+                        <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-8  gap-3 px-5 py-6 font-medium`}>
+                        <div className="flex items-center gap-2 col-span-2 line-clamp-1">
+                            <img className='w-8' src={stacey} alt="stacey" />
+                            <p className='line-clamp-1' >{item.name}</p>
+                        </div>
+                        <p className='col-span-2 line-clamp-1' >{item.email}</p>
+                        <p className='' >{item.phone}</p>
+                        <p className='' >${item?.wallet?.amount.toLocaleString('en-US')}</p>
+                        <p className='' >${item?.wallet?.profit.toLocaleString('en-US')}</p>
+                        <div className="flex gap-3">
+                            <p onClick={() => {
+                                setSelectedUser(item.id);
+                                toggleViewDetails();
+                                }} className='font-semibold text-light_blue cursor-pointer' >View</p>
+                        </div>
+                        </div>
+                        )) 
+                    }
 
+                </div>
             </div>
         </div>
         }

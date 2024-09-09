@@ -9,10 +9,10 @@ import { BsArrowUpRight } from 'react-icons/bs';
 
 const AuthLayout = ({ children }) => {
   return (
-    <div className='relative h-screen w-screen auth-container bg-opacity-50 flex flex-col p-10 py-6'>
+    <div className='relative h-screen w-screen auth-container bg-opacity-50 flex flex-col p-5 sm:p-10 py-6'>
     <div className="absolute inset-0 bg-black/70"></div>
     <div className="relative">
-        <div className="text-white text-3xl flex items-center gap-2 font-semibold justify-end">
+        <div className="text-white text-3xl flex items-center gap-2 font-semibold justify-center sm:justify-end">
             <img className='w-10' src={logo} alt="logo" />
             <span>Crypto Pay</span>
         </div>

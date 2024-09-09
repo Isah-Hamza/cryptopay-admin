@@ -38,7 +38,7 @@ const Dashboard = () => {
   return (
     <>
         <div className="mt-2">
-            <div className="grid grid-cols-4 gap-5">
+            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
                 <div className="bg-white rounded-lg p-5 border">
                     <p>Total Users</p>
                     <p className='font-semibold text-xl my-3'>{overvivew?.data?.total_users}</p>
@@ -83,7 +83,7 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex gap-5 mt-5">
+            <div className="flex flex-col sm:flex-row gap-5 mt-5">
                 <div className="bg-white min-w-[35%] h-full p-5 rounded-lg border">
                     <div className="flex items-center justify-between pb-3 border-b">
                         <p className='font-semibold' >Transaction Stats</p>
@@ -120,7 +120,7 @@ const Dashboard = () => {
                     </div>
                     <div className="p-5">
                         <p className='text-sm' >Walet funding</p>
-                        <div className="mt-5 -ml-10 min-w-[400px] h-[250px]">
+                        <div className="mt-5 -ml-10 sm:min-w-[400px] h-[250px]">
                             <BarChart />
                         </div>
                     </div>
@@ -132,8 +132,8 @@ const Dashboard = () => {
                         <p className='font-semibold' >Calendar</p>
                     </div>
                     <div className="mt-3 flex gap-3 px-5">
-                        <Calendar className={'w-6/12'}  />
-                        <div className="w-6/12">
+                        <Calendar className={'hidden sm:block w-6/12'}  />
+                        <div className="w-full sm:w-6/12">
                             <p className='text-sm font-semibold mt-1' >Last 3 Transactions</p>
                             <div className="grid gap-3 mt-5">
                                 {

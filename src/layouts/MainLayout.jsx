@@ -4,21 +4,25 @@ import logo from '/favicon.png';
 import { AiOutlineHome } from "react-icons/ai";
 import avatar from '../assets/images/avatar.svg';
 import admin from '../assets/images/admin.png';
-import { BiCalendarEvent, BiCaretDown, BiLogOut, BiUser } from 'react-icons/bi';
+import { BiCalendarEvent, BiCaretDown, BiLogOut, BiMenu, BiUser } from 'react-icons/bi';
 import { LuSettings2, LuSheet, LuTestTube } from 'react-icons/lu';
 
 import { CgClose } from 'react-icons/cg';
 import { FaMoneyBillTransfer } from 'react-icons/fa6';
 import { useQuery } from 'react-query';
 import Auth from '../services/Auth';
+import { FaHamburger } from 'react-icons/fa';
 
 const MainLayout = () => {
     const navigate = useNavigate();
+    const [showSidebar, setShowSidebar] = useState(false);
     const [activeTab, setActiveTab] = useState(0);
     const [headerInfo, setHeaderInfo] = useState({
         header:'Dashboard Overview',
         sub:'Manage and analyze your patient statistics.',
     })
+
+    const toggleShowSidebar = () => setShowSidebar(!showSidebar);
 
     
     const tabs = [
@@ -84,9 +88,14 @@ const MainLayout = () => {
       
 },[window.location.pathname])
 
+useEffect(() => {
+  console.log(showSidebar)
+}, [showSidebar])
+
+
   return (
     <div className='flex w-full bg-[#f8f8f8]'>
-      <div className="w-72 bg-white p-5 h-screen overflow-y-auto flex flex-col">
+      <div className={`w-72 bg-white p-5 h-screen overflow-y-auto hidden lg:flex flex-col`}>
         <div className="font-semibold  flex items-center gap-2 ">
             <img className='w-10' src={logo} alt="logo" />
             <p>Crypto Pay</p>
@@ -106,7 +115,8 @@ const MainLayout = () => {
                     <button onClick={() => {
                         navigate(item.link);
                         setActiveTab(idx);
-                        setHeaderInfo(item.info)
+                        setHeaderInfo(item.info);
+                        setShowSidebar(false);
                     }} key={idx} className={`flex gap-3 px-5  py-3 items-center text-sm
                     ${activeTab == idx && 'text-white bg-primary rounded-md'}`} >
                         <item.icon />
@@ -120,8 +130,49 @@ const MainLayout = () => {
             <p>Logout</p>
         </button>
       </div>
-      <main className='p-7 flex-1 h-screen overflow-y-auto' >
-        <div className="w-full header flex items-center justify-between gap-10 py-3 ">
+     {showSidebar ? <div className="h-screen w-screen inset-0 fixed bg-black/20 z-10">
+        <div className={`w-72 bg-white p-5 h-screen overflow-y-auto flex flex-col`}>
+            <div className="flex items-center justify-between">
+                <div className="font-semibold  flex items-center gap-2 ">
+                    <img className='w-10' src={logo} alt="logo" />
+                    <p>Crypto Pay</p>
+                </div>
+                <CgClose className='cursor-pointer' onClick={toggleShowSidebar} />
+            </div>
+            <button className="mt-10 w-full text-left bg-[#C9E6FF] p-2 rounded flex items-center gap-3">
+                {/* <img className='bg-gray-50' src={admin} alt="admin" /> */}
+                <div className='bg-[#f0ecec] w-10 h-10 rounded-lg' ></div>
+                <div className='text-sm'>
+                    <p className='font-semibold' >{profile?.data?.data?.name}</p>
+                    <p className='first-letter:capitalize' >{profile?.data?.data?.role}</p>
+                </div>
+                <span className='block ml-auto'><BiCaretDown /></span>
+            </button>
+            <div className="grid gap-1.5 mt-5">
+                {
+                    tabs.map((item,idx) => (
+                        <button onClick={() => {
+                            navigate(item.link);
+                            setActiveTab(idx);
+                            setHeaderInfo(item.info)
+                            setShowSidebar(false);
+                        }} key={idx} className={`flex gap-3 px-5  py-3 items-center text-sm
+                        ${activeTab == idx && 'text-white bg-primary rounded-md'}`} >
+                            <item.icon />
+                            <p>{item.title}</p>
+                        </button>
+                    ))
+                }
+            </div>
+            <button onClick={logout} className='mt-auto font-semibold text-red-800 flex items-center gap-2 pl-7'>
+                <BiLogOut/>
+                <p>Logout</p>
+            </button>
+        </div>
+      </div> : null}
+      <main className='p-4 sm:p-7 flex-1 h-screen overflow-y-auto' >
+        <div className="w-full header flex items-center gap-2 py-3 ">
+            <BiMenu  className='cursor-pointer block lg:hidden' onClick={toggleShowSidebar} />
             <div className="">
                 <p className='text-base font-semibold' >{headerInfo.header}</p>
                 <p className='text-sm' >{headerInfo.sub}</p>
