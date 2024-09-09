@@ -158,10 +158,10 @@ const Profile = ({  }) => {
 
 
   return (
-     <div className='w-full bg-white rounded-xl flex' >
+     <div className='w-full bg-white rounded-xl grid md:flex' >
       <>
-        <div className="w-[300px] border-r h-[calc(100vh-120px)] p-5 pt-7">
-        <div className="grid gap-5 max-w-[250px]">
+        <div className="overflow-x-auto md:w-[300px] border-r md:h-[calc(100vh-120px)] p-5 pt-7">
+        <div className="flex md:grid gap-3 sm:gap-5 min-w-[550px] md:max-w-[250px]">
           {
             tabs.map((item,idx) => (
               <div onClick={() =>{ setActiveTab(idx)}} key={idx} 
@@ -190,12 +190,9 @@ const Profile = ({  }) => {
               </div>
             </div>
             <div className="mt-10 grid grid-cols-2 gap-5 max-w-[600px]">
-              <div className="">
+              <div className="col-span-2">
                   <Input {...getFieldProps('name')} label={'First Name'} placeholder={'John Doe'} icon={<CiUser size={24} />}/>
-              </div>
-              <div className="">
-                  <Input  {...getFieldProps('name')} label={'Last Name'} placeholder={'Doe'} icon={<CiUser size={24} />}/>
-              </div>
+              </div> 
               <div className=" col-span-2">
                   <Input disabled  {...getFieldProps('email')} label={'Email Address'} placeholder={'support@lifebridge.com'} type={'email'} icon={<MdOutlineMarkEmailUnread size={22} />}/>
               </div>

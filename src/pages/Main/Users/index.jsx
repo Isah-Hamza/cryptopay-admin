@@ -229,7 +229,7 @@ const Users = () => {
                     <PageLoading />
                 </div>
                 :
-                <div className="bg-white w-[550px] max-h-screen overflow-y-auto">
+                <div className="overflow-x-auto bg-white w-full sm:w-[550px] max-h-screen overflow-y-auto">
                     <div className="flex items-center justify-between p-3 border-b">
                         <p className='font-semibold' >User Details</p>
                         <button onClick={() => {toggleViewDetails();refetchUsers()}} className="font-medium flex items-center gap-2">
@@ -265,7 +265,7 @@ const Users = () => {
                         </div>
                     </div>
                     {acitveInnerTab == 0 ? <div className="p-5 text-sm">
-                        <div className="mt-3 grid grid-cols-3 gap-5">
+                        <div className="mt-3 grid grid-cols-3 gap-3 sm:gap-5">
                             {
                                 test_stats.map((item,idx) => (
                                     <div key={idx} className='border rounded-lg p-3' >
@@ -276,45 +276,47 @@ const Users = () => {
                             }
                         </div>
                     </div> : null }
-                    <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 0 && '!block'}`}>
-                        <div className="header grid grid-cols-7 gap-3 px-5 font-medium">
-                            <p className='' >Amount</p>
-                            <p className='' >Profit</p>
-                            <p className='line-clamp-1' >Date</p>
-                            <p className='line-clamp-1' >Time</p>
-                            <p className='' >Status</p>
-                            <p className='col-span-2' >Actions</p>
-                        </div>
-                        <div className="data  text-text_color mt-3 mb-10">
-                            {
-                                tnx?.data?.data?.data?.map((item,idx) => {
-                                return <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-7  gap-3 px-5 py-6 font-medium`}>
-                                <p className='line-clamp-1' >${item.amount.toLocaleString('en-US')}</p>
-                                <p className='line-clamp-1 flex items-center' >$ <input disabled={item.status != '2'} className='w-12 outline-none' onKeyDown={e => {
-                                    e.keyCode == 13 && updateProfit(e, item.id)
-                                }} onChange={e => console.log(e.target.value)} defaultValue = {item.profit.toLocaleString('en-US')} /> </p>
-                                <p className='line-clamp-1' >{moment(item.created_at).format('ll')}</p>
-                                <p className='' >{moment(item.created_at).format('hh:mm a')}</p>
-                                <p className='' >{statuses[item.status]}</p>
-                                <div className="col-span-2 flex items-center gap-2 pl-3">
-                                    <a download target='_blank' href={item.proof} className='text-light_blue font-semibold cursor-pointer flex items-center gap-1' > <FiDownloadCloud /> Receipt</a>
-                                    {
-                                        (item.status == 1 || item.status == 3 )?
-                                        <p onClick={() => {
-                                            const data = { status:2 }
-                                            updateTnx({ data, id:item.id})}
-                                        } className='font-semibold text-green-700 cursor-pointer pl-2' >Approve</p> :
-                                        <p onClick={() => {
-                                            const data = { status:3 }
-                                            updateTnx({ data, id:item.id})}
-                                        } className='font-semibold text-red-800 cursor-pointer pl-2' >Reject</p>
+                    <div className={`mt-5 overflow-x-auto text-[13px] hidden ${acitveInnerTab == 0 && '!block'}`}>
+                        <div className="min-w-[550px]">
+                            <div className="header grid grid-cols-7 gap-3 px-5 font-medium">
+                                <p className='' >Amount</p>
+                                <p className='' >Profit</p>
+                                <p className='line-clamp-1' >Date</p>
+                                <p className='line-clamp-1' >Time</p>
+                                <p className='' >Status</p>
+                                <p className='col-span-2' >Actions</p>
+                            </div>
+                            <div className="data  text-text_color mt-3 mb-10">
+                                {
+                                    tnx?.data?.data?.data?.map((item,idx) => {
+                                    return <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-7  gap-3 px-5 py-6 font-medium`}>
+                                    <p className='line-clamp-1' >${item.amount.toLocaleString('en-US')}</p>
+                                    <p className='line-clamp-1 flex items-center' >$ <input disabled={item.status != '2'} className='w-12 outline-none' onKeyDown={e => {
+                                        e.keyCode == 13 && updateProfit(e, item.id)
+                                    }} onChange={e => console.log(e.target.value)} defaultValue = {item.profit.toLocaleString('en-US')} /> </p>
+                                    <p className='line-clamp-1' >{moment(item.created_at).format('ll')}</p>
+                                    <p className='' >{moment(item.created_at).format('hh:mm a')}</p>
+                                    <p className='' >{statuses[item.status]}</p>
+                                    <div className="col-span-2 flex items-center gap-2 pl-3">
+                                        <a download target='_blank' href={item.proof} className='text-light_blue font-semibold cursor-pointer flex items-center gap-1' > <FiDownloadCloud /> Receipt</a>
+                                        {
+                                            (item.status == 1 || item.status == 3 )?
+                                            <p onClick={() => {
+                                                const data = { status:2 }
+                                                updateTnx({ data, id:item.id})}
+                                            } className='font-semibold text-green-700 cursor-pointer pl-2' >Approve</p> :
+                                            <p onClick={() => {
+                                                const data = { status:3 }
+                                                updateTnx({ data, id:item.id})}
+                                            } className='font-semibold text-red-800 cursor-pointer pl-2' >Reject</p>
+                                        }
+                                    </div>
+                                    </div>
                                     }
-                                </div>
-                                </div>
+                                    ) 
                                 }
-                                ) 
-                            }
 
+                            </div>
                         </div>
                     </div>
                     <div className={`mt-5 text-[13px] hidden ${acitveInnerTab == 1 && '!block'} pb-5`}>
