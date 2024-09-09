@@ -161,7 +161,7 @@ const Profile = ({  }) => {
      <div className='w-full bg-white rounded-xl grid md:flex' >
       <>
         <div className="overflow-x-auto md:w-[300px] border-r md:h-[calc(100vh-120px)] p-5 pt-7">
-        <div className="flex md:grid gap-3 sm:gap-5 min-w-[550px] md:max-w-[250px]">
+        <div className="flex md:grid gap-3 sm:gap-5 min-w-[550px] md:min-w-[unset] md:max-w-[250px]">
           {
             tabs.map((item,idx) => (
               <div onClick={() =>{ setActiveTab(idx)}} key={idx} 
