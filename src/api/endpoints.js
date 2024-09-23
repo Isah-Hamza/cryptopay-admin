@@ -8,7 +8,8 @@ const endpoints = {
     WALLET:'wallet',
     CHANGE_PASSWORD:'change-password',
     OVERVIEW:'overview',
-    SENDMAIL:'send-mail'
+    SENDMAIL:'send-mail',
+    UPDATE_kYC:'kyc'
     
     // REGISTER:'register',
     // SETUP_PROFILE:'set-up-profile',

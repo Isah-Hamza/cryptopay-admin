@@ -15,6 +15,7 @@ import moment from 'moment'
 import LoadingModal from '../../../Loader/LoadingModal'
 import { successToast } from '../../../utils/Helper'
 import { FiDownloadCloud } from 'react-icons/fi'
+import { BsDownload } from 'react-icons/bs'
 
 const Users = () => {
     const [profit, setProfit] = useState(0);
@@ -34,43 +35,7 @@ const Users = () => {
     const toggleReactivate = () => setReactivate(!reactivate);
     const toggleDeactivate = () => setDeactivate(!deactivate);
 
-    const dummy_deactivated = [
-        {
-            name:'Marcia Cronin ',
-            email:'gerald37@hotmail.com',
-            reason:'Money sky boy discussions existing growth air barn conversation looking. Points need overflow effects unpack must.',
-        },
-        {
-            name:'Luke Hudsonlee Jack',
-            email:'earnestine_macejkovic89@yahoo.com',
-            reason:"Tent status ask didn't good giant. Enable well mint metal respectively.",
-        },
-        {
-            name:'Anthony Von',
-            email:'emily.rolfson@hotmail.com',
-            reason:"Rundown one cloud in social is leverage place. Giant like spaces offline turn seems clean moving."
-        },
-        {
-            name:'Stacey Jacobs Volkswagon',
-            email:'mohammad.schimmel@gmail.com',
-            reason:"Disband functional solutionize solutionize community plane. Indicators fruit running call pushback individual important space one."
-        },
-        {
-            name:'Luke Hudson',
-            email:'earnestine_macejkovic89@yahoo.com',
-            reason:"Cob offline banner rehydrate about just. Idea strategy got me thought encourage."
-        },
-        {
-            name:'Anthony Von',
-            email:'emily.rolfson@hotmail.com',
-            reason:"Dangerous build we've solutions nobody sorry dive. Spaces deep hanging new group hard."
-        },
-        {
-            name:'Stacey Jacobs',
-            email:'mohammad.schimmel@gmail.com',
-            reason:"Build roll that's crack but functional boardroom expectations so third. Break place dogpile scope line reality bed future-proof."
-        },
-    ]
+    const dummy_deactivated = []
 
     const statuses = {
         1: <span className='text-sm text-yellow-600' >Pending</span>,
@@ -79,8 +44,6 @@ const Users = () => {
     }
 
     // const statuses = []
-
-
     
     const { isLoading:loadingUsers, data:users, refetch:refetchUsers} = useQuery('users', Auth.GetUsers)
     const { isLoading:loadingUser, data:user, mutate:getUser } = useMutation(Auth.GetUser);
@@ -90,6 +53,14 @@ const Users = () => {
             successToast(res.data.message);
             getUser(selectedUser);
             getTnx(selectedUser);
+        },
+        onError: e => errorToast(e.message)
+    });
+    const { isLoading:updatingKyc, mutate:updateKYCMutate} = useMutation(Auth.UpdateKYC, {
+        onSuccess: res => {
+            successToast(res.data.message);
+            getUser(selectedUser);
+            // getTnx(selectedUser);
         },
         onError: e => errorToast(e.message)
     });
@@ -121,6 +92,14 @@ const Users = () => {
 
         const data = { profit:Number(e.target.value) }
         updateTnx({ data, id:idx });
+    }
+
+    const updateKYC = (status) => {
+        const data = {
+            status,
+            id:user?.data?.data?.kyc?.id,
+        }
+        updateKYCMutate({payload:data, id:user?.data?.data?.kyc?.id})
     }
 
     const sendMail = () => {
@@ -341,13 +320,25 @@ const Users = () => {
                                 <p className='font-medium' >Means of ID:</p>
                                 <p className='line-clamp-1' >{user?.data?.data?.kyc?.means_of_identification}</p>
                             </div>
-                            <div className="flex gap-2 mt-3 text-sm">
+                          { user?.data?.data?.kyc?.identification_number ?   <div className="flex gap-2 mt-3 text-sm">
                                 <p className='font-medium' >Identification Number:</p>
                                 <p className='line-clamp-1' >{user?.data?.data?.kyc?.identification_number}</p>
-                            </div> 
+                            </div> : null}
+                           {user?.data?.data?.kyc?.identification_file ? <div className="flex gap-2 mt-3 text-sm">
+                                <p className='font-medium' >Identification File:</p>
+                                <a href={user?.data?.data?.kyc?.identification_file} className='line-clamp-1 flex items-center gap-1' > <BsDownload /> download</a>
+                            </div> : null}
                             <div className="flex gap-2 mt-3 text-sm">
                                 <p className='font-medium' >Status:</p>
                                 <p className='line-clamp-1' >{statuses[user?.data?.data?.kyc?.status]}</p>
+                            </div>
+                            <div className="mt-5 flex gap-5 text-sm">
+                                    <button onClick={() => {
+                                        updateKYC(2)}
+                                    } className='font-semibold text-white px-5 py-2 rounded-lg bg-green-600 cursor-pointer' >Approve</button> 
+                                    <button onClick={() => {
+                                        updateKYC(3)}
+                                    } className='font-semibold bg-red-800 text-white px-5 py-2 rounded-lg cursor-pointer pl-2' >Disapprove</button>
                             </div>
                         </div>
                         <div className="mt-10 px-5 text-base">
@@ -424,6 +415,9 @@ const Users = () => {
             (updatingTnx || sendingMail) ? <LoadingModal /> : null
         }
     </div>
+    {
+        updatingKyc ? <LoadingModal /> : null
+    }
   </>
   )
 }

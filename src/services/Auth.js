@@ -90,6 +90,13 @@ const UpdateWallet = ({id, payload}) => {
     .catch((error) => Promise.reject(error));
 };
 
+const UpdateKYC = ({id, payload}) => {
+  return axiosClient()
+    .patch(`${endpoints.auth.UPDATE_kYC}/${id}`,payload)
+    .then((res) => res)
+    .catch((error) => Promise.reject(error));
+};
+
 
 // const SetupProfile = (data) => {
 //   return axiosClient()
@@ -122,5 +129,5 @@ const UpdateWallet = ({id, payload}) => {
 
 export default {
   Login, GetUsers, GetUser, GetTnxById, GetTnxs, GetProfile, UpdateTnx,
-  ChangePassword, UpdateProfile, UpdateWallet, Overview, SendMail
+  ChangePassword, UpdateProfile, UpdateWallet, Overview, SendMail, UpdateKYC
 };
