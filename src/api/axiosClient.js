@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const DEBUG = process.env.NODE_ENV === "development";
-const url = 'http://127.0.0.1:8000/api';
-// const url = 'https://api.cryptopay-fx.com/api';
+// const url = 'http://127.0.0.1:8000/api';
+const url = 'https://api.cryptopay-fx.com/api';
 
 export const axiosClient = () => {
   let axiosInstance = axios.create({
