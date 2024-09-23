@@ -65,11 +65,11 @@ const Transactions = () => {
         <div className="mt-5 text-[13px] overflow-x-auto">
             <div className="min-w-[900px]">
                 <div className="header grid grid-cols-9 gap-3 px-5 font-medium">
-                    <p className='col-span-2 line-clamp-1' >Full Name</p>
+                    <p className='col-span-1 line-clamp-1' >Full Name</p>
                     <p className=' line-clamp-1' >Email Address</p>
-                    {/* <p className='' >Phone Number</p> */}
-                    <p className='' >Amount Deposited</p>
-                    <p className='' >Profit Earned</p>
+                    <p className='' >Trnx. Type</p>
+                    <p className='' >Amount</p>
+                    <p className='' >Profit</p>
                     <p className='' >Status</p>
                     <p className='' >Date & Time</p>
                     <p className='cols-span-2' >Actions</p>
@@ -78,9 +78,9 @@ const Transactions = () => {
                     {
                         tnx?.data?.data?.data?.map((item,idx) => (
                         <div key={idx} className={`${idx % 2 !== 1 && 'bg-[#f9f9f9]'} header grid grid-cols-9  gap-3 px-5 py-6 font-medium`}>
-                        <p className='col-span-2 line-clamp-1' >{item.user.name}</p>
+                        <p className='col-span-1 line-clamp-1' >{item.user.name}</p>
                         <p className='col-span-1 line-clamp-1' >{item.user.email}</p>
-                        {/* <p className='' >{item.user.phone}</p> */}
+                        <p className='' >{item.transaction_type == 1 ? 'Wallet Funding' : 'Withdraw Request'}</p>
                         <p className='' >${item.amount.toLocaleString('en-US')}</p>
                         <p className='' >$
                             <input className='w-12 outline-none' type="text" disabled={item.status != '2'} defaultValue={item.profit.toLocaleString('en-US')} onKeyDown={e => {
@@ -90,18 +90,23 @@ const Transactions = () => {
                         <p className='' >{statuses[item.status]}</p>
                         <p className='' >{moment(item.created_at).format('lll')}</p>
                         <div className="col-span-2 flex items-center gap-2">
-                            <a href={item.proof} download target='_blank' className='font-semibold text-light_blue cursor-pointer flex items-center gap-1' > <FiDownloadCloud /> Receipt</a>
-                            {
-                                (item.status == 1 || item.status == 3 )?
-                                <p onClick={() => {
-                                    const data = { status:2 }
-                                    updateTnx({ data, id:item.id})}
-                                } className='font-semibold text-green-600 cursor-pointer pl-2' >Approve</p> :
-                                <p onClick={() => {
-                                    const data = { status:3 }
-                                    updateTnx({ data, id:item.id})}
-                                } className='font-semibold text-red-800 cursor-pointer pl-2' >Reject</p>
-                            }
+                            {                           
+                             item.transaction_type == 1 ? <a href={ item.transaction_type == 1 ? item.proof : '#'} download={item.transaction_type == 1} target='_blank' className='font-semibold text-light_blue cursor-pointer flex items-center gap-1' > <FiDownloadCloud /> Receipt</a> : '-'
+                            }         
+                           {
+                           item.transaction_type == 1 ? <>
+                                {
+                                    (item.status == 1 || item.status == 3 )?
+                                    <p onClick={() => {
+                                        const data = { status:2 }
+                                        updateTnx({ data, id:item.id})}
+                                    } className='font-semibold text-green-600 cursor-pointer pl-2' >Approve</p> :
+                                    <p onClick={() => {
+                                        const data = { status:3 }
+                                        updateTnx({ data, id:item.id})}
+                                    } className='font-semibold text-red-800 cursor-pointer pl-2' >Reject</p>
+                                }
+                            </> : '-'  }                 
                         </div>
                         </div>
                         )) 
